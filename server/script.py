@@ -1,12 +1,14 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Api, Resource, reqparse
 from flask_mysqldb import MySQL
 from server.userClass import User
+from server.database.dbClass import Database
 import hashlib
 
 
 app = Flask(__name__)
 api = Api(app)
+db = Database()
 # skusanie ci funguje ... funguje :D
 # @app.route('/get_messages', methods = ['POST'])
 # def get_messages():
@@ -17,19 +19,25 @@ api = Api(app)
 #     return jsonify({'error':' no user found'})
 
 
-@app.route('/login', methods = ['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    email = data['mail']
+    email = data['email']
     password = data['password']
-    if email == User.mail and password == User.password:
-        encoder = hashlib.md5()
-        encoder.update(password.encode('utf-8'))
-        password2 = encoder.hexdigest()
-        print(password2)
+    if email == "" or email is None and password == "" or password is None:
+        return jsonify({"message": "blud"})
 
-    if not email or not password:
-        return 'not login or password (urobit message)'
+    # encoding the password
+    # encoder = hashlib.md5()
+    # encoder.update(password.encode('utf-8'))
+    # password2 = encoder.hexdigest()
+    # print(password2)
+
+
+    #overenie usera
+    user = db.Login(email=email, password=password)
+    print("userLogin")
+    print(user)
 
     return 'login'
 
