@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+    <span class="spacer"></span>
+    <span><a mat-button routerLink="/register" href=""><mat-icon aria-hidden="false" aria-label="Register icon">input</mat-icon> Register</a></span>
+    <span *ngIf="loggedUser; else elseBlock">
+        {{loggedUser}}<button mat-button [routerLink]="" (click)="logout()"><mat-icon aria-hidden="false" aria-label="Register icon">person</mat-icon>Logout</button>
+    </span>
+    <ng-template #elseBlock>
+        <a mat-button routerLink="/login">
+            <mat-icon aria-hidden="false" aria-label="Register icon">person</mat-icon>Login</a>
+    </ng-template>
+
+</mat-toolbar>
