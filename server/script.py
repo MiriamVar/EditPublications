@@ -3,11 +3,13 @@ from flask_restful import Api, Resource, reqparse
 from flask_mysqldb import MySQL
 from server.userClass import User
 from server.database.dbClass import Database
+from flask_cors import CORS
 import hashlib
 
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 db = Database()
 # skusanie ci funguje ... funguje :D
 # @app.route('/get_messages', methods = ['POST'])
@@ -23,9 +25,11 @@ db = Database()
 def login():
     data = request.get_json()
     email = data['email']
+    print(email)
     password = data['password']
     if email == "" or email is None and password == "" or password is None:
-        return jsonify({"message": "blud"})
+        response1 = jsonify({"message": "blud"})
+        return response1
 
     # encoding the password
     # encoder = hashlib.md5()
@@ -39,7 +43,8 @@ def login():
     print("userLogin")
     print(user)
 
-    return 'login'
+    response = user
+    return response
 
 
 # @app.route('/register', methods = ['POST'])
