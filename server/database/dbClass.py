@@ -3,6 +3,7 @@ import mysql.connector
 from mysql.connector import pooling
 from server.database.config import dbConf
 
+
 class Database(object):
     def __init__(self):
         self.connection_pool = mysql.connector.pooling.MySQLConnectionPool(
@@ -24,8 +25,21 @@ class Database(object):
             queryLogin = "select * from pouzivatel where email = %s and password =%s;"
             cur1.execute(queryLogin, (email, password))
             userLogin = cur1.fetchone()
-            if (connection_object.is_connected()):
+            if connection_object.is_connected():
                 cur1.close()
                 connection_object.close()
                 print("MySQL connection is closed")
                 return userLogin
+
+    def Register(self, name, surname, email, password, type):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur = connection_object.cursor()
+            queryRegister = "insert into pouzivatel (meno, priezvisko, email, password, typ) values (%s,%s,%s,%s,%s)"
+            insert = cur.execute(queryRegister, (name, surname, email, password, type))
+            if connection_object.is_connected():
+                cur.close()
+                connection_object.close()
+                print("MySQL connection is closed")
