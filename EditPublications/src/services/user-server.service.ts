@@ -6,7 +6,8 @@ import { catchError, mapTo, tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { tokenExpiredLogout } from 'src/shared/auth.actions';
 import { SnackbarService } from './snackbar.service';
-// import { User } from 'src/entities/user';
+import { state } from '@angular/animations';
+import { User } from 'src/entities/user';
 
 @Injectable({
   providedIn: 'root'
@@ -38,14 +39,14 @@ export class UserServerService {
     );
   }
 
-  // registerUser(user: User): Observable<User>{
-  //   return this.http
-  //   .post<User>(this.url + 'register', user)
-  //   .pipe(
-  //     tap(user => this.snackbarSevice.successMessage('register successful')),
-  //     catchError(error => this.httpErrorProcess(error))
-  //   );
-  // }
+  registerUser(user: User): Observable<User>{
+    return this.http
+    .post<User>(this.url + 'register', user)
+    .pipe(
+      tap(user => this.snackbarSevice.successMessage('register successful')),
+      catchError(error => this.httpErrorProcess(error))
+    );
+  }
 
   login(auth: Auth): Observable<string>{
    return this.http
@@ -56,11 +57,11 @@ export class UserServerService {
     );
   }
 
-  // userConflicts(user: User): Observable<string[]>{
-  //   return this.http.post<Array<string>>(this.url + 'user-conflicts', user)
-  //   .pipe( catchError(error => this.httpErrorProcess(error))
-  //   );
-  // }
+  userConflicts(user: User): Observable<string[]>{
+    return this.http.post<Array<string>>(this.url + 'user-conflicts', user)
+    .pipe( catchError(error => this.httpErrorProcess(error))
+    );
+  }
 
   logout(token: string): Observable<void>{
     return this.http.get(this.url + 'logout/' + token)
