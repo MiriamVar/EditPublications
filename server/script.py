@@ -41,7 +41,7 @@ def login():
     print(user)
     if user is not None:
         token = secrets.token_urlsafe()
-        print("token: "+ token)
+        print("token: " + token)
         return token
     else:
         return jsonify({"message": "User is None"})
@@ -52,6 +52,7 @@ def register():
     data = request.get_json()
     print("REGISTER - vypisujem co mi pride ")
     print(data)
+
     name = data['name']
     surname = data['surname']
     email = data['email']
@@ -59,7 +60,7 @@ def register():
     typeUser = data['type']
 
     db.Register(name=name, surname=surname, email=email, password=password, type=typeUser)
-    return 'register'
+    return jsonify({"status": "OK"})
 
 #
 # @app.route('/logout', methods = ['POST'])
