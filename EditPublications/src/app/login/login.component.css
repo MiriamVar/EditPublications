@@ -18,3 +18,8 @@
     display: flex;
     justify-content: center;
 }
+
+.login-wrapper .mat-raised-button[disabled]:not([class*=mat-elevation-z]){
+    color: #c2bcc2;
+    background-color:#ffebfd;
+}
