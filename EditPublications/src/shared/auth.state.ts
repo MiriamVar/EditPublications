@@ -3,8 +3,9 @@ import { login, logout, urlAfterLogin } from './auth.actions';
 import { UserServerService } from 'src/services/user-server.service';
 import { tap } from 'rxjs/operators';
 import { tokenExpiredLogout } from './auth.actions';
+import { state } from '@angular/animations';
 
-const DEFAULT_REDIRECT_AFTER_LOGIN = '/users';
+const DEFAULT_REDIRECT_AFTER_LOGIN = '/';
 const DEFAULT_REDIRECT_AFTER_LOGOUT = '/login';
 
 export interface AuthModel{
@@ -42,6 +43,7 @@ export interface AuthModel{
 
        @Selector([state => state.auth.token])
         static token(token: string){
+            console.log("token: "+token);
            return token;
        }
        
@@ -59,7 +61,7 @@ export interface AuthModel{
                 tap(token => {
                     ctx.patchState({
                         username: action.auth.name,
-                        token
+                        token: token
                     });
                 })
             );
