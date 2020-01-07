@@ -57,61 +57,61 @@ export class FormComponent implements OnInit {
     {value :"ADF", viewValue: 'Vedecké práce v ostatných domácich časopisoch'},
     {value :"ADM", viewValue: 'Vedecké práce v zahraničných časopisoch registrovaných v databázach Web of Science alebo SCOPUS'},
     {value :"ADN", viewValue: 'Vedecké práce v domácich časopisoch registrovaných v databázach Web of Science alebo SCOPUS'},
-    {value :"AEC"  >AEC - Vedecké práce v zahraničných recenzovaných vedeckých zborníkoch, monografiách</option>
-    {value :"AED"  >AED - Vedecké práce v domácich recenzovaných vedeckých zborníkoch, monografiách</option>
-    {value :"AEE"  >AEE - Vedecké práce v zahraničných nerecenzovaných vedeckých zborníkoch, monografiách</option>
-    {value :"AEF"  >AEF - Vedecké práce v domácich nerecenzovaných vedeckých zborníkoch, monografiách</option>
-    {value :"AEG"  >AEG - Abstrakty vedeckých prác v zahraničných karentovaných časopisoch</option>
-    {value :"AEH"  >AEH - Abstrakty vedeckých prác v domácich karentovaných časopisoch</option>
-    {value :"AEM"  >AEM - Abstrakty vedeckých prác v zahraničných časopisoch registrovaných v databázach Web of Science alebo SCOPUS</option>
-    {value :"AEN"  >AEN - Abstrakty vedeckých prác v domácich časopisoch registrovaných v databázach Web of Science alebo SCOPUS</option>
-    {value :"AFA"  >AFA - Publikované pozvané príspevky na zahraničných vedeckých konferenciách</option>
-    {value :"AFB"  >AFB - Publikované pozvané príspevky  na domácich vedeckých konferenciách</option>
-    {value :"AFC"  >AFC - Publikované príspevky na zahraničných vedeckých konferenciách</option>
-    {value :"AFD"  >AFD - Publikované príspevky na domácich vedeckých konferenciách</option>
-    {value :"AFE"  >AFE - Abstrakty pozvaných príspevkov zo zahraničných vedeckých konferencií</option>
-    {value :"AFF"  >AFF - Abstrakty pozvaných príspekov z domácich vedeckých konferencií</option>
-    {value :"AFG"  >AFG - Abstrakty príspevkov zo zahraničných vedeckých konferencií</option>
-    {value :"AFH"  >AFH - Abstrakty príspevkov z domácich vedeckých konferencií</option>
-    {value :"AFI"  >AFI - Preprinty vedeckých prác vydané v zahraničných vydavateľstvách</option>
-    {value :"AFJ"  >AFJ - Preprinty vedeckých prác vydané v domácich vydavateľstvách</option>
-    {value :"AFK"  >AFK - Postery zo zahraničných konferencií</option>
-    {value :"AFL"  >AFL - Postery z domácich konferencií</option>
-    {value :"AGI"  >AGI - Správy o vyriešených vedeckovýskumných úlohách</option>
-    {value :"AGJ"  >AGJ - Patentové prihlášky, prihlášky úžitkových vzorov, prihlášky dizajnov, prihlášky ochranných známok...</option>
-    {value :"BAA"  >BAA - Odborné knižné publikácie vydané v zahraničných vydavateľstvách</option>
-    {value :"BAB"  >BAB - Odborné knižné publikácie vydané v domácich vydavateľstvách</option>
-    {value :"BBA"  >BBA - Kapitoly v odborných knižných publikáciách vydané v zahraničných vydavateľstvách</option>
-    {value :"BBB"  >BBB - Kapitoly v odborných knižných publikáciách vydané v domácich vydavateľstvách</option>
-    {value :"BCB"  >BCB - Učebnice pre stredné a základné školy</option>
-    {value :"BCI"  >BCI - Skriptá  a učebné texty</option>
-    {value :"BCK"  >BCK - Kapitoly v učebniciach a učebných textoch</option>
-    {value :"BDA"  >BDA - Heslá v odborných terminologických slovníkoch a encyklopédiách vydaných v zahraničných vydavateľstvách</option>
-    {value :"BDB"  >BDB - Heslá v odborných terminologických slovníkoch a encyklopédiách vydaných v domácich vydavateľstvách</option>
-    {value :"BDC"  >BDC - Odborné práce v zahraničných karentovaných časopisoch</option>
-    {value :"BDD"  >BDD - Odborné práce v domácich karentovaných časopisoch</option>
-    {value :"BDE"  >BDE - Odborné práce v ostatných zahraničných časopisoch</option>
-    {value :"BDF"  >BDF - Odborné práce v ostatných domácich časopisoch</option>
-    {value :"BDM"  >BDM - Odborné práce v zahraničných časopisoch registrovaných v databázach Web of Science alebo SCOPUS</option>
-    {value :"BDN"  >BDN - Odborné práce v domácich časopisoch registrovaných v databázach Web of Science alebo SCOPUS</option>
-    {value :"BEC"  >BEC - Odborné práce v zahraničných recenzovaných zborníkoch (konferenčných aj nekonferenčných)</option>
-    {value :"BED"  >BED - Odborné práce v domácich recenzovaných zborníkoch (konferenčných aj nekonferenčných)</option>
-    {value :"BEE"  >BEE - Odborné práce v zahraničných zborníkoch (konferenčných aj nekonferenčných)</option>
-    {value :"BEF"  >BEF - Odborné práce v domácich zborníkoch (konferenčných aj nekonferenčných)</option>
-    {value :"BFA"  >BFA - Abstrakty odborných prác zo zahraničných podujatí (konferencie...)</option>
-    {value :"BFB"  >BFB - Abstrakty odborných prác z domácich podujatí (konferencie...)</option>
-    {value :"BGG"  >BGG - Normy</option>
-    {value :"BGH"  >BGH - Legislatívne dokumenty</option>
-    {value :"CAA"  >CAA - Umelecké monografie, dramatické diela, scenáre, umelecké preklady publikácií, autorské katalógy vydané v zahraničných vydavateľstvách</option>
-    {value :"CAB"  >CAB - Umelecké monografie, dramatické diela, scenáre, umelecké preklady publikácií, autorské katalógy vydané v domácich vydavateľstvách</option>
-    {value :"CBA"  >CBA - Kapitoly v umeleckých monografiách,kapitoly umeleckých prekladov publikácií vydaných v zahraničných vydavateľstvách</option>
-    {value :"CBB"  >CBB - Kapitoly v umeleckých monografiách,kapitoly umeleckých prekladov publikácií vydaných v domácich vydavateľstvách</option>
-    {value :"CAG"  >CAG - Audiovizuálne diela (videokazeta, film, CD-ROM, DVD) natočené v zahraničnej produkcii</option>
-    {value :"CAH"  >CAH - Audiovizuálne diela (videokazeta, film, CD-ROM, DVD) natočené v domácej produkcii</option>
-    {value :"CAI"  >CAI - Hudobné diela (partitúry, notové materiály) vydané v zahraničných vydavateľstvách</option>
-    {value :"CAJ"  >CAJ - Hudobné diela (partitúry, notové materiály) vydané v domácich vydavateľstvách</option>
-    {value :"CDC"  >CDC - Umelecké práce a preklady v zahraničných karentovaných časopisoch</option>
-    {value :"CDD"  >CDD - Umelecké práce a preklady v domácich karentovaných časopisoch</option>
+    {value :"AEC", viewValue: 'Vedecké práce v zahraničných recenzovaných vedeckých zborníkoch'},
+    {value :"AED", viewValue: 'AED - Vedecké práce v domácich recenzovaných vedeckých zborníkoch, monografiách'},
+    {value :"AEE", viewValue: 'Vedecké práce v zahraničných nerecenzovaných vedeckých zborníkoch, monografiách'},
+    {value :"AEF", viewValue: 'Vedecké práce v domácich nerecenzovaných vedeckých zborníkoch, monografiách'},
+    {value :"AEG", viewValue: 'Abstrakty vedeckých prác v zahraničných karentovaných časopisoch'},
+    {value :"AEH", viewValue: 'Abstrakty vedeckých prác v domácich karentovaných časopisoch'},
+    {value :"AEM", viewValue: 'Abstrakty vedeckých prác v zahraničných časopisoch registrovaných v databázach Web of Science alebo SCOPUS'},
+    {value :"AEN", viewValue: 'Abstrakty vedeckých prác v domácich časopisoch registrovaných v databázach Web of Science alebo SCOPUS'},
+    {value :"AFA", viewValue: 'Publikované pozvané príspevky na zahraničných vedeckých konferenciách'},
+    {value :"AFB", viewValue: 'Publikované pozvané príspevky  na domácich vedeckých konferenciách'},
+    {value :"AFC", viewValue: 'Publikované príspevky na zahraničných vedeckých konferenciách'},
+    {value :"AFD" , viewValue: ' Publikované príspevky na domácich vedeckých konferenciách'},
+    {value :"AFE", viewValue: 'Abstrakty pozvaných príspevkov zo zahraničných vedeckých konferencií'},
+    {value :"AFF", viewValue: ' Abstrakty pozvaných príspekov z domácich vedeckých konferencií'},
+    {value :"AFG", viewValue: 'Abstrakty príspevkov zo zahraničných vedeckých konferencií'},
+    {value :"AFH", viewValue: 'Abstrakty príspevkov z domácich vedeckých konferencií'},
+    {value :"AFI", viewValue: 'Preprinty vedeckých prác vydané v zahraničných vydavateľstvách'},
+    {value :"AFJ", viewValue: 'Preprinty vedeckých prác vydané v domácich vydavateľstvách'},
+    {value :"AFK", viewValue: 'Postery zo zahraničných konferencií'},
+    {value :"AFL", viewValue: 'Postery z domácich konferencií'},
+    {value :"AGI", viewValue: 'Správy o vyriešených vedeckovýskumných úlohách'},
+    {value :"AGJ", viewValue: 'Patentové prihlášky, prihlášky úžitkových vzorov, prihlášky dizajnov, prihlášky ochranných známok...'},
+    {value :"BAA", viewValue: 'Odborné knižné publikácie vydané v zahraničných vydavateľstvách'},
+    {value :"BAB", viewValue: 'Odborné knižné publikácie vydané v domácich vydavateľstvách'},
+    {value :"BBA", viewValue: 'Kapitoly v odborných knižných publikáciách vydané v zahraničných vydavateľstvách'},
+    {value :"BBB", viewValue: 'Kapitoly v odborných knižných publikáciách vydané v domácich vydavateľstvách'},
+    {value :"BCB", viewValue: 'Učebnice pre stredné a základné školy'},
+    {value :"BCI", viewValue: 'Skriptá  a učebné texty'},
+    {value :"BCK", viewValue: 'Kapitoly v učebniciach a učebných textoch'},
+    {value :"BDA", viewValue: 'Heslá v odborných terminologických slovníkoch a encyklopédiách vydaných v zahraničných vydavateľstvách'},
+    {value :"BDB", viewValue: 'Heslá v odborných terminologických slovníkoch a encyklopédiách vydaných v domácich vydavateľstvách'},
+    {value :"BDC", viewValue: 'Odborné práce v zahraničných karentovaných časopisoch'},
+    {value :"BDD", viewValue: 'Odborné práce v domácich karentovaných časopisoch'},
+    {value :"BDE", viewValue: 'Odborné práce v ostatných zahraničných časopisoch'},
+    {value :"BDF", viewValue: 'Odborné práce v ostatných domácich časopisoch'},
+    {value :"BDM", viewValue: 'Odborné práce v zahraničných časopisoch registrovaných v databázach Web of Science alebo SCOPUS'},
+    {value :"BDN", viewValue: 'Odborné práce v domácich časopisoch registrovaných v databázach Web of Science alebo SCOPUS'},
+    {value :"BEC", viewValue: 'Odborné práce v zahraničných recenzovaných zborníkoch (konferenčných aj nekonferenčných)'},
+    {value :"BED", viewValue: 'Odborné práce v domácich recenzovaných zborníkoch (konferenčných aj nekonferenčných)'},
+    {value :"BEE", viewValue: 'Odborné práce v zahraničných zborníkoch (konferenčných aj nekonferenčných)'},
+    {value :"BEF", viewValue: 'Odborné práce v domácich zborníkoch (konferenčných aj nekonferenčných)'},
+    {value :"BFA", viewValue: 'Abstrakty odborných prác zo zahraničných podujatí (konferencie...)'},
+    {value :"BFB", viewValue: 'Abstrakty odborných prác z domácich podujatí (konferencie...)'},
+    {value :"BGG", viewValue: 'Normy'},
+    {value :"BGH", viewValue: 'Legislatívne dokumenty'},
+    {value :"CAA", viewValue: 'Umelecké monografie, dramatické diela, scenáre, umelecké preklady publikácií, autorské katalógy vydané v zahraničných vydavateľstvách'},
+    {value :"CAB", viewValue: 'Umelecké monografie, dramatické diela, scenáre, umelecké preklady publikácií, autorské katalógy vydané v domácich vydavateľstvách'},
+    {value :"CBA", viewValue: 'Kapitoly v umeleckých monografiách,kapitoly umeleckých prekladov publikácií vydaných v zahraničných vydavateľstvách'},
+    {value :"CBB", viewValue: 'Kapitoly v umeleckých monografiách,kapitoly umeleckých prekladov publikácií vydaných v domácich vydavateľstvách'},
+    {value :"CAG", viewValue: 'Audiovizuálne diela (videokazeta, film, CD-ROM, DVD) natočené v zahraničnej produkcii'},
+    {value :"CAH", viewValue: 'Audiovizuálne diela (videokazeta, film, CD-ROM, DVD) natočené v domácej produkcii'},
+    {value :"CAI", viewValue: 'Hudobné diela (partitúry, notové materiály) vydané v zahraničných vydavateľstvách'},
+    {value :"CAJ", viewValue: 'Hudobné diela (partitúry, notové materiály) vydané v domácich vydavateľstvách'},
+    {value :"CDC", viewValue: 'Umelecké práce a preklady v zahraničných karentovaných časopisoch'},
+    {value :"CDD", viewValue: 'Umelecké práce a preklady v domácich karentovaných časopisoch'},
     {value :"CDE", viewValue: 'Umelecké práce a preklady v zahraničných nekarentovaných časopisoch'},
     {value :"CDF", viewValue: 'Umelecké práce a preklady v domácich nekarentovaných časopisoch'},
     {value :"CEC", viewValue: 'Umelecké práce, dramatické diela, scenáre a preklady v zborníkoch, knižných publikáciách a skupinových katalógoch vydaných v zahr. vydav.'},
