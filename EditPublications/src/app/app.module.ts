@@ -11,13 +11,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { AppNgxsModule } from './app-ngxs.module';
 import { HttpClientModule } from '@angular/common/http';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    NavBarComponent
+    NavBarComponent,
+    FormComponent
   ],
   imports: [
     AppNgxsModule,
