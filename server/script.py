@@ -30,6 +30,11 @@ def login():
         print(password)
         return jsonify({"status": "Empty email or password"})
 
+    if not email or not password:
+        print(email)
+        print(password)
+        return jsonify({"status": "Wrong email or password"})
+
     # encoding the password
     # encoder = hashlib.md5()
     # encoder.update(password.encode('utf-8'))
@@ -54,7 +59,7 @@ def login():
 
         return token
     else:
-        return jsonify({"status": "User is None"})
+        return ""
 
 # working
 @app.route('/register', methods=['POST'])
