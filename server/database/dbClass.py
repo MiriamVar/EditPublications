@@ -28,6 +28,8 @@ class Database(object):
             if connection_object.is_connected():
                 cur1.close()
                 connection_object.close()
+                print("UserLogin from db")
+                print(userLogin)
                 print("MySQL connection is closed")
                 return userLogin
 
