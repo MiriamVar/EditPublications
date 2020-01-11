@@ -39,10 +39,10 @@
                     <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
                 </mat-form-field>
                 <!-- Urobit funkciu na pridanie dalsieho autora-->
-                <mat-card-actions>
-                    <button type="button" mat-raised-button color="accent">Pridaj autora</button>
-                </mat-card-actions>
                 <div>
+                    <mat-card-actions>
+                        <button type="button" mat-raised-button color="accent">Pridaj autora</button>
+                    </mat-card-actions>
                     <button mat-button matStepperNext>Dalej</button>
                 </div>
             </form>
@@ -101,9 +101,9 @@
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>Done</ng-template>
-            Hotovo
+            Po odoslaní formulára je potrebné zobrazený informačný hárok vytlačiť a podpísaný doručiť zodpovednému <a href="/employees">pracovníkovi</a> UK UPJŠ.
             <div>
-                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button  matStepperPrevious>Back</button>
                 <button mat-button (click)="stepper.reset()">Reset</button>
             </div>
         </mat-step>
