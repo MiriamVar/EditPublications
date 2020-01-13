@@ -4,7 +4,7 @@ import { Auth } from 'src/entities/auth';
 import { Observable, EMPTY, throwError, of } from 'rxjs';
 import { catchError, mapTo, tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { tokenExpiredLogout } from 'src/shared/auth.actions';
+// import { tokenExpiredLogout } from 'src/shared/auth.actions';
 import { SnackbarService } from './snackbar.service';
 import { state } from '@angular/animations';
 import { User } from 'src/entities/user';
@@ -30,7 +30,7 @@ export class UserServerService {
     .get(this.url + 'check-token/' + this.token,{responseType: 'text'})
     .pipe(catchError(error => {
       if(error instanceof HttpErrorResponse && error.status === 401){
-          this.store.dispatch(new tokenExpiredLogout);
+          // this.store.dispatch(new tokenExpiredLogout);
           return of (undefined);
       }
       throwError(error);
@@ -63,8 +63,10 @@ export class UserServerService {
     );
   }
 
-  logout(token: string): Observable<void>{
-    return this.http.get(this.url + 'logout/' + token)
+  logout(username: string, token: string): Observable<void>{
+    return this.http.post(this.url + 'logout',{
+      username: username, token:token
+    })
     .pipe(mapTo(undefined),
         catchError(error => this.httpErrorProcess(error)))
   }
@@ -88,7 +90,7 @@ export class UserServerService {
     }
     if(error.status >= 400 && error.status <500){
       if(error.status == 401 && error.error.errorMessage === 'unkown token'){
-        this.store.dispatch(new tokenExpiredLogout);
+        // this.store.dispatch(new tokenExpiredLogout);
         this.snackbarSevice.errorMessage('Token expired.');
         return;
       }
