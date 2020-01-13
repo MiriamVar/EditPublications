@@ -85,9 +85,10 @@ def register():
 def logout():
     i = 0
     data = request.get_json()
-    print(data['token'])
+    print(data)
     for element in tokens:
-        if element.user_token == data['token'] and element.user_id == data['id']:
+        print("cyklus for")
+        if element.user_token == data['token'] and element.user_login == data['username']:
             del tokens[i]
             print("zmazalo token")
             break

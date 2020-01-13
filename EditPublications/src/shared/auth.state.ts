@@ -69,13 +69,14 @@ export interface AuthModel{
         @Action([logout, tokenExpiredLogout])
         logout(ctx: StateContext<AuthModel>, action: logout){
             const token =  ctx.getState().token;
+            const username = ctx.getState().username;
             ctx.setState({
                 username: null,
                 token: null,
                 redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGOUT
             });
             if(action instanceof logout){
-                return this.userServerService.logout(token);
+                return this.userServerService.logout(username,token);
             }
         }
 
