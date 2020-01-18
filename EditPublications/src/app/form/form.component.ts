@@ -223,8 +223,8 @@ export class FormComponent implements OnInit {
   secondFormGroup = new FormGroup({
     documentName: new FormControl('',  [Validators.required, Validators.minLength(3)],),
     documentTranslate: new FormControl('', [Validators.required]),
-    keyWordsSK: new FormArray([]),
-    keyWordsAJ:new FormArray([]),
+    keyWordsSK: new FormControl(''),
+    keyWordsAJ:new FormControl(''),
     webAddress: new FormControl(''),
   });
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Auth } from 'src/entities/auth';
 import { Observable, EMPTY, throwError, of } from 'rxjs';
-import { catchError, mapTo, tap } from 'rxjs/operators';
+import { catchError, mapTo, tap, map } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 // import { tokenExpiredLogout } from 'src/shared/auth.actions';
 import { SnackbarService } from './snackbar.service';
@@ -50,9 +50,10 @@ export class UserServerService {
 
   login(auth: Auth): Observable<string>{
    return this.http
-    .post(this.url + 'login', auth, {responseType: "text"})
+    .post<any>(this.url + 'login', auth )
     .pipe(
       tap(() => this.snackbarSevice.successMessage('Login successful')),
+      map(json => json.token),
       catchError(error => this.httpErrorProcess(error))
     );
   }
@@ -88,17 +89,10 @@ export class UserServerService {
       this.snackbarSevice.errorMessage('Server is not in use.');
       return;
     }
-    if(error.status >= 400 && error.status <500){
-      if(error.status == 401 && error.error.errorMessage === 'unkown token'){
-        // this.store.dispatch(new tokenExpiredLogout);
-        this.snackbarSevice.errorMessage('Token expired.');
+    if(error.status >= 400 && error.status < 500){
+        this.snackbarSevice.errorMessage('Wrong name or password.');
         return;
       }
-      else{
-        this.snackbarSevice.errorMessage('Wrong name or password.')
-      }
-      return;
-    }
     this.snackbarSevice.errorMessage(error.message);
   }
 }
