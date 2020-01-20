@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { AppNgxsModule } from './app-ngxs.module';
 import { HttpClientModule } from '@angular/common/http';
-import { FormComponent } from './form/form.component';
 import { EmployeesComponent } from './employees/employees.component';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { EmployeesComponent } from './employees/employees.component';
     LoginComponent,
     RegisterComponent,
     NavBarComponent,
-    FormComponent,
     EmployeesComponent
   ],
   imports: [
