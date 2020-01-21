@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Publication } from 'src/entities/publication';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 export interface Option {
   value: string;
@@ -209,9 +211,62 @@ export class FormComponent implements OnInit {
     {value :"GII", viewValue: 'Rôzne publikácie a dokumenty, ktoré nemožno zaradiť do žiadnej z predchádzajúcich kategórií'}
   ];
   
+  publication: Publication;
+  firstFormGroup = new FormGroup({
+    name: new FormControl('',  [Validators.required, Validators.minLength(3)],),
+    surname:  new FormControl('',  [Validators.required, Validators.minLength(3)],),
+    titul:new FormControl('', [Validators.required]),
+    percentage:new FormControl('', [Validators.required]),
+    department:  new FormControl('', [Validators.required]),
+    contact:new FormControl('', [Validators.required]),
+  });
+  secondFormGroup = new FormGroup({
+    documentName: new FormControl('',  [Validators.required, Validators.minLength(3)],),
+    documentTranslate: new FormControl('', [Validators.required]),
+    keyWordsSK: new FormControl(''),
+    keyWordsAJ:new FormControl(''),
+    webAddress: new FormControl(''),
+  });
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  get name() {
+    return this.firstFormGroup.get('name');
+  }
+  get surname() {
+    return this.firstFormGroup.get('surname');
+  }
+  get titul() {
+    return this.firstFormGroup.get('titul');
+  }
+  get percentage() {
+    return this.firstFormGroup.get('percentage');
+  }
+  get department() {
+    return this.firstFormGroup.get('department');
+  }
+  get contact() {
+    return this.firstFormGroup.get('contact');
+  }
+
+  get documentName() {
+    return this.secondFormGroup.get('documentName');
+  }
+  get documentTranslate() {
+    return this.secondFormGroup.get('documentTranslate');
+  }
+  get keyWordsSK() {
+    return this.secondFormGroup.get('keyWordsSK') as FormArray;
+  }
+  get keyWordsAJ() {
+    return this.secondFormGroup.get('keyWordsAJ') as FormArray;
+  }
+  get webAddress() {
+    return this.secondFormGroup.get('webAddress');
+  }
+
 
 }

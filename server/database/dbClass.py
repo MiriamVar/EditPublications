@@ -28,8 +28,44 @@ class Database(object):
             if connection_object.is_connected():
                 cur1.close()
                 connection_object.close()
+                print("UserLogin from db")
+                print(userLogin)
                 print("MySQL connection is closed")
                 return userLogin
+
+    def VerificationEmail(self, email):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            queryVerEmail = "select pouzivatel.email from pouzivatel where email = %s;"
+            cur1.execute(queryVerEmail, (email,))
+            userEmail = cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("Verified email from db")
+                print(userEmail)
+                print("MySQL connection is closed")
+                return userEmail
+
+    def VerificationPass(self, email):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            queryVerPass = "select password from pouzivatel where email = %s;"
+            cur1.execute(queryVerPass, (email,))
+            userPass = cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("verifed pass from db")
+                print(userPass)
+                print("MySQL connection is closed")
+                return userPass
 
     def Register(self, name, surname, email, password, type):
         connection_object = self.connection_pool.get_connection()

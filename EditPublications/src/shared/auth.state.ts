@@ -3,9 +3,8 @@ import { login, logout, urlAfterLogin } from './auth.actions';
 import { UserServerService } from 'src/services/user-server.service';
 import { tap } from 'rxjs/operators';
 import { tokenExpiredLogout } from './auth.actions';
-import { state } from '@angular/animations';
 
-const DEFAULT_REDIRECT_AFTER_LOGIN = '/';
+const DEFAULT_REDIRECT_AFTER_LOGIN = '/form';
 const DEFAULT_REDIRECT_AFTER_LOGOUT = '/login';
 
 export interface AuthModel{
@@ -70,13 +69,14 @@ export interface AuthModel{
         @Action([logout, tokenExpiredLogout])
         logout(ctx: StateContext<AuthModel>, action: logout){
             const token =  ctx.getState().token;
+            const username = ctx.getState().username;
             ctx.setState({
                 username: null,
                 token: null,
                 redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGOUT
             });
             if(action instanceof logout){
-                return this.userServerService.logout(token);
+                return this.userServerService.logout(username,token);
             }
         }
 

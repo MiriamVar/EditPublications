@@ -4,10 +4,17 @@ html, body { height: 100%; }
 body {
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
-    background-image: url('/assets/images/pencil2.jpg');
-    background-size: 100% 100%;
+    background-image: url('/assets/images/pencil2.jpg'); 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .mat-toolbar.mat-primary  {
     background: #f5f5f5;
     color: rgba(0,0,0,.87);
+}
+a:link {
+    color: lightpink;
 }

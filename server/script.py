@@ -6,6 +6,7 @@ from server.userClass import User
 from server.userToken import UserToken
 from server.database.dbClass import Database
 from flask_cors import CORS
+from flask_api import status
 import hashlib
 
 app = Flask(__name__)
@@ -37,24 +38,37 @@ def login():
     # print(password2)
 
     # overenie usera
-    user = db.Login(email=email, password=password)
-    print("userLogin")
-    print(user)
-    if user is not None:
-        # creating User object
-        loggedUser = User(id=user[0], fname=user[1], lname=user[2], mail=user[3], password=user[4], type=user[5])
-        print(loggedUser.lname)  # control of creating User
-
-        # generating token
-        token = secrets.token_urlsafe()
-        print("token: " + token)
-
-        client = UserToken(user_id=loggedUser.id, user_token=token, user_login=loggedUser.mail)
-        tokens.append(client)  # adding users token and id to
-
-        return token
+    verifedEmail = db.VerificationEmail(email=email)
+    # print(verifedEmail[0])
+    if verifedEmail is None:
+        return " Wrong email ", status.HTTP_401_UNAUTHORIZED
     else:
-        return jsonify({"status": "User is None"})
+        email = verifedEmail[0]
+        verifedPassword = db.VerificationPass(email=email)
+        if verifedPassword[0] == password:
+            # vyberanie usera
+            user = db.Login(email=email, password=password)
+            print("userLogin")
+            print(user)
+            if user is not None:
+                # creating User object
+                loggedUser = User(id=user[0], fname=user[1], lname=user[2], mail=user[3], password=user[4],
+                                  type=user[5])
+                print(loggedUser.lname)  # control of creating User
+
+                # generating token
+                token = secrets.token_urlsafe()
+                print("token: " + token)
+
+                client = UserToken(user_id=loggedUser.id, user_token=token, user_login=loggedUser.mail)
+                tokens.append(client)  # adding users token and id to
+
+                return jsonify({"token": token})
+            else:
+                return "", status.HTTP_401_UNAUTHORIZED
+        else:
+            return "Wrong password ", status.HTTP_401_UNAUTHORIZED
+
 
 # working
 @app.route('/register', methods=['POST'])
@@ -80,9 +94,10 @@ def register():
 def logout():
     i = 0
     data = request.get_json()
-    print(data['token'])
+    print(data)
     for element in tokens:
-        if element.user_token == data['token'] and element.user_id == data['id']:
+        print("cyklus for")
+        if element.user_token == data['token'] and element.user_login == data['username']:
             del tokens[i]
             print("zmazalo token")
             break
