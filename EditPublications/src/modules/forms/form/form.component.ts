@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Publication } from 'src/entities/publication';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
@@ -228,9 +228,14 @@ export class FormComponent implements OnInit {
     webAddress: new FormControl(''),
   });
 
+
+  countAuthors = 1;
+  showAddUser: boolean;
+
   constructor() { }
 
   ngOnInit() {
+    this.showAddUser =true;
   }
 
   get name() {
@@ -266,6 +271,12 @@ export class FormComponent implements OnInit {
   }
   get webAddress() {
     return this.secondFormGroup.get('webAddress');
+  }
+
+  addingAnotherAuthor(){
+    console.log(this.countAuthors);
+    this.showAddUser = !this.showAddUser;
+    return this.countAuthors++;
   }
 
 

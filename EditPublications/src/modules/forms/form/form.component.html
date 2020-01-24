@@ -39,9 +39,12 @@
                     <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
                 </mat-form-field>
                 <!-- Urobit funkciu na pridanie dalsieho autora-->
+                <div *ngIf="showAddUser">
+                    <app-form-adduser></app-form-adduser>
+                </div>
                 <div>
                     <mat-card-actions>
-                        <button type="button" mat-raised-button color="accent">Pridaj autora</button>
+                        <button type="button" mat-raised-button color="accent"  (click)= "addingAnotherAuthor()">Pridaj autora</button>
                     </mat-card-actions>
                     <button mat-button matStepperNext>Dalej</button>
                 </div>
