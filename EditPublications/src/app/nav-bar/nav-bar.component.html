@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+    <span *ngIf="loggedUser; else elseBlock">
+        <a mat-button  (click)="logout()">
+            <mat-icon>person</mat-icon>
+            Logout
+        </a>
+    </span>
+    <ng-template #elseBlock>
+        <span>
+            <a mat-button routerLink="/register" >
+                <mat-icon>input</mat-icon> 
+                Register
+            </a>
+        </span>
+        <a mat-button routerLink="/login">
+            <mat-icon>person</mat-icon>
+            Login
+        </a>
+    </ng-template>
+    <span>
+        <a mat-button routerLink="/form">
+            <mat-icon>assignment</mat-icon> 
+            Form
+        </a>
+    </span>
+    <span>
+        <a mat-button routerLink="/employees">
+            <mat-icon>bookmarks</mat-icon> 
+            Employees
+        </a>
+    </span>
+</mat-toolbar>

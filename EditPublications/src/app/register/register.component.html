@@ -1,0 +1,81 @@
+<div class="login-wrapper">
+    <form (ngSubmit)="formSubmit()" [formGroup]="registerForm">
+      <mat-card>
+        <mat-card-title>
+          Register
+        </mat-card-title>
+        <mat-card-content>
+          <mat-form-field>
+            <input matInput placeholder="login name" required formControlName="name" autocomplete="username">
+            <mat-error *ngIf="name?.errors?.required">
+                Name is required
+              </mat-error>
+            <mat-error *ngIf="name?.errors?.name || name?.errors?.pattern">
+                Name has wrong format
+              </mat-error>
+            <mat-error *ngIf="name?.errors?.conflictField">
+                {{name.errors.conflictField}}
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="login surname" required formControlName="surname" autocomplete="surname">
+            <mat-error *ngIf="surname?.errors?.required">
+                Surname is required
+              </mat-error>
+            <mat-error *ngIf="surname?.errors?.surname || surname?.errors?.pattern">
+                Surname has wrong format
+              </mat-error>
+            <mat-error *ngIf="surname?.errors?.conflictField">
+                {{surname.errors.conflictField}}
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="e-mail" required formControlName="email" autocomplete="email">
+            <mat-error *ngIf="email?.errors?.required">
+                Email is required
+              </mat-error>
+            <mat-error *ngIf="email?.errors?.email || email?.errors?.pattern">
+               Email has wrong format
+              </mat-error>
+            <mat-error *ngIf="email?.errors?.conflictField">
+                {{email.errors.conflictField}}
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="type" required formControlName="type" autocomplete="type">
+            <mat-error *ngIf="type?.errors?.required">
+                Type is required
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" required formControlName="password"
+              autocomplete="new-password">
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-hint>{{passwordMessage}}</mat-hint>
+            <mat-error *ngIf="password?.errors?.weakPassword">
+              {{password.errors.weakPassword}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Repeat password" [type]="hide ? 'password' : 'text'" required
+              formControlName="password2" autocomplete="new-password">
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-hint>{{passwordMessage}}</mat-hint>
+            <mat-error *ngIf="registerForm?.errors?.differentPasswords">
+              {{password2.errors.differentPasswords}}
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="submit"  [disabled]="registerForm.invalid" mat-stroked-button color="primary">Register</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div> 
+

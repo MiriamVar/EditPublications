@@ -1,0 +1,27 @@
+.login-wrapper {
+  margin-top: 15px;
+    width: 100vw;
+    height: 80%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+  }
+  
+  .login-wrapper mat-card-title {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login-wrapper mat-form-field {
+    display: block;
+    margin-bottom: 30px;
+  }
+  
+  .login-wrapper mat-card-actions {
+    display: flex;
+    justify-content: center;
+  }
+  .login-wrapper .mat-flat-button:not([class*=mat-elevation-z]), .mat-stroked-button:not([class*=mat-elevation-z]){
+    color: #c2bcc2;
+    background-color:#ffebfd;
+}

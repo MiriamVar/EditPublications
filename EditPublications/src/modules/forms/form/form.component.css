@@ -1,0 +1,16 @@
+.publication-wrapper {
+    display: grid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .publication-wrapper mat-form-field {
+    display: block;
+    margin-bottom: 30px;
+  }
+
+  .example-chip-list {
+    width: 100%;
+  }

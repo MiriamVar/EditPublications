@@ -1,0 +1,44 @@
+<mat-step [stepControl]="addUserFormGroup">
+    <form [formGroup]="addUserFormGroup">
+        <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
+        <mat-form-field>
+            <input matInput placeholder="Meno" formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Priezvisko" formControlName="surname" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Titul(y)" formControlName="titul" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="%" formControlName="percentage" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Doktorand</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let option of options" [value]="option.value">
+                    {{option.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Pracovisko</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let workspace of workspaces" [value]="workspace.value">
+                    {{workspace.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Ustav/Katedra" formControlName="department" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
+        </mat-form-field>
+        <div>
+            <mat-card-actions>
+                <button type="button" mat-raised-button color="accent">Pridaj dalsieho autora</button>
+            </mat-card-actions>
+        </div>
+    </form>
+</mat-step>
