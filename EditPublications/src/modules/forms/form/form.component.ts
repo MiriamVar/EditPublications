@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Publication } from 'src/entities/publication';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 export interface Option {
   value: string;
@@ -30,6 +32,18 @@ export interface Type{
 export interface GantScheme{
   value:string,
   viewValue:string
+}
+
+// export interface SlovakWord {
+//   name: string;
+// }
+
+// export interface EnglishWord {
+//   name: string;
+// }
+
+export interface Word {
+  name: string;
 }
 
 @Component({
@@ -212,6 +226,18 @@ export class FormComponent implements OnInit {
   ];
   
   publication: Publication;
+  countAuthors = 1;
+  showAddUser: boolean;
+
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  // slovakWords: SlovakWord[] = [];
+  // englishWords: EnglishWord[] = [];
+  words: Word[] = [];
+
   firstFormGroup = new FormGroup({
     name: new FormControl('',  [Validators.required, Validators.minLength(3)],),
     surname:  new FormControl('',  [Validators.required, Validators.minLength(3)],),
@@ -227,10 +253,6 @@ export class FormComponent implements OnInit {
     keyWordsAJ:new FormControl(''),
     webAddress: new FormControl(''),
   });
-
-
-  countAuthors = 1;
-  showAddUser: boolean;
 
   constructor() { }
 
@@ -264,10 +286,10 @@ export class FormComponent implements OnInit {
     return this.secondFormGroup.get('documentTranslate');
   }
   get keyWordsSK() {
-    return this.secondFormGroup.get('keyWordsSK') as FormArray;
+    return this.secondFormGroup.get('keyWordsSK');
   }
   get keyWordsAJ() {
-    return this.secondFormGroup.get('keyWordsAJ') as FormArray;
+    return this.secondFormGroup.get('keyWordsAJ');
   }
   get webAddress() {
     return this.secondFormGroup.get('webAddress');
@@ -278,6 +300,29 @@ export class FormComponent implements OnInit {
     this.showAddUser = !this.showAddUser;
     return this.countAuthors++;
   }
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      console.log("value "+ value);
+      this.words.push({name: value.trim()});
+    }
+
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(word: Word): void {
+    const index = this.words.indexOf(word);
+
+    if (index >= 0) {
+      this.words.splice(index, 1);
+    }
+  }
+
 
 
 }

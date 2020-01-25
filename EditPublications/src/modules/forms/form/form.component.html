@@ -38,7 +38,7 @@
                 <mat-form-field>
                     <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
                 </mat-form-field>
-                <!-- Urobit funkciu na pridanie dalsieho autora-->
+                <!-- Urobit funkciu na pridanie dalsieho autora, uz len zobrazenie-->
                 <div *ngIf="showAddUser">
                     <app-form-adduser></app-form-adduser>
                 </div>
@@ -60,12 +60,36 @@
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Preklad dokumentu (do angličtiny / slovenčiny - ak je jazyk dokumentu iný ako slovenčina)" formControlName="documentTranslate" required>
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Kľúčové slová (slovenčina)" formControlName="keyWordsSK" required>
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Kľúčové slová (angličtina)" formControlName="keyWordsAJ" required>
-                </mat-form-field>
+
+                <mat-form-field class="example-chip-list">
+                    <mat-chip-list #chipList aria-label="SlovakWords selection">
+                      <mat-chip *ngFor="let word of words" [selectable]="selectable"
+                               [removable]="removable" (removed)="remove(word)">
+                        {{word.name}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input placeholder="Kľúčové slová (slovenčina)"
+                             [matChipInputFor]="chipList"
+                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                             [matChipInputAddOnBlur]="addOnBlur"
+                             (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-chip-list">
+                    <mat-chip-list #chipList2 aria-label="EnglishWords selection">
+                      <mat-chip *ngFor="let word of words" [selectable]="selectable"
+                               [removable]="removable" (removed)="remove(word)">
+                        {{word.name}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input placeholder="Kľúčové slová (angličtina)"
+                             [matChipInputFor]="chipList2"
+                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                             [matChipInputAddOnBlur]="addOnBlur"
+                             (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                  </mat-form-field>
                 <mat-form-field>
                     <mat-label>Kategória publikačnej činnosti</mat-label>
                     <mat-select>

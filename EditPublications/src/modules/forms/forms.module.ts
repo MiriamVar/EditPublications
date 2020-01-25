@@ -18,6 +18,9 @@ import { FormAdduserComponent } from './form-adduser/form-adduser.component';
     CommonModule,
     FormsRoutingModule,
     ReactiveFormsModule,
+  ],
+  exports: [
+    MaterialModule
   ]
 })
 export class FormsModule { }
