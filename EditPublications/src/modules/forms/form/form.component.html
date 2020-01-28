@@ -2,7 +2,7 @@
     <mat-horizontal-stepper [linear]="isLinear" #stepper>
         <!-- Prva cast (vyplnenie udajov a autoroch)-->
         <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
+            <form (ngSubmit)="formSubmit()" [formGroup]="firstFormGroup">
                 <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
                 <mat-form-field>
                     <input matInput placeholder="Meno" formControlName="name" required>
@@ -18,7 +18,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Doktorand</mat-label>
-                    <mat-select>
+                    <mat-select  formControlName="doktorand">
                         <mat-option *ngFor="let option of options" [value]="option.value">
                             {{option.viewValue}}
                         </mat-option>
@@ -26,7 +26,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Pracovisko</mat-label>
-                    <mat-select>
+                    <mat-select formControlName="ustav">
                         <mat-option *ngFor="let workspace of workspaces" [value]="workspace.value">
                             {{workspace.viewValue}}
                         </mat-option>
@@ -39,7 +39,9 @@
                     <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
                 </mat-form-field>
                 <!-- Urobit funkciu na pridanie dalsieho autora, uz len zobrazenie-->
-                <div *ngIf="showAddUser">
+                <!-- <div *ngFor="let i in new Array(showAddUser).fill(1)"> -->
+                <div *ngIf= "showAddUser">
+                    <p>Skusam ci daco abo ne</p>
                     <app-form-adduser></app-form-adduser>
                 </div>
                 <div>
@@ -63,7 +65,7 @@
 
                 <mat-form-field class="example-chip-list">
                     <mat-chip-list #chipList aria-label="SlovakWords selection">
-                      <mat-chip *ngFor="let word of words" [selectable]="selectable"
+                      <mat-chip *ngFor="let word of slovakWords" [selectable]="selectable"
                                [removable]="removable" (removed)="remove(word)">
                         {{word.name}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -78,8 +80,8 @@
 
                   <mat-form-field class="example-chip-list">
                     <mat-chip-list #chipList2 aria-label="EnglishWords selection">
-                      <mat-chip *ngFor="let word of words" [selectable]="selectable"
-                               [removable]="removable" (removed)="remove(word)">
+                      <mat-chip *ngFor="let word of englishWords" [selectable]="selectable"
+                               [removable]="removable" (removed)="remove2(word)">
                         {{word.name}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
@@ -87,9 +89,10 @@
                              [matChipInputFor]="chipList2"
                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                              [matChipInputAddOnBlur]="addOnBlur"
-                             (matChipInputTokenEnd)="add($event)">
+                             (matChipInputTokenEnd)="add2($event)">
                     </mat-chip-list>
                   </mat-form-field>
+
                 <mat-form-field>
                     <mat-label>Kategória publikačnej činnosti</mat-label>
                     <mat-select>
@@ -132,6 +135,7 @@
             <div>
                 <button mat-button  matStepperPrevious>Back</button>
                 <button mat-button (click)="stepper.reset()">Reset</button>
+                <button type="submit" mat-raised-button color="accent"  (click)= "formSubmit()">Send</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>

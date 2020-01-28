@@ -49,7 +49,7 @@ export interface AuthModel{
         constructor(private userServerService: UserServerService) {};
 
         ngxsOnInit(){
-            this.userServerService.checkToken().subscribe();
+            // this.userServerService.checkToken().subscribe();
         }
 
         @Action(login)

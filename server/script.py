@@ -89,7 +89,7 @@ def register():
     else:
         return jsonify({"status": "Not registered"})
 
-# not tried
+# working
 @app.route("/logout", methods=["POST"])
 def logout():
     i = 0
@@ -114,6 +114,17 @@ def getLogin(token, id):
             print(login)
             return login
     return None
+
+
+@app.route("/sendForm/", methods=["POST"])
+def sendForm():
+    data = request.get_json()
+    print("SEND FORM - vypisujem co mi pride ")
+    print(data)
+
+    result= db.SaveForm()
+
+    return jsonify({"status": "OK"})
 
 
 if __name__ == '__main__':

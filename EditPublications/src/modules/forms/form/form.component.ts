@@ -3,6 +3,8 @@ import { Publication } from 'src/entities/publication';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { UserServerService } from 'src/services/user-server.service';
+import { Router } from '@angular/router';
 
 export interface Option {
   value: string;
@@ -34,17 +36,14 @@ export interface GantScheme{
   viewValue:string
 }
 
-// export interface SlovakWord {
-//   name: string;
-// }
-
-// export interface EnglishWord {
-//   name: string;
-// }
-
-export interface Word {
+export interface SlovakWord {
   name: string;
 }
+
+export interface EnglishWord {
+  name: string;
+}
+
 
 @Component({
   selector: 'app-form',
@@ -234,16 +233,17 @@ export class FormComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  // slovakWords: SlovakWord[] = [];
-  // englishWords: EnglishWord[] = [];
-  words: Word[] = [];
+  slovakWords: SlovakWord[] = [];
+  englishWords: EnglishWord[] = [];
 
   firstFormGroup = new FormGroup({
     name: new FormControl('',  [Validators.required, Validators.minLength(3)],),
     surname:  new FormControl('',  [Validators.required, Validators.minLength(3)],),
     titul:new FormControl('', [Validators.required]),
     percentage:new FormControl('', [Validators.required]),
+    doktorand: new FormControl('', [Validators.required]),
     department:  new FormControl('', [Validators.required]),
+    ustav: new FormControl('',[Validators.required]),
     contact:new FormControl('', [Validators.required]),
   });
   secondFormGroup = new FormGroup({
@@ -254,10 +254,10 @@ export class FormComponent implements OnInit {
     webAddress: new FormControl(''),
   });
 
-  constructor() { }
+  constructor(private userServerService: UserServerService, private router: Router) { }
 
   ngOnInit() {
-    this.showAddUser =true;
+    this.showAddUser =false;
   }
 
   get name() {
@@ -274,6 +274,12 @@ export class FormComponent implements OnInit {
   }
   get department() {
     return this.firstFormGroup.get('department');
+  }
+  get doktorand(){
+    return this.firstFormGroup.get('doktorand');
+  }
+  get ustav(){
+    return this.firstFormGroup.get('ustav');
   }
   get contact() {
     return this.firstFormGroup.get('contact');
@@ -307,7 +313,7 @@ export class FormComponent implements OnInit {
 
     if ((value || '').trim()) {
       console.log("value "+ value);
-      this.words.push({name: value.trim()});
+      this.slovakWords.push({name: value.trim()});
     }
 
     if (input) {
@@ -315,12 +321,44 @@ export class FormComponent implements OnInit {
     }
   }
 
-  remove(word: Word): void {
-    const index = this.words.indexOf(word);
+  remove(word: SlovakWord): void {
+    const index = this.slovakWords.indexOf(word);
 
     if (index >= 0) {
-      this.words.splice(index, 1);
+      this.slovakWords.splice(index, 1);
     }
+  }
+
+  add2(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      console.log("value "+ value);
+      this.englishWords.push({name: value.trim()});
+    }
+
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove2(word: EnglishWord): void {
+    const index = this.englishWords.indexOf(word);
+
+    if (index >= 0) {
+      this.englishWords.splice(index, 1);
+    }
+  }
+
+  formSubmit(){
+    const pub = new Publication(this.name.value, this.surname.value, this.titul.value, this.percentage.value, this.doktorand.value, this.department.value, this.ustav.value, this.contact.value);
+    this.userServerService.sendForm(pub).subscribe(
+      ok =>{
+        this.router.navigateByUrl('/users');
+      }
+    );
+    console.log("posielam formular");
   }
 
 
