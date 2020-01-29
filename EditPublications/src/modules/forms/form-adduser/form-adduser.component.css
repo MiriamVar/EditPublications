@@ -1,0 +1,9 @@
+.addUser-wrapper{
+    width: 950px;
+}
+
+
+.addUser-wrapper mat-form-field {
+    display: block;
+    margin-bottom: 30px;
+  }
