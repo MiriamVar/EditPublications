@@ -10,15 +10,20 @@ import {MatTableModule} from '@angular/material/table';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 
 @NgModule({
   imports: [
-    MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatTableModule, MatStepperModule, MatSelectModule, MatGridListModule
+    MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, 
+    MatFormFieldModule, MatInputModule, MatSnackBarModule, MatTableModule, 
+    MatStepperModule, MatSelectModule, MatGridListModule, MatChipsModule,
   ],
   exports: [
-    MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatTableModule, MatStepperModule, MatSelectModule, MatGridListModule
+    MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, 
+    MatFormFieldModule, MatInputModule, MatSnackBarModule, MatTableModule, 
+    MatStepperModule, MatSelectModule, MatGridListModule, MatChipsModule,
   ]
 })
 export class MaterialModule { }

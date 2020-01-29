@@ -8,6 +8,7 @@ import { Store } from '@ngxs/store';
 import { SnackbarService } from './snackbar.service';
 import { state } from '@angular/animations';
 import { User } from 'src/entities/user';
+import { Publication } from 'src/entities/publication';
 
 @Injectable({
   providedIn: 'root'
@@ -22,22 +23,22 @@ export class UserServerService {
   }
 
 
-  checkToken(){
-    if(this.token==null){
-      return of(undefined)
-    }
-    return this.http
-    .get(this.url + 'check-token/' + this.token,{responseType: 'text'})
-    .pipe(catchError(error => {
-      if(error instanceof HttpErrorResponse && error.status === 401){
-          // this.store.dispatch(new tokenExpiredLogout);
-          return of (undefined);
-      }
-      throwError(error);
-    }),
-    catchError(error => this.httpErrorProcess(error))
-    );
-  }
+  // checkToken(){
+  //   if(this.token==null){
+  //     return of(undefined)
+  //   }
+  //   return this.http
+  //   .get(this.url + 'check-token/' + this.token,{responseType: 'text'})
+  //   .pipe(catchError(error => {
+  //     if(error instanceof HttpErrorResponse && error.status === 401){
+  //         // this.store.dispatch(new tokenExpiredLogout);
+  //         return of (undefined);
+  //     }
+  //     throwError(error);
+  //   }),
+  //   catchError(error => this.httpErrorProcess(error))
+  //   );
+  // }
 
   registerUser(user: User): Observable<User>{
     return this.http
@@ -94,5 +95,12 @@ export class UserServerService {
         return;
       }
     this.snackbarSevice.errorMessage(error.message);
+  }
+
+  sendForm(pub: Publication): Observable<Publication>{
+    return this.http.post<Publication>(this.url + 'sendForm/', pub)
+    .pipe(map(p => Publication.clone(p),
+    catchError(error => this.httpErrorProcess(error)))
+    );
   }
 }

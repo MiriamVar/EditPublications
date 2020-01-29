@@ -10,3 +10,7 @@
     display: block;
     margin-bottom: 30px;
   }
+
+  .example-chip-list {
+    width: 100%;
+  }
