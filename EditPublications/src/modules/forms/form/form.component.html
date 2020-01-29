@@ -38,10 +38,8 @@
                 <mat-form-field>
                     <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
                 </mat-form-field>
-                <!-- Urobit funkciu na pridanie dalsieho autora, uz len zobrazenie-->
-                <!-- <div *ngFor="let i in new Array(showAddUser).fill(1)"> -->
                 <div *ngIf= "showAddUser">
-                    <p>Skusam ci daco abo ne</p>
+                    <p>Dalsi autor</p>
                     <app-form-adduser></app-form-adduser>
                 </div>
                 <div>

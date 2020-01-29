@@ -14,7 +14,7 @@ import { Publication } from 'src/entities/publication';
   providedIn: 'root'
 })
 export class UserServerService {
-  url = 'http://localhost:5000/';
+  url = 'http://itsovy.sk:5000/';
 
   constructor(private http: HttpClient, private store: Store, private snackbarSevice: SnackbarService) {}
 
