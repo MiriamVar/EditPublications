@@ -4,13 +4,23 @@
     margin-bottom: 10px;
     justify-items: center;
     align-items: center;
-  }
+}
 
-  .publication-wrapper mat-form-field {
+.publication-wrapper mat-form-field {
     display: block;
     margin-bottom: 30px;
-  }
+}
 
-  .example-chip-list {
+.example-chip-list {
     width: 100%;
-  }
+}
+
+.next-to-each-other {
+    display: inline;
+}
+
+.rightBtn {
+    display: flex;
+    direction: rtl;
+    margin-top: -30px;
+}
