@@ -4,6 +4,14 @@
         <mat-step [stepControl]="firstFormGroup">
             <form (ngSubmit)="formSubmit()" [formGroup]="firstFormGroup">
                 <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
+                <div>
+                    <mat-form-field>
+                        <input matInput placeholder="DOI číslo (nepovinné)" formControlName="DOI">
+                    </mat-form-field>
+                </div>
+                <div class="rightBtn">
+                    <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
+                </div>
                 <mat-form-field>
                     <input matInput placeholder="Meno" formControlName="name" required>
                 </mat-form-field>
@@ -18,7 +26,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Doktorand</mat-label>
-                    <mat-select  formControlName="doktorand">
+                    <mat-select formControlName="doktorand">
                         <mat-option *ngFor="let option of options" [value]="option.value">
                             {{option.viewValue}}
                         </mat-option>
@@ -38,19 +46,19 @@
                 <mat-form-field>
                     <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
                 </mat-form-field>
-                <div *ngIf= "showAddUser">
+                <div *ngIf="showAddUser">
                     <p>Dalsi autor</p>
                     <app-form-adduser></app-form-adduser>
                 </div>
                 <div>
                     <mat-card-actions>
-                        <button type="button" mat-raised-button color="accent"  (click)= "addingAnotherAuthor()">Pridaj autora</button>
+                        <button type="button" mat-raised-button color="accent" (click)="addingAnotherAuthor()">Pridaj autora</button>
                     </mat-card-actions>
                     <button mat-button matStepperNext>Dalej</button>
                 </div>
             </form>
         </mat-step>
-    
+
         <mat-step [stepControl]="secondFormGroup">
             <form [formGroup]="secondFormGroup">
                 <ng-template matStepLabel>Informacie o dokumente</ng-template>
@@ -63,33 +71,23 @@
 
                 <mat-form-field class="example-chip-list">
                     <mat-chip-list #chipList aria-label="SlovakWords selection">
-                      <mat-chip *ngFor="let word of slovakWords" [selectable]="selectable"
-                               [removable]="removable" (removed)="remove(word)">
-                        {{word.name}}
-                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                      </mat-chip>
-                      <input placeholder="Kľúčové slová (slovenčina)"
-                             [matChipInputFor]="chipList"
-                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                             [matChipInputAddOnBlur]="addOnBlur"
-                             (matChipInputTokenEnd)="add($event)">
+                        <mat-chip *ngFor="let word of slovakWords" [selectable]="selectable" [removable]="removable" (removed)="remove(word)">
+                            {{word.name}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Kľúčové slová (slovenčina)" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                     </mat-chip-list>
-                  </mat-form-field>
+                </mat-form-field>
 
-                  <mat-form-field class="example-chip-list">
+                <mat-form-field class="example-chip-list">
                     <mat-chip-list #chipList2 aria-label="EnglishWords selection">
-                      <mat-chip *ngFor="let word of englishWords" [selectable]="selectable"
-                               [removable]="removable" (removed)="remove2(word)">
-                        {{word.name}}
-                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                      </mat-chip>
-                      <input placeholder="Kľúčové slová (angličtina)"
-                             [matChipInputFor]="chipList2"
-                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                             [matChipInputAddOnBlur]="addOnBlur"
-                             (matChipInputTokenEnd)="add2($event)">
+                        <mat-chip *ngFor="let word of englishWords" [selectable]="selectable" [removable]="removable" (removed)="remove2(word)">
+                            {{word.name}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Kľúčové slová (angličtina)" [matChipInputFor]="chipList2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add2($event)">
                     </mat-chip-list>
-                  </mat-form-field>
+                </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Kategória publikačnej činnosti</mat-label>
@@ -100,14 +98,18 @@
                     </mat-select>
                 </mat-form-field>
                 <!-- tu je pod tymto komentom- moze byt viac oblasti vyskumu, treba pridat add - ked skusime ci tamten hore funguje -->
-                <mat-form-field>
-                    <mat-label>Zvoľte oblasť výskumu</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let reserachField of reserachFields" [value]="reserachField.value">
-                            {{reserachField.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+
+                <div *ngFor="let research of rsrchFields; let i = index">
+                    <div class="next-to-each-other">
+                        <!-- {{i+1}}  -->
+                        <!-- tu ak by nahodou sme chceli pouzit kolko je tych oblasti uz pridanych -->
+                        <app-form-addresearch></app-form-addresearch>
+                    </div>
+                </div>
+                <mat-card-actions>
+                    <button type="button" mat-raised-button color="accent" (click)="addResearchField()">Pridaj oblasť</button>
+                </mat-card-actions>
+
                 <mat-form-field>
                     <mat-label>Zadajte typ evidovaného dokumentu</mat-label>
                     <mat-select>
@@ -120,7 +122,7 @@
                     <input matInput placeholder="Dostupnosť na www (v prípade elektronických dokumentov)" formControlName="webAddress">
                 </mat-form-field>
                 <!-- tu pravdepodobne pridat poslednu polozku- novy form o tom ci vobec existuje ta posledna polozka -->
-    
+
                 <div>
                     <button mat-button matStepperPrevious>Spat</button>
                     <button mat-button matStepperNext>Dalej</button>
@@ -131,9 +133,9 @@
             <ng-template matStepLabel>Done</ng-template>
             Po odoslaní formulára je potrebné zobrazený informačný hárok vytlačiť a podpísaný doručiť zodpovednému <a href="/employees">pracovníkovi</a> UK UPJŠ.
             <div>
-                <button mat-button  matStepperPrevious>Back</button>
+                <button mat-button matStepperPrevious>Back</button>
                 <button mat-button (click)="stepper.reset()">Reset</button>
-                <button type="submit" mat-raised-button color="accent"  (click)= "formSubmit()">Send</button>
+                <button type="submit" mat-raised-button color="accent" (click)="formSubmit()">Send</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>
