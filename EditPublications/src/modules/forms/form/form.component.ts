@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Publication } from 'src/entities/publication';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormControlName } from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { UserServerService } from 'src/services/user-server.service';
@@ -21,9 +21,10 @@ export interface Activity{
   viewValue: string;
 }
 
-export interface ResearchField{
+export class ResearchField{
   value: string;
   viewValue: string;
+  constructor(){}
 }
 
 export interface Type{
@@ -227,6 +228,8 @@ export class FormComponent implements OnInit {
   publication: Publication;
   countAuthors = 1;
   showAddUser: boolean;
+  countResearches = 1;
+  showAddResearch: boolean;
 
   visible = true;
   selectable = true;
@@ -235,8 +238,10 @@ export class FormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   slovakWords: SlovakWord[] = [];
   englishWords: EnglishWord[] = [];
+  rsrchFields: Array<ResearchField> = [];
 
   firstFormGroup = new FormGroup({
+    DOI: new FormControl(''),
     name: new FormControl('',  [Validators.required, Validators.minLength(3)],),
     surname:  new FormControl('',  [Validators.required, Validators.minLength(3)],),
     titul:new FormControl('', [Validators.required]),
@@ -258,8 +263,13 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     this.showAddUser =false;
+    this.showAddResearch = false;
+    this.rsrchFields.push(new ResearchField());
   }
 
+  get DOI() {
+    return this.firstFormGroup.get('DOI');
+  }
   get name() {
     return this.firstFormGroup.get('name');
   }
@@ -301,6 +311,10 @@ export class FormComponent implements OnInit {
     return this.secondFormGroup.get('webAddress');
   }
 
+  insertFromDOI(){
+    console.log(this.DOI.value);
+  }  
+  
   addingAnotherAuthor(){
     console.log(this.countAuthors);
     this.showAddUser = !this.showAddUser;
@@ -327,6 +341,13 @@ export class FormComponent implements OnInit {
     if (index >= 0) {
       this.slovakWords.splice(index, 1);
     }
+  }
+
+  addResearchField() {
+    console.log(this.countResearches);
+    this.rsrchFields.push(new ResearchField());
+    // this.showAddResearch = !this.showAddResearch;
+    return this.countResearches++;
   }
 
   add2(event: MatChipInputEvent): void {

@@ -8,10 +8,11 @@ import { MaterialModule } from 'src/app/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormEditComponent } from './form-edit/form-edit.component';
 import { FormAdduserComponent } from './form-adduser/form-adduser.component';
+import { FormAddresearchComponent } from './form-addresearch/form-addresearch.component';
 
 
 @NgModule({
-  declarations: [FormComponent, FormEditComponent, FormAdduserComponent],
+  declarations: [FormComponent, FormEditComponent, FormAdduserComponent, FormAddresearchComponent],
   imports: [
     MaterialModule,
     HttpClientModule,
