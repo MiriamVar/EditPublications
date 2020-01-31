@@ -1,0 +1,9 @@
+.magazine-wrapper{
+    width: 950px;
+}
+
+
+.magazine-wrapper mat-form-field {
+    display: block;
+    margin-bottom: 30px;
+  }

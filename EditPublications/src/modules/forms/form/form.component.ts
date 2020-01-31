@@ -230,6 +230,9 @@ export class FormComponent implements OnInit {
   showAddUser: boolean;
   countResearches = 1;
   showAddResearch: boolean;
+  selectedValue:boolean;
+  selectedValue2:boolean;
+  selectedValue3:boolean;
 
   visible = true;
   selectable = true;
@@ -239,6 +242,7 @@ export class FormComponent implements OnInit {
   slovakWords: SlovakWord[] = [];
   englishWords: EnglishWord[] = [];
   rsrchFields: Array<ResearchField> = [];
+  
 
   firstFormGroup = new FormGroup({
     DOI: new FormControl(''),
@@ -257,12 +261,16 @@ export class FormComponent implements OnInit {
     keyWordsSK: new FormControl(''),
     keyWordsAJ:new FormControl(''),
     webAddress: new FormControl(''),
+    typeDoc: new FormControl(''),
   });
 
   constructor(private userServerService: UserServerService, private router: Router) { }
 
   ngOnInit() {
     this.showAddUser =false;
+    this.selectedValue= false;
+    this.selectedValue2 = false;
+    this.selectedValue3 = false;
     this.showAddResearch = false;
     this.rsrchFields.push(new ResearchField());
   }
@@ -309,6 +317,9 @@ export class FormComponent implements OnInit {
   }
   get webAddress() {
     return this.secondFormGroup.get('webAddress');
+  }
+  get typeDoc() {
+    return this.secondFormGroup.get('typeDoc');
   }
 
   insertFromDOI(){
@@ -369,6 +380,19 @@ export class FormComponent implements OnInit {
 
     if (index >= 0) {
       this.englishWords.splice(index, 1);
+    }
+  }
+
+  choosingComponent(document){
+    console.log(document.value);
+    if(document.value === "monografia_zbornik" ){
+      this.selectedValue = !this.selectedValue;
+    }
+    if(document.value === "clanok_kapitola" ){
+      this.selectedValue2 = !this.selectedValue2;
+    }
+    if(document.value === "clanok_casopis" ){
+      this.selectedValue3 = !this.selectedValue3;
     }
   }
 

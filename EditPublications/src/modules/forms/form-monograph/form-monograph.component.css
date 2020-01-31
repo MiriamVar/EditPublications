@@ -1,0 +1,9 @@
+.monograph-wrapper{
+    width: 950px;
+}
+
+
+.monograph-wrapper mat-form-field {
+    display: block;
+    margin-bottom: 30px;
+  }

@@ -1,0 +1,29 @@
+<div class="magazine-wrapper" >
+    <form [formGroup]="magazineArticleFormGroup">
+        <mat-form-field>
+            <input matInput placeholder="Nazov zdrojoveho dokumentu" formControlName="sourceDoc" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Rok vydania" formControlName="year" required>
+        </mat-form-field> 
+        <mat-form-field>
+            <input matInput placeholder="Rocnik" formControlName="grade" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Cislo" formControlName="number" required>
+        </mat-form-field>       
+        <mat-form-field>
+            <input matInput placeholder="Krajina vydania" formControlName="editionCountry" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="ISSN" formControlName="issn" required>
+        </mat-form-field> 
+        <mat-form-field>
+            <mat-label>Rozsah</mat-label>
+            <input matInput placeholder="Od" formControlName="from" required>
+            <input matInput placeholder="Do" formControlName="to" required>
+        </mat-form-field>      
+    </form>
+</div>
+
+

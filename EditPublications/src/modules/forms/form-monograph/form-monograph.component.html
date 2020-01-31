@@ -1,0 +1,35 @@
+<div class="monograph-wrapper" >
+    <form [formGroup]="monographFormGroup">
+        <mat-form-field>
+            <input matInput placeholder="Miesto vydania" formControlName="editionPlace" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Nazov vydavatelstva" formControlName="editorship" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Rok vydania" formControlName="year" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="ISBN" formControlName="isbn" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Pocet stran" formControlName="pagesCount" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Pocet autorov harkov" formControlName="authorsCount" required>
+        </mat-form-field>        
+        <ng-template matStepLabel>Udaje o konferencii</ng-template>
+        <mat-form-field>
+            <input matInput placeholder="Nazov" formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Cislo" formControlName="number" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Miesto konania" formControlName="place" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Datum konania" formControlName="date" required>
+        </mat-form-field>
+    </form>
+</div>
