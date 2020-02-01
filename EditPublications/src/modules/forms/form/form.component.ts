@@ -227,7 +227,7 @@ export class FormComponent implements OnInit {
   
   publication: Publication;
   countAuthors = 1;
-  showAddUser: boolean;
+  showAddUser:boolean;
   countResearches = 1;
   showAddResearch: boolean;
   selectedValue:boolean;
@@ -242,6 +242,7 @@ export class FormComponent implements OnInit {
   slovakWords: SlovakWord[] = [];
   englishWords: EnglishWord[] = [];
   rsrchFields: Array<ResearchField> = [];
+  
   
 
   firstFormGroup = new FormGroup({
@@ -264,10 +265,11 @@ export class FormComponent implements OnInit {
     typeDoc: new FormControl(''),
   });
 
+
   constructor(private userServerService: UserServerService, private router: Router) { }
 
   ngOnInit() {
-    this.showAddUser =false;
+    this.showAddUser = false;
     this.selectedValue= false;
     this.selectedValue2 = false;
     this.selectedValue3 = false;
@@ -328,8 +330,10 @@ export class FormComponent implements OnInit {
   
   addingAnotherAuthor(){
     console.log(this.countAuthors);
-    this.showAddUser = !this.showAddUser;
-    return this.countAuthors++;
+    this.countAuthors++;
+    // console.log("vacsi pocet "+this.countAuthors);
+    // this.showAddUser = true;
+    return this.countAuthors;
   }
 
   add(event: MatChipInputEvent): void {
