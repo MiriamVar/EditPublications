@@ -125,12 +125,21 @@
 
                 <mat-form-field>
                     <mat-label>Zadajte typ evidovaného dokumentu</mat-label>
-                    <mat-select>
+                    <mat-select  (selectionChange)="choosingComponent($event)" >
                         <mat-option *ngFor="let type of types" [value]="type.value">
                             {{type.viewValue}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <div *ngIf="selectedValue">
+                    <app-form-monograph></app-form-monograph>
+                </div>
+                <div *ngIf="selectedValue2">
+                    <app-form-book-section></app-form-book-section>
+                </div>
+                <div *ngIf="selectedValue3">
+                    <app-form-magazine-article></app-form-magazine-article>
+                </div>
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Dostupnosť na www (v prípade elektronických dokumentov)" formControlName="webAddress">
                 </mat-form-field>

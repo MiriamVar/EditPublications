@@ -229,9 +229,12 @@ export class FormComponent implements OnInit {
   
   publication: Publication;
   countAuthors = 1;
-  showAddUser: boolean;
+  showAddUser:boolean;
   countResearches = 1;
   showAddResearch: boolean;
+  selectedValue:boolean;
+  selectedValue2:boolean;
+  selectedValue3:boolean;
   countGrantSchemes = 0;
 
   visible = true;
@@ -261,6 +264,7 @@ export class FormComponent implements OnInit {
     categoryPub: new FormControl(''),
     researchFieldss: new FormArray([this.addResearchGroup()]),
     webAddress: new FormControl(''),
+    typeDoc: new FormControl(''),
     projects: new FormArray([])
   });
 
@@ -304,7 +308,10 @@ export class FormComponent implements OnInit {
   constructor(private userServerService: UserServerService, private router: Router, private _fb: FormBuilder) { }
 
   ngOnInit() {
-    this.showAddUser =false;
+    this.showAddUser = false;
+    this.selectedValue= false;
+    this.selectedValue2 = false;
+    this.selectedValue3 = false;
     this.showAddResearch = false;
   }
 
@@ -357,11 +364,13 @@ export class FormComponent implements OnInit {
   get webAddress() {
     return this.secondFormGroup.get('webAddress');
   }
+  get typeDoc() {
+    return this.secondFormGroup.get('typeDoc');
+  }
   get projectArray(){
     return <FormArray>this.secondFormGroup.get("projects");
   }
 
-  
 
   insertFromDOI(){
     console.log(this.DOI.value);
@@ -369,8 +378,10 @@ export class FormComponent implements OnInit {
   
   addingAnotherAuthor(){
     console.log(this.countAuthors);
-    this.showAddUser = !this.showAddUser;
-    return this.countAuthors++;
+    this.countAuthors++;
+    // console.log("vacsi pocet "+this.countAuthors);
+    // this.showAddUser = true;
+    return this.countAuthors;
   }
 
   add(event: MatChipInputEvent): void {
@@ -414,6 +425,19 @@ export class FormComponent implements OnInit {
 
     if (index >= 0) {
       this.englishWords.splice(index, 1);
+    }
+  }
+
+  choosingComponent(document){
+    console.log(document.value);
+    if(document.value === "monografia_zbornik" ){
+      this.selectedValue = !this.selectedValue;
+    }
+    if(document.value === "clanok_kapitola" ){
+      this.selectedValue2 = !this.selectedValue2;
+    }
+    if(document.value === "clanok_casopis" ){
+      this.selectedValue3 = !this.selectedValue3;
     }
   }
 

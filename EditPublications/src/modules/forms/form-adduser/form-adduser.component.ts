@@ -18,11 +18,14 @@ export class FormAdduserComponent implements OnInit {
     department:  new FormControl('', [Validators.required]),
     contact:new FormControl('', [Validators.required]),
   });
+  // countAuthors = 2;
+  // showAddUser: boolean;
 
   constructor() { }
 
   ngOnInit() {
     console.log("nakresim sa");
+    // this.showAddUser =false;
   }
 
   get name() {
@@ -43,6 +46,12 @@ export class FormAdduserComponent implements OnInit {
   get contact() {
     return this.addUserFormGroup.get('contact');
   }
+
+  // addingAnotherAuthor2(){
+  //   console.log(this.countAuthors);
+  //   this.showAddUser = !this.showAddUser;
+  //   return this.countAuthors++;
+  // }
 
 
 }

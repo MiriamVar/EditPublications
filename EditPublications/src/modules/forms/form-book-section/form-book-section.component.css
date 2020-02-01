@@ -1,0 +1,9 @@
+.book-wrapper{
+    width: 950px;
+}
+
+
+.book-wrapper mat-form-field {
+    display: block;
+    margin-bottom: 30px;
+  }
