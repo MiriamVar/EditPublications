@@ -35,10 +35,14 @@
         <mat-form-field>
             <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
         </mat-form-field>
-        <div>
-            <mat-card-actions>
-                <button type="button" mat-raised-button color="accent">Pridaj dalsieho autora</button>
-            </mat-card-actions>
+        <!-- <div *ngIf="showAddUser">
+            <p>Dalsi autor</p>
+            <app-form-adduser></app-form-adduser>
         </div>
+        <div *ngIf="countAuthors >= 2">
+            <mat-card-actions >
+                <button type="button" mat-raised-button color="accent"  (click)="addingAnotherAuthor2()">Pridaj dalsieho autora</button>
+            </mat-card-actions> -->
+        <!-- </div> -->
     </form>
 </div>
