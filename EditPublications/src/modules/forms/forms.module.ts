@@ -9,10 +9,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormEditComponent } from './form-edit/form-edit.component';
 import { FormAdduserComponent } from './form-adduser/form-adduser.component';
 import { FormAddresearchComponent } from './form-addresearch/form-addresearch.component';
+import { FormCountofprojectsComponent } from './form-countofprojects/form-countofprojects.component';
 
 
 @NgModule({
-  declarations: [FormComponent, FormEditComponent, FormAdduserComponent, FormAddresearchComponent],
+  declarations: [FormComponent, FormEditComponent, FormAdduserComponent, FormAddresearchComponent, FormCountofprojectsComponent],
   imports: [
     MaterialModule,
     HttpClientModule,
