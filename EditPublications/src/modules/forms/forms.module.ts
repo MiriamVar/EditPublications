@@ -12,10 +12,12 @@ import { FormAddresearchComponent } from './form-addresearch/form-addresearch.co
 import { FormMonographComponent } from './form-monograph/form-monograph.component';
 import { FormBookSectionComponent } from './form-book-section/form-book-section.component';
 import { FormMagazineArticleComponent } from './form-magazine-article/form-magazine-article.component';
+import { FormCountofprojectsComponent } from './form-countofprojects/form-countofprojects.component';
 
 
 @NgModule({
   declarations: [FormComponent, FormEditComponent, FormAdduserComponent, FormAddresearchComponent, FormMonographComponent, FormBookSectionComponent, FormMagazineArticleComponent],
+
   imports: [
     MaterialModule,
     HttpClientModule,

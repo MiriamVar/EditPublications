@@ -25,11 +25,11 @@ import { EmployeesComponent } from './employees/employees.component';
     AppNgxsModule,
     MaterialModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   exports: [
     MaterialModule

@@ -91,24 +91,37 @@
 
                 <mat-form-field>
                     <mat-label>Kategória publikačnej činnosti</mat-label>
-                    <mat-select>
+                    <mat-select formControlName="categoryPub">
                         <mat-option *ngFor="let activity of activities" [value]="activity.value">
                             {{activity.viewValue}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <!-- tu je pod tymto komentom- moze byt viac oblasti vyskumu, treba pridat add - ked skusime ci tamten hore funguje -->
 
-                <div *ngFor="let research of rsrchFields; let i = index">
-                    <div class="next-to-each-other">
-                        <!-- {{i+1}}  -->
-                        <!-- tu ak by nahodou sme chceli pouzit kolko je tych oblasti uz pridanych -->
-                        <app-form-addresearch></app-form-addresearch>
+                <div formArrayName="researchFieldss">
+                    <div *ngFor="let group of researchArray.controls; let i = index" [formGroupName]="i">
+                        <div class="next-to-each-other">
+                            <mat-form-field>
+                                <mat-label>Zvoľte oblasť výskumu</mat-label>
+                                <mat-select formControlName="researchF">
+                                    <mat-option *ngFor="let researchField of researchFields" [value]="researchField.value">
+                                        {{researchField.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-card-actions>
+                                <button mat-icon-button color="accent" (click)="removeResearch(i)">
+                                    <mat-icon>remove_circle</mat-icon>
+                                  </button>
+                            </mat-card-actions>
+                        </div>
                     </div>
+                    <button mat-icon-button color="accent" (click)="addResearch()">
+                        <mat-icon>add_circle</mat-icon>
+                      </button>
                 </div>
-                <mat-card-actions>
-                    <button type="button" mat-raised-button color="accent" (click)="addResearchField()">Pridaj oblasť</button>
-                </mat-card-actions>
+
 
                 <mat-form-field>
                     <mat-label>Zadajte typ evidovaného dokumentu</mat-label>
@@ -130,7 +143,41 @@
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Dostupnosť na www (v prípade elektronických dokumentov)" formControlName="webAddress">
                 </mat-form-field>
-                <!-- tu pravdepodobne pridat poslednu polozku- novy form o tom ci vobec existuje ta posledna polozka -->
+
+
+                <div formArrayName="projects">
+                    <h3>Pridaj projekty, v ramci ktorych evidovany dokument vznikol (volitelne)</h3>
+                    <div *ngFor="let group of projectArray.controls; let i = index;" [formGroupName]="i">
+                        <h2>Project {{i+1}}</h2>
+                        <div class="next-to-each-other">
+                            <mat-form-field>
+                                <input matInput placeholder="Názov projektu" formControlName="nameP">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Číslo projektu" formControlName="numberP">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Grantová schéma</mat-label>
+                                <mat-select formControlName="scheme">
+                                    <mat-option *ngFor="let grantScheme of gantSchemes" [value]="grantScheme.value">
+                                        {{grantScheme.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Grantová agentúra" formControlName="agency">
+                            </mat-form-field>
+                            <mat-card-actions>
+                                <button mat-icon-button color="accent" (click)="removeProject(i)">
+                                    <mat-icon>remove_circle</mat-icon>
+                                  </button>
+                            </mat-card-actions>
+                        </div>
+                    </div>
+                    <button mat-icon-button color="accent" (click)="addProject()">
+                        <mat-icon>add_circle</mat-icon>
+                      </button>
+                </div>
 
                 <div>
                     <button mat-button matStepperPrevious>Spat</button>
@@ -149,4 +196,3 @@
         </mat-step>
     </mat-horizontal-stepper>
 </div>
-<!-- posledna kolonka, ktora ma nulovu hodnotu- rozklikatelna!  gantschemes su upravene do value, viewValue-->

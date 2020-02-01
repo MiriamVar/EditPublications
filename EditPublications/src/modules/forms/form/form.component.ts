@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Publication } from 'src/entities/publication';
-import { FormGroup, FormControl, Validators, FormArray, FormControlName } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormControlName, FormBuilder } from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { UserServerService } from 'src/services/user-server.service';
 import { Router } from '@angular/router';
+import { Project } from '../../../entities/project';
 
 export interface Option {
   value: string;
@@ -32,9 +33,10 @@ export interface Type{
   viewValue: string
 }
 
-export interface GantScheme{
-  value:string,
-  viewValue:string
+export class GantScheme{
+  value:string;
+  viewValue:string;
+  constructor(){}
 }
 
 export interface SlovakWord {
@@ -233,6 +235,7 @@ export class FormComponent implements OnInit {
   selectedValue:boolean;
   selectedValue2:boolean;
   selectedValue3:boolean;
+  countGrantSchemes = 0;
 
   visible = true;
   selectable = true;
@@ -241,9 +244,6 @@ export class FormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   slovakWords: SlovakWord[] = [];
   englishWords: EnglishWord[] = [];
-  rsrchFields: Array<ResearchField> = [];
-  
-  
 
   firstFormGroup = new FormGroup({
     DOI: new FormControl(''),
@@ -261,12 +261,51 @@ export class FormComponent implements OnInit {
     documentTranslate: new FormControl('', [Validators.required]),
     keyWordsSK: new FormControl(''),
     keyWordsAJ:new FormControl(''),
+    categoryPub: new FormControl(''),
+    researchFieldss: new FormArray([this.addResearchGroup()]),
     webAddress: new FormControl(''),
     typeDoc: new FormControl(''),
+    projects: new FormArray([])
   });
 
+  addProjectGroup(){
+    return this._fb.group({
+      nameP: [],
+      numberP: [],
+      scheme: [],
+      agency: []
+    });
+  }
 
-  constructor(private userServerService: UserServerService, private router: Router) { }
+  addProject(){
+    this.projectArray.push(this.addProjectGroup());
+  }
+
+  removeProject(index){
+    this.projectArray.removeAt(index);
+  }
+
+
+  addResearchGroup(){
+    return this._fb.group({
+      researchF: []
+    });
+  }
+
+  addResearch(){
+    if (this.researchArray.length<5) {
+    this.researchArray.push(this.addResearchGroup());
+    }
+  }
+
+  removeResearch(index){
+    if(this.researchArray.length !==1){
+    this.researchArray.removeAt(index);
+    }
+  }
+  
+
+  constructor(private userServerService: UserServerService, private router: Router, private _fb: FormBuilder) { }
 
   ngOnInit() {
     this.showAddUser = false;
@@ -274,7 +313,6 @@ export class FormComponent implements OnInit {
     this.selectedValue2 = false;
     this.selectedValue3 = false;
     this.showAddResearch = false;
-    this.rsrchFields.push(new ResearchField());
   }
 
   get DOI() {
@@ -317,12 +355,22 @@ export class FormComponent implements OnInit {
   get keyWordsAJ() {
     return this.secondFormGroup.get('keyWordsAJ');
   }
+  get categoryPub(){
+    return this.secondFormGroup.get('categoryPub');
+  }
+  get researchArray(){
+    return <FormArray>this.secondFormGroup.get("researchFieldss");
+  }
   get webAddress() {
     return this.secondFormGroup.get('webAddress');
   }
   get typeDoc() {
     return this.secondFormGroup.get('typeDoc');
   }
+  get projectArray(){
+    return <FormArray>this.secondFormGroup.get("projects");
+  }
+
 
   insertFromDOI(){
     console.log(this.DOI.value);
@@ -356,13 +404,6 @@ export class FormComponent implements OnInit {
     if (index >= 0) {
       this.slovakWords.splice(index, 1);
     }
-  }
-
-  addResearchField() {
-    console.log(this.countResearches);
-    this.rsrchFields.push(new ResearchField());
-    // this.showAddResearch = !this.showAddResearch;
-    return this.countResearches++;
   }
 
   add2(event: MatChipInputEvent): void {
@@ -407,6 +448,8 @@ export class FormComponent implements OnInit {
         this.router.navigateByUrl('/users');
       }
     );
+    console.log(this.secondFormGroup.value);
+    
     console.log("posielam formular");
   }
 
