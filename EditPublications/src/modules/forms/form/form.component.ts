@@ -246,15 +246,9 @@ export class FormComponent implements OnInit {
   englishWords: EnglishWord[] = [];
 
   firstFormGroup = new FormGroup({
-    DOI: new FormControl(''),
-    name: new FormControl('',  [Validators.required, Validators.minLength(3)],),
-    surname:  new FormControl('',  [Validators.required, Validators.minLength(3)],),
-    titul:new FormControl('', [Validators.required]),
-    percentage:new FormControl('', [Validators.required]),
-    doktorand: new FormControl('', [Validators.required]),
-    department:  new FormControl('', [Validators.required]),
-    ustav: new FormControl('',[Validators.required]),
-    contact:new FormControl('', [Validators.required]),
+    // DOI: new FormControl(''),
+    authors: new FormArray([this.addAuthorGroup()])
+    
   });
   secondFormGroup = new FormGroup({
     documentName: new FormControl('',  [Validators.required, Validators.minLength(3)],),
@@ -267,6 +261,27 @@ export class FormComponent implements OnInit {
     typeDoc: new FormControl(''),
     projects: new FormArray([])
   });
+
+  addAuthorGroup(){
+    return this._fb.group({
+      name: ['', new FormControl('',  [Validators.required, Validators.minLength(3)],)],
+      surname:  ['',new FormControl('',  [Validators.required, Validators.minLength(3)],)],
+      titul: ['',new FormControl('', [Validators.required])],
+      percentage: ['', new FormControl('', [Validators.required])],
+      doktorand: [new FormControl('', [Validators.required])],
+      department:  [new FormControl('', [Validators.required])],
+      ustav: ['', new FormControl('',[Validators.required])],
+      contact: ['',new FormControl('', [Validators.required])],
+    })
+  }
+
+  addAuthor(){
+    this.authorArray.push(this.addAuthorGroup());
+  }
+
+  removeAuthor(index){
+    this.authorArray.removeAt(index);
+  }
 
   addProjectGroup(){
     return this._fb.group({
@@ -315,33 +330,36 @@ export class FormComponent implements OnInit {
     this.showAddResearch = false;
   }
 
-  get DOI() {
-    return this.firstFormGroup.get('DOI');
+  // get DOI() {
+  //   return this.firstFormGroup.get('DOI');
+  // }
+  get authorArray(){
+    return <FormArray>this.firstFormGroup.get("authors");
   }
-  get name() {
-    return this.firstFormGroup.get('name');
-  }
-  get surname() {
-    return this.firstFormGroup.get('surname');
-  }
-  get titul() {
-    return this.firstFormGroup.get('titul');
-  }
-  get percentage() {
-    return this.firstFormGroup.get('percentage');
-  }
-  get department() {
-    return this.firstFormGroup.get('department');
-  }
-  get doktorand(){
-    return this.firstFormGroup.get('doktorand');
-  }
-  get ustav(){
-    return this.firstFormGroup.get('ustav');
-  }
-  get contact() {
-    return this.firstFormGroup.get('contact');
-  }
+  // get name() {
+  //   return this.firstFormGroup.get('name');
+  // }
+  // get surname() {
+  //   return this.firstFormGroup.get('surname');
+  // }
+  // get titul() {
+  //   return this.firstFormGroup.get('titul');
+  // }
+  // get percentage() {
+  //   return this.firstFormGroup.get('percentage');
+  // }
+  // get department() {
+  //   return this.firstFormGroup.get('department');
+  // }
+  // get doktorand(){
+  //   return this.firstFormGroup.get('doktorand');
+  // }
+  // get ustav(){
+  //   return this.firstFormGroup.get('ustav');
+  // }
+  // get contact() {
+  //   return this.firstFormGroup.get('contact');
+  // }
 
   get documentName() {
     return this.secondFormGroup.get('documentName');
@@ -372,9 +390,9 @@ export class FormComponent implements OnInit {
   }
 
 
-  insertFromDOI(){
-    console.log(this.DOI.value);
-  }  
+  // insertFromDOI(){
+  //   console.log(this.DOI.value);
+  // }  
   
   addingAnotherAuthor(){
     console.log(this.countAuthors);
@@ -442,12 +460,18 @@ export class FormComponent implements OnInit {
   }
 
   formSubmit(){
-    const pub = new Publication(this.name.value, this.surname.value, this.titul.value, this.percentage.value, this.doktorand.value, this.department.value, this.ustav.value, this.contact.value);
-    this.userServerService.sendForm(pub).subscribe(
-      ok =>{
-        this.router.navigateByUrl('/users');
-      }
-    );
+    // const pub = new Publication(this.name.value, this.surname.value, this.titul.value, this.percentage.value, this.doktorand.value, this.department.value, this.ustav.value, this.contact.value);
+    // const pub = new Publication(this.authorArray.value);
+
+    console.log(this.authorArray.value);
+    
+    console.log(this.firstFormGroup.value + " " + this.secondFormGroup.value);
+    
+    // this.userServerService.sendForm(pub).subscribe(
+    //   ok =>{
+    //     this.router.navigateByUrl('/users');
+    //   }
+    // );
     console.log(this.secondFormGroup.value);
     
     console.log("posielam formular");

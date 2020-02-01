@@ -3,59 +3,70 @@
         <!-- Prva cast (vyplnenie udajov a autoroch)-->
         <mat-step [stepControl]="firstFormGroup">
             <form (ngSubmit)="formSubmit()" [formGroup]="firstFormGroup">
-                <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
-                <div>
+                <div formArrayName="authors">
+
+                    <div *ngFor="let group of authorArray.controls; let i = index" [formGroupName]="i">
+                        <!-- [formGroup]="firstFormGroup" -->
+
+                        <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
+                        <!-- <div>
                     <mat-form-field>
                         <input matInput placeholder="DOI číslo (nepovinné)" formControlName="DOI">
                     </mat-form-field>
                 </div>
                 <div class="rightBtn">
                     <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
+                </div> -->
+                        <h1>Autor c. {{i+1}}</h1>
+                        <mat-form-field>
+                            <input matInput placeholder="Meno" formControlName="name" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Priezvisko" formControlName="surname" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Titul(y)" formControlName="titul" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="%" formControlName="percentage" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Doktorand</mat-label>
+                            <mat-select formControlName="doktorand">
+                                <mat-option *ngFor="let option of options" [value]="option.value">
+                                    {{option.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Pracovisko</mat-label>
+                            <mat-select formControlName="department">
+                                <mat-option *ngFor="let workspace of workspaces" [value]="workspace.value">
+                                    {{workspace.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Ustav/Katedra" formControlName="ustav" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
+                        </mat-form-field>
+                        <div *ngIf="showAddUser">
+                            <p>Dalsi autor</p>
+                            <app-form-adduser></app-form-adduser>
+                        </div>
+                        <div>
+                            <mat-card-actions>
+                                <button type="button" mat-raised-button color="accent" (click)="removeAuthor(i)">Odstran autora</button>
+
+                            </mat-card-actions>
+                            <button mat-button matStepperNext>Dalej</button>
+                        </div>
+
+                    </div>
                 </div>
-                <mat-form-field>
-                    <input matInput placeholder="Meno" formControlName="name" required>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Priezvisko" formControlName="surname" required>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Titul(y)" formControlName="titul" required>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="%" formControlName="percentage" required>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Doktorand</mat-label>
-                    <mat-select formControlName="doktorand">
-                        <mat-option *ngFor="let option of options" [value]="option.value">
-                            {{option.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Pracovisko</mat-label>
-                    <mat-select formControlName="ustav">
-                        <mat-option *ngFor="let workspace of workspaces" [value]="workspace.value">
-                            {{workspace.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Ustav/Katedra" formControlName="department" required>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
-                </mat-form-field>
-                <div *ngIf="showAddUser">
-                    <p>Dalsi autor</p>
-                    <app-form-adduser></app-form-adduser>
-                </div>
-                <div>
-                    <mat-card-actions>
-                        <button type="button" mat-raised-button color="accent" (click)="addingAnotherAuthor()">Pridaj autora</button>
-                    </mat-card-actions>
-                    <button mat-button matStepperNext>Dalej</button>
-                </div>
+                <button type="button" mat-raised-button color="accent" (click)="addAuthor()">Pridaj autora</button>
             </form>
         </mat-step>
 
@@ -125,7 +136,7 @@
 
                 <mat-form-field>
                     <mat-label>Zadajte typ evidovaného dokumentu</mat-label>
-                    <mat-select  (selectionChange)="choosingComponent($event)" >
+                    <mat-select (selectionChange)="choosingComponent($event)">
                         <mat-option *ngFor="let type of types" [value]="type.value">
                             {{type.viewValue}}
                         </mat-option>
