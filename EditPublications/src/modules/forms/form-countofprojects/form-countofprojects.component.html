@@ -1,0 +1,27 @@
+<!-- <form [formGroup]="addProject" (ngSubmit)="onsubmit()">
+
+    <div *ngFor="let project of dataarray; let i=index">
+        <mat-form-field>
+            <input matInput placeholder="Názov projektu" name="nameP{{i}}" [(ngModel)]="project.nameP" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Číslo projektu" name="numberP{{i}}" [(ngModel)]="project.numberP" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Grantová schéma</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let grantScheme of gantSchemes" name="scheme{{i}}" [value]="grantScheme.value" [(ngModel)]="project.scheme">
+                    {{grantScheme.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Grantová agentúra" required formControlName="agency" name="agency{{i}}" [(ngModel)]="project.agency">
+        </mat-form-field>
+        <button type="button" (click)="addP()">Pridat</button>
+        <button type="button" (click)="removeP()">Odstranit</button>
+    </div>
+</form> -->
+
+
+<!-- #projectForm="ngForm" -->
