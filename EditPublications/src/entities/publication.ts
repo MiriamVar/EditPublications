@@ -54,7 +54,8 @@ export class Publication{
         public konf_nazov: string = '',
         public konf_miesto: string = '',
         public konf_cislo: string = '',
-        public konf_datum: string = ''
+        public konf_datum: string = '',
+        public id?: number
         ){}
 
         public static clone(publication: Publication){
@@ -111,7 +112,8 @@ export class Publication{
                 publication.konf_nazov,
                 publication.konf_miesto,
                 publication.konf_cislo,
-                publication.konf_datum
+                publication.konf_datum,
+                publication.id
             );
         }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Auth } from 'src/entities/auth';
 import { Observable, EMPTY, throwError, of } from 'rxjs';
-import { catchError, mapTo, tap, map } from 'rxjs/operators';
+import { catchError, mapTo, tap, map, switchMapTo } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 // import { tokenExpiredLogout } from 'src/shared/auth.actions';
 import { SnackbarService } from './snackbar.service';
@@ -15,11 +15,15 @@ import { Publication } from 'src/entities/publication';
 })
 export class UserServerService {
   url = 'http://itsovy.sk:5000/';
-
+  us : User;
   constructor(private http: HttpClient, private store: Store, private snackbarSevice: SnackbarService) {}
 
   get token() {
     return this.store.selectSnapshot(state => state.auth.token)
+  }
+
+  get id(){
+    return this.store.selectSnapshot(state => state.auth.id)
   }
 
 
@@ -95,6 +99,49 @@ export class UserServerService {
         return;
       }
     this.snackbarSevice.errorMessage(error.message);
+  }
+
+
+  getUser(): Observable<User>{
+    let obj = '{"id": 2, "token": "'+this.token + '"}';
+    
+    return this.http.post<User>(this.url + 'userinfo', JSON.parse(obj))
+    .pipe(
+      tap(user => {
+        console.log(user);
+        this.us = user;
+        return user;
+      }),
+      catchError(error => this.httpErrorProcess(error)))
+  }
+
+  getPublications(id: number): Observable<Publication[]> { //tu netreba nic posielat, ak mame this.id
+    return this.http
+      .get<Publication[]>(this.url + 'publications/'+ this.id + '/' + this.token)
+      .pipe(map(response => this.fromJsonToListPublications(response)),
+      catchError(error => this.httpErrorProcess(error))
+      );
+  }
+
+  private fromJsonToListPublications(jsonPublications): Publication[] {
+    let remotePublications: Publication[] = [];
+    for(let jsonPub of jsonPublications){
+      if(jsonPub.groups){
+        remotePublications.push(Publication.clone(jsonPub));
+      } else {
+        remotePublications.push(new Publication(jsonPub.name, jsonPub.email, jsonPub.id)); //tu dokoncit co vsetko sa mu vrati
+      }
+    }   
+    return remotePublications;
+  }
+
+  deletePublication(publication: Publication): Observable<void> {
+    return this.http
+    .delete<void>(this.url + 'publication/' + publication.id + '/' + this.token)
+    .pipe(
+      switchMapTo(of(undefined)),
+      catchError(error => this.httpErrorProcess(error))
+    );
   }
 
   sendForm(pub: Publication): Observable<Publication>{

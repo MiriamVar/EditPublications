@@ -24,4 +24,16 @@ export class User{
           ? this.lastLogin.toLocaleTimeString('sk-SK', options)
           : 'nikdy';
     }
+
+
+    public static clone(user: User){
+      return new User(
+          user.name,
+          user.surname,
+          user.email,
+          user.password,
+          user.type,
+          user.id,
+      );
+  }
 }

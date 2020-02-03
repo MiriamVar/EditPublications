@@ -11,6 +11,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatChipsModule} from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material';
 
 
 
@@ -18,12 +19,12 @@ import {MatChipsModule} from '@angular/material/chips';
   imports: [
     MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, 
     MatFormFieldModule, MatInputModule, MatSnackBarModule, MatTableModule, 
-    MatStepperModule, MatSelectModule, MatGridListModule, MatChipsModule,
+    MatStepperModule, MatSelectModule, MatGridListModule, MatChipsModule, MatDialogModule
   ],
   exports: [
     MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, 
     MatFormFieldModule, MatInputModule, MatSnackBarModule, MatTableModule, 
-    MatStepperModule, MatSelectModule, MatGridListModule, MatChipsModule,
+    MatStepperModule, MatSelectModule, MatGridListModule, MatChipsModule,MatDialogModule
   ]
 })
 export class MaterialModule { }
