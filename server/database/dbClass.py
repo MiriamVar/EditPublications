@@ -102,3 +102,20 @@ class Database(object):
                 connection_object.close()
                 print("MySQL connection is closed")
                 return "OK"
+
+    def Userinfo(self, id):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            queryUserInfo = "select * from pouzivatel where id = %s;"
+            cur1.execute(queryUserInfo, (id,))
+            userInfo = cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("UserInfo from db")
+                print(userInfo)
+                print("MySQL connection is closed")
+                return userInfo

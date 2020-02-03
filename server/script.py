@@ -1,5 +1,5 @@
 import secrets
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, json
 from flask_restful import Api, Resource, reqparse
 from flask_mysqldb import MySQL
 from server.userClass import User
@@ -62,6 +62,7 @@ def login():
 
                 client = UserToken(user_id=loggedUser.id, user_token=token, user_login=loggedUser.mail)
                 tokens.append(client)  # adding users token and id to
+                print(tokens)
 
                 return jsonify({"token": token})
             else:
@@ -116,15 +117,52 @@ def getLogin(token, id):
     return None
 
 
+def isValidTokenAndId(token, id):
+    print(token)
+    print(tokens)
+    for element in tokens:
+        print(element)
+        if element.user_token == token and element.user_id == id:
+            return True
+    return False
+
+
 @app.route("/sendForm/", methods=["POST"])
 def sendForm():
     data = request.get_json()
     print("SEND FORM - vypisujem co mi pride ")
     print(data)
 
+
     result= db.SaveForm()
 
     return jsonify({"status": "OK"})
+
+
+@app.route("/userinfo", methods=["POST"])
+def userinfo():
+    token = ""
+    id = ""
+    if request.is_json:
+        data = request.get_json()
+        print("USER INFO - vypisujem co mi pride ")
+        print(data)
+        token = data["token"]
+        id = data["id"]
+    else:
+        return jsonify({"status": "wrong request"})
+    if isValidTokenAndId(token, id) is True:
+        print("dostanem sa tuuuu USERINFO")
+        userInfo = db.Userinfo(id=id)
+        print(userInfo)
+
+        userInfo2 = jsonify({"id": userInfo[0], "name": userInfo[1], "surname": userInfo[2], "email": userInfo[3], "password": userInfo[4], "type": userInfo[5]})
+        print("JSON userinfo")
+        print(userInfo2)
+
+        return userInfo2
+    else:
+        return jsonify({"status": "wrong credentials"})
 
 
 if __name__ == '__main__':
