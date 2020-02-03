@@ -62,6 +62,7 @@ def login():
 
                 client = UserToken(user_id=loggedUser.id, user_token=token, user_login=loggedUser.mail)
                 tokens.append(client)  # adding users token and id to
+
                 print(tokens)
 
                 return jsonify({"token": token})
@@ -117,12 +118,12 @@ def getLogin(token, id):
     return None
 
 
-def isValidTokenAndId(token, id):
+def isValidTokenAndUsername(token, email):
     print(token)
     print(tokens)
     for element in tokens:
         print(element)
-        if element.user_token == token and element.user_id == id:
+        if element.user_token == token and element.user_login == email:
             return True
     return False
 
@@ -133,27 +134,29 @@ def sendForm():
     print("SEND FORM - vypisujem co mi pride ")
     print(data)
 
-
+    idPub = data['id']
+    name = data['name']
     result= db.SaveForm()
+
 
     return jsonify({"status": "OK"})
 
-
+#working
 @app.route("/userinfo", methods=["POST"])
 def userinfo():
     token = ""
-    id = ""
+    email = ""
     if request.is_json:
         data = request.get_json()
         print("USER INFO - vypisujem co mi pride ")
         print(data)
         token = data["token"]
-        id = data["id"]
+        email = data["name"]
     else:
         return jsonify({"status": "wrong request"})
-    if isValidTokenAndId(token, id) is True:
+    if isValidTokenAndUsername(token, email) is True:
         print("dostanem sa tuuuu USERINFO")
-        userInfo = db.Userinfo(id=id)
+        userInfo = db.Userinfo(email=email)
         print(userInfo)
 
         userInfo2 = jsonify({"id": userInfo[0], "name": userInfo[1], "surname": userInfo[2], "email": userInfo[3], "password": userInfo[4], "type": userInfo[5]})
@@ -161,6 +164,92 @@ def userinfo():
         print(userInfo2)
 
         return userInfo2
+    else:
+        return jsonify({"status": "wrong credentials"})
+
+
+#NESKUSAT
+@app.route("/publications", methods=["POST"])
+def publications():
+    token = ""
+    email = ""
+    if request.is_json:
+        data = request.get_json()
+        print("PUBLICATIONS - vypisujem co mi pride ")
+        print(data)
+        token = data["token"]
+        email = data["name"]
+    else:
+        return jsonify({"status": "wrong request"})
+    if isValidTokenAndUsername(token, email) is True:
+        print("dostanem sa tuuuu PUBLIKACIE")
+        autor = db.AuthorToPublications(email=email)
+        pubID = autor[2]
+        publication = db.Publications(pubID=pubID)
+        print(pubID)
+
+        #PRIPRAVIT VRATENIE PUBLIKACII V JSONE -_-
+        # userInfo2 = jsonify({"id": userInfo[0], "name": userInfo[1], "surname": userInfo[2], "email": userInfo[3], "password": userInfo[4], "type": userInfo[5]})
+        # print("JSON userinfo")
+        # print(userInfo2)
+
+        return autor
+    else:
+        return jsonify({"status": "wrong credentials"})
+
+
+#nevyskusane
+@app.route("/deletePub", methods=["POST"])
+def deletePub():
+    token = ""
+    email = ""
+    id = 0
+    if request.is_json:
+        data = request.get_json()
+        print("USER INFO - vypisujem co mi pride ")
+        print(data)
+        token = data["token"]
+        email = data["name"]
+        id = data['idP']
+    else:
+        return jsonify({"status": "wrong request"})
+    if isValidTokenAndUsername(token, email) is True:
+        print("dostanem sa tuuuu USERINFO")
+        deleteDone = db.DeletePub(pubID=id)
+        if deleteDone is "OK":
+            return jsonify({"status": "OK"})
+        else:
+            return jsonify({"status": "vazba user a publiakacie nie je"})
+    else:
+        return jsonify({"status": "wrong credentials"})
+
+
+#nevyskusane
+@app.route("/updateUser", methods=["POST"])
+def deletePub():
+    oldName = ""
+    name = ""
+    surname = ""
+    email = ""
+    token = ""
+    if request.is_json:
+        data = request.get_json()
+        print("UPDATE USER - vypisujem co mi pride ")
+        print(data)
+        oldName = data["oldName"]
+        name = data["name"]
+        surname = data["surname"]
+        email = data["email"]
+        token = data["token"]
+    else:
+        return jsonify({"status": "wrong request"})
+    if isValidTokenAndUsername(token, email) is True:
+        print("dostanem sa tuuuu UPDATE USER")
+        update = db.UpdateUser(oldName=oldName,name=name,surname=surname,email=email)
+        if update is "OK":
+            return jsonify({"status": "OK"})
+        else:
+            return jsonify({"status": "wrong credentials of updated user"})
     else:
         return jsonify({"status": "wrong credentials"})
 
