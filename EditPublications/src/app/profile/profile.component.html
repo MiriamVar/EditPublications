@@ -1,0 +1,56 @@
+<p></p>
+<p></p>
+<mat-card class="profil">
+    <mat-card-header>
+
+        <mat-card-title class="prof">
+            <mat-icon mat-card-avatar class="example-header-image">person</mat-icon> &nbsp; {{profileUser.name}}</mat-card-title>
+
+    </mat-card-header>
+
+    <mat-card-content>
+        <p>
+            {{profileUser.surname}}
+        </p>
+        <p>
+            {{profileUser.email}}
+        </p>
+        <mat-card-actions class="profi">
+            <button mat-button (click)="openDialog()">Uprav profil</button>
+        </mat-card-actions>
+    </mat-card-content>
+
+</mat-card>
+
+<p></p>
+<p></p>
+
+<table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
+        <td mat-cell *matCellDef="let publikacia">
+            {{ publikacia.id }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="nazov">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazov</th>
+        <td mat-cell *matCellDef="let publikacia">
+            {{ publikacia.nazov }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let publikacia" nowrap>
+            <button mat-icon-button color="primary" routerLink="/publications/edit/{{publikacia.id}}">
+                <mat-icon>edit</mat-icon>
+              </button>
+            <button mat-icon-button color="warn">
+                <mat-icon (click)="deletePublication(publication)">delete</mat-icon>
+              </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
