@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { User } from 'src/entities/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserServerService } from 'src/services/user-server.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DialogData } from '../confirm-dialog/confirm-dialog.component';
@@ -13,12 +13,13 @@ import { DialogData } from '../confirm-dialog/confirm-dialog.component';
 })
 export class EditUserComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private userServerService: UserServerService, public dialogRef: MatDialogRef<EditUserComponent>,
+  constructor(private route: ActivatedRoute, private router: Router, private userServerService: UserServerService, public dialogRef: MatDialogRef<EditUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   user:User;
 
   ngOnInit() {
+    console.log("vykresluje sa edit user");
     this.route.data.subscribe(data => {
       this.user = data.user;
       this.name.setValue(data.name);
@@ -46,8 +47,16 @@ export class EditUserComponent implements OnInit {
   cancelEdit(){
     this.dialogRef.close();
   }
-  formSubmit() {
 
+
+  formSubmit() {
+    const user = new User(this.name.value, this.surname.value,this.email.value);
+    this.userServerService.updateUser(user).subscribe(
+      ok =>{
+        this.router.navigateByUrl('/profile');
+      }
+    );
+    console.log("odoslane sa server");
   }
 
 
