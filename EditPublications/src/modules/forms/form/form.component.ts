@@ -263,11 +263,11 @@ export class FormComponent implements OnInit {
   });
 
   get researches(){
-    return this.firstFormGroup.get('researchFieldss') as FormArray;
+    return this.secondFormGroup.get('researchFieldss') as FormArray;
   }
 
   get projects(){
-    return this.firstFormGroup.get('projects') as FormArray;
+    return this.secondFormGroup.get('projects') as FormArray;
   }
   
 
@@ -304,18 +304,30 @@ export class FormComponent implements OnInit {
   }
 
   get nameP() {
-    return this.projects.at(0).get('nameP').value;
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('nameP').value;
+    else if (this.projects.length == 0)
+      return '';
   }
 
   get numberP() {
-    return this.projects.at(0).get('numberP').value;
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('numberP').value;
+    else if (this.projects.length == 0)
+      return '';
   }
   get scheme() {
-    return this.projects.at(0).get('scheme').value;
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('scheme').value;
+    else if (this.projects.length == 0)
+      return '';
   }
 
   get agency() {
-    return this.projects.at(0).get('agency').value;
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('agency').value;
+    else if (this.projects.length == 0)
+      return '';
   }
 
   addProject(){
@@ -526,21 +538,6 @@ export class FormComponent implements OnInit {
       contacty = this.contact;
     }
 
-    console.log("finalne je: " + names + surnames + tituly + percentages + doktorandy + ustavy + contacty);
-
-    console.log("finalne2 je" + this.documentName + this.documentTranslate + slovakChips + englishChips + this.categoryPub)
-    
-
-    // console.log(this.documentName);
-
-    // console.log(this.documentTranslate);
-
-    // console.log(this.slovakWords); //slovak chips
-
-    // console.log(this.englishWords); //english chips
-
-    // console.log(this.categoryPub);
-
 
     var slovakChips= '';
     for(var j=0; j< this.slovakWords.length; j++){
@@ -572,36 +569,40 @@ export class FormComponent implements OnInit {
         resr +=this.researches.at(i).get('researchF').value + ', ';
       }
     }
-    console.log(resr);
     
-    console.log(this.typeDoc);
 
-    console.log(this.webAddress);
+    console.log("web adresa"+ this.webAddress);
 
-    var namepy;
-    var numberpy;
-    var schemy;
-    var agencyy;
-    if (this.projects.length>1) {
-      for(var i= 0; i < this.authorArray.length; i++){
+    var namepy = "";
+    var numberpy = "";
+    var schemy = "";
+    var agencyy = "";
+    // if (this.projects.length>1) {
+      for(var i= 0; i < this.projectArray.length; i++){
         namepy +=this.projects.at(i).get('nameP').value + ', ';
+        console.log("vypisujem namepy: " + namepy);
+        
         numberpy += this.projects.at(i).get('numberP').value + ', ';
         schemy += this.projects.at(i).get('scheme').value + ', ';
         agencyy += this.projects.at(i).get('agency').value + ', ';
       }
-    }
-    else {
-      namepy = this.nameP;
-      numberpy = this.numberP;
-      schemy = this.scheme;
-      agencyy = this.agency;
-    }
+    // }
+    // else {
+    //   namepy = this.nameP;
+    //   numberpy = this.numberP;
+    //   schemy = this.scheme;
+    //   agencyy = this.agency;
+    // }
 
     console.log(namepy + numberpy + schemy + agencyy);
+
+
+    console.log("finalne je: " + names + surnames + tituly + percentages + doktorandy + ustavy + contacty);
+
+    console.log("finalne2 je" + this.documentName + this.documentTranslate + slovakChips + englishChips + this.categoryPub + resr)
     
     
-    
-    
+  
     
     
 
