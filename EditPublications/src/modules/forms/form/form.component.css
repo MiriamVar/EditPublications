@@ -16,11 +16,25 @@
 }
 
 .next-to-each-other {
-    display: inline;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: -16px !important;
 }
 
 .rightBtn {
     display: flex;
     direction: rtl;
     margin-top: -30px;
+}
+
+.authorHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.firstFormPageActions {
+    display: flex;
+    justify-content: flex-end;
 }
