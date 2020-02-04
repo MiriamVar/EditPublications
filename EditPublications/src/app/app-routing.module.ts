@@ -12,10 +12,11 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   // {path: 'form', component: FormComponent, canActivate: [AuthGuard]},
-  {path:'form', loadChildren: () => import('./../modules/forms/forms.module').then(mod => mod.FormsModule), canActivate:[AuthGuard]},
+  {path:'form', loadChildren: () => import('./../modules/forms/forms.module').then(mod => mod.FormsModule), canLoad: [AuthGuard], canActivate:[AuthGuard]},
   {path: 'employees', component: EmployeesComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: '', redirectTo: '/login', pathMatch: 'full' },
+  {path: '**', redirectTo: '/login'},
+  
 ];
 
 @NgModule({

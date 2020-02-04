@@ -21,10 +21,10 @@ export interface AuthModel{
 
    export class AuthState {
 
-    @Selector()
-    static id(current: AuthModel) {
-        return current.id;
-    }
+//    @Selector()
+  //  static id(current: AuthModel) {
+    //    return current.id;
+   // }
        @Selector()
         static username(current: AuthModel){
            return current.username;
@@ -40,10 +40,15 @@ export interface AuthModel{
            return username;
        }
 
-       @Selector([state => state.auth.redirectAfterlogin])
-        static redirectUrl(redirectAfterlogin: string){
-           return redirectAfterlogin;
-       }
+     //  @Selector([state => state.auth.redirectAfterlogin])
+        //static redirectUrl(redirectAfterlogin: string){
+       //    return redirectAfterlogin;
+      // }
+
+       @Selector()
+        static redirectUrl(current: AuthModel) {
+            return current.redirectAfterlogin;
+        }
 
        @Selector([state => state.auth.token])
         static token(token: string){
@@ -87,7 +92,7 @@ export interface AuthModel{
         }
 
         @Action(urlAfterLogin)
-        urlAfterLogin({patchState}: StateContext<AuthModel>, {url}: urlAfterLogin){
+        seturlAfterLogin({patchState}: StateContext<AuthModel>, {url}: urlAfterLogin){
             patchState({redirectAfterlogin: url});            
         }
    }

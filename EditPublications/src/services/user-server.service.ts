@@ -131,9 +131,13 @@ export class UserServerService {
 
   getPublications(id: number): Observable<Publication[]> { //zmenila som lebo tak mam nakodeny server, ked bude zle zmenim server
     let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "idP": "'+id+ '"}';
-    return this.http
-      .get<Publication[]>(this.url + 'publications',JSON.parse(obj))
-      .pipe(map(response => this.fromJsonToListPublications(response)),
+    return this.http 
+      .post<Publication[]>(this.url + 'publications',JSON.parse(obj))
+      .pipe(map(response => { 
+        console.log(response);
+        return this.fromJsonToListPublications(response) ;
+      }
+        ),
       catchError(error => this.httpErrorProcess(error))
       );
   }
