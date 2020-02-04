@@ -528,19 +528,43 @@ export class FormComponent implements OnInit {
 
     console.log("finalne je: " + names + surnames + tituly + percentages + doktorandy + ustavy + contacty);
 
+    console.log("finalne2 je" + this.documentName + this.documentTranslate + slovakChips + englishChips + this.categoryPub)
     
-    
 
-    console.log(this.documentName);
+    // console.log(this.documentName);
 
-    console.log(this.documentTranslate);
+    // console.log(this.documentTranslate);
 
-    console.log(this.keyWordsSK);
+    // console.log(this.slovakWords); //slovak chips
 
-    console.log(this.keyWordsAJ);
+    // console.log(this.englishWords); //english chips
 
-    console.log(this.categoryPub);
+    // console.log(this.categoryPub);
 
+
+    var slovakChips= '';
+    for(var j=0; j< this.slovakWords.length; j++){
+      if(j == (this.slovakWords.length-1)){
+        slovakChips+= this.slovakWords[j].name;
+      }
+      else{
+        slovakChips+= this.slovakWords[j].name+',';
+      }
+      
+    }
+    // console.log("slovak chips "+slovakChips);
+
+    var englishChips= '';
+    for(var j=0; j< this.englishWords.length; j++){
+      if(j == (this.englishWords.length-1)){
+        englishChips+= this.englishWords[j].name;
+      }
+      else{
+        englishChips+= this.englishWords[j].name+',';
+      }
+      
+    }
+    // console.log("english chips "+englishChips);
 
     var resr ='';
     if(this.researches.length>1) {

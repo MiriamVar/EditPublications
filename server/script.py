@@ -250,11 +250,11 @@ def updateUser():
         print("dostanem sa tuuuu UPDATE USER")
         update = db.UpdateUser(oldName=oldName,name=name,surname=surname,email=email)
         if update is "OK":
-            return jsonify({"status": "OK"})
+            return jsonify({"status": "OK"}), status.HTTP_200_OK
         else:
-            return jsonify({"status": "wrong credentials of updated user"})
+            return jsonify({"status": "wrong credentials of updated user"}), status.HTTP_401_UNAUTHORIZED
     else:
-        return jsonify({"status": "wrong credentials"})
+        return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
 
 
 if __name__ == '__main__':
