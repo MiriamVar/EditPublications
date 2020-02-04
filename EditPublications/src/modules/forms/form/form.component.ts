@@ -6,6 +6,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { UserServerService } from 'src/services/user-server.service';
 import { Router } from '@angular/router';
 import { Project } from '../../../entities/project';
+import { FormMonographComponent } from '../form-monograph/form-monograph.component';
 
 export interface Option {
   value: string;
@@ -55,6 +56,10 @@ export interface EnglishWord {
 })
 export class FormComponent implements OnInit {
 
+  @ViewChild(FormMonographComponent, { static: false })
+  private wizFrom: FormMonographComponent;
+
+  
   options: Option[] = [
     {value: 'no-0', viewValue: 'Nie'},
     {value: 'yesI-1', viewValue: 'Ano - interny'},
@@ -84,9 +89,9 @@ export class FormComponent implements OnInit {
 
   types: Type[]= [
     {value: "neurceny", viewValue: 'Vyberte typ dokumentu'},
-      {value: "monografia_zbornik", viewValue: 'Monografia/Zborní'},
-      {value: "clanok_kapitola", viewValue: 'Článok v zborníku/kapitola v knih'},
-      {value: "clanok_casopis", viewValue: 'Článok v časopis'},
+      {value: "monografia_zbornik", viewValue: 'Monografia/Zborník'},
+      {value: "clanok_kapitola", viewValue: 'Článok v zborníku/kapitola v knihe'},
+      {value: "clanok_casopis", viewValue: 'Článok v časopise'},
   ]
 
   researchFields: ResearchField[]= [
@@ -244,6 +249,7 @@ export class FormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   slovakWords: SlovakWord[] = [];
   englishWords: EnglishWord[] = [];
+  documentType = '';
 
   firstFormGroup = new FormGroup({
     // DOI: new FormControl(''),
@@ -494,14 +500,19 @@ export class FormComponent implements OnInit {
 
   choosingComponent(document){
     console.log(document.value);
+    this.documentType = document.value;
     if(document.value === "monografia_zbornik" ){
       this.selectedValue = !this.selectedValue;
-    }
-    if(document.value === "clanok_kapitola" ){
+      this.selectedValue2 = false;
+      this.selectedValue3 = false;
+    } else if(document.value === "clanok_kapitola" ){
       this.selectedValue2 = !this.selectedValue2;
-    }
-    if(document.value === "clanok_casopis" ){
+      this.selectedValue = false;
+      this.selectedValue3 = false;
+    }else if(document.value === "clanok_casopis" ){
       this.selectedValue3 = !this.selectedValue3;
+      this.selectedValue = false;
+      this.selectedValue2 = false;
     }
   }
 
@@ -513,7 +524,7 @@ export class FormComponent implements OnInit {
     var doktorandy= '';
     var ustavy = '';
     var contacty = '';
-
+    var departmenty = '';
     
     
     if(this.authorArray.length>1) {
@@ -523,6 +534,7 @@ export class FormComponent implements OnInit {
         surnames += this.authors.at(i).get('surname').value + ', ';
         tituly += this.authors.at(i).get('titul').value + ', ';
         percentages += this.authors.at(i).get('percentage').value+ ', ';
+        departmenty += this.authors.at(i).get('department').value+ ', ';
         doktorandy += this.authors.at(i).get('doktorand').value+ ', ';
         ustavy += this.authors.at(i).get('ustav').value+ ', ';
         contacty += this.authors.at(i).get('contact').value+ ', ';
@@ -533,6 +545,7 @@ export class FormComponent implements OnInit {
       surnames = this.surname;
       tituly= this.titul;
       percentages = this.percentage;
+      departmenty = this.department;
       doktorandy= this.doktorand;
       ustavy = this.ustav;
       contacty = this.contact;
@@ -594,13 +607,45 @@ export class FormComponent implements OnInit {
     //   agencyy = this.agency;
     // }
 
+
     console.log(namepy + numberpy + schemy + agencyy);
+
+    //typ dokumentu
+    var mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn = '';
+    var kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah, kap_od, kap_do, kap_isbn = "";
+
+    var konf_nazov, konf_miesto, konf_cislo, konf_datum = '';
+
+
+    if(this.selectedValue) {
+      mon_miesto = this.wizFrom.editionPlace;
+      mon_vydavatelstvo = this.wizFrom.editorship;
+      mon_rok = this.wizFrom.year;
+      mon_rozsah = this.wizFrom.pagesCount;
+      mon_pocetah = this.wizFrom.authorsCount;
+      mon_isbn = this.wizFrom.isbn;
+      konf_nazov = this.wizFrom.name;
+      konf_cislo = this.wizFrom.number;
+      konf_miesto = this.wizFrom.place;
+      konf_datum = this.wizFrom.date;
+      
+      
+    } else if (this.selectedValue2){
+
+    } else if(this.selectedValue3) {
+
+    }
+
+    console.log(this.documentType);
+    
 
 
     console.log("finalne je: " + names + surnames + tituly + percentages + doktorandy + ustavy + contacty);
 
     console.log("finalne2 je" + this.documentName + this.documentTranslate + slovakChips + englishChips + this.categoryPub + resr)
     
+    //zbernik
+    console.log(mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn, konf_nazov, konf_miesto, konf_cislo, konf_datum);
     
   
     
@@ -608,7 +653,16 @@ export class FormComponent implements OnInit {
 
 
     
-    // const pub = new Publication(names, surnames, tituly, percentages, doktorandy, ustavy, contacty);
+    //tu je potrebne urobit cyklus a to: 
+    if (this.documentType ==="monografia_zbornik" ){
+      const pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+        this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
+        numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
+        mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn, "", "","","","","","","","","","","","","","","",
+        konf_nazov, konf_miesto, konf_cislo, konf_datum
+        );
+
+    }
     
     
     // this.userServerService.sendForm(pub).subscribe(
