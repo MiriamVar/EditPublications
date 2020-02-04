@@ -20,6 +20,6 @@
         <input matInput placeholder="email" required [(ngModel)]="data.email" name="email">
     </mat-form-field>
 
-    <button type="submit" mat-stroked-button color="primary" [mat-dialog-close]="data.name+ data.surname+ data.email">Ulozit</button>
+    <button type="submit" mat-stroked-button color="primary" [mat-dialog-close]="[data.name, data.surname, data.email]">Ulozit</button>
     <button (click)="cancelEdit()" mat-stroked-button>Zrusit</button>
 </form>
