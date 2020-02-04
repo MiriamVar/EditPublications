@@ -161,7 +161,8 @@ export class UserServerService {
   }
 
   sendForm(pub: Publication): Observable<Publication>{
-    return this.http.post<Publication>(this.url + 'sendForm/', pub)
+    console.log("publikation ktora mi prisla "+ JSON.stringify(pub));
+    return this.http.post<Publication>(this.url + 'sendForm', pub)
     .pipe(map(p => Publication.clone(p),
     catchError(error => this.httpErrorProcess(error)))
     );
