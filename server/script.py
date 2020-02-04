@@ -165,7 +165,7 @@ def userinfo():
 
         return userInfo2
     else:
-        return jsonify({"status": "wrong credentials"})
+        return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
 
 
 #NESKUSAT
@@ -198,7 +198,7 @@ def publications():
 
         return autor
     else:
-        return jsonify({"status": "wrong credentials"})
+        return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
 
 
 #nevyskusane
@@ -220,11 +220,11 @@ def deletePub():
         print("dostanem sa tuuuu USERINFO")
         deleteDone = db.DeletePub(pubID=id)
         if deleteDone is "OK":
-            return jsonify({"status": "OK"})
+            return jsonify({"status": "OK"}), status.HTTP_200_OK
         else:
-            return jsonify({"status": "vazba user a publiakacie nie je"})
+            return jsonify({"status": "vazba user a publiakacie nie je"}), status.HTTP_401_UNAUTHORIZED
     else:
-        return jsonify({"status": "wrong credentials"})
+        return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
 
 
 #nevyskusane
