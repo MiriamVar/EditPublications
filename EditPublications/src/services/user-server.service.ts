@@ -122,6 +122,7 @@ export class UserServerService {
   updateUser(userko: User): Observable<User>{
     let obj = '{"oldName": "'+this.username+'", "token": "'+this.token + '", "name": "'+userko.name + '","surname": "'+userko.surname + '","email": "'+userko.email + '"}';
     console.log("srvisa updateUser");
+    console.log(obj);
     return this.http.post<User>(this.url + 'updateUser', JSON.parse(obj))
     .pipe(map(u => User.clone(u),
     catchError(error => this.httpErrorProcess(error)))
