@@ -2,7 +2,7 @@
     <mat-horizontal-stepper [linear]="isLinear" #stepper>
         <!-- Prva cast (vyplnenie udajov a autoroch)-->
         <mat-step [stepControl]="firstFormGroup">
-            <form (ngSubmit)="formSubmit()" [formGroup]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
                 <div formArrayName="authors">
 
                     <div *ngFor="let group of authorArray.controls; let i = index" [formGroupName]="i">

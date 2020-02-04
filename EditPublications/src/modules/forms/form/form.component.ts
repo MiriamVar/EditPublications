@@ -687,11 +687,11 @@ export class FormComponent implements OnInit {
     
     
 
-
+    var pub;
     
     //tu je potrebne urobit cyklus a to: 
     if (this.documentType ==="monografia_zbornik" ){
-      const pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+       pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
         this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
         numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
         mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn, "", "","","","","","","","","","","","","","","",
@@ -703,8 +703,7 @@ export class FormComponent implements OnInit {
 
 
     if (this.documentType ==="clanok_kapitola" ){
-
-      const pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+      pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
         this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
         numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
         "", "","","","","", kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah , kap_od, kap_do, kap_isbn, 
@@ -720,8 +719,7 @@ export class FormComponent implements OnInit {
 
 
     if (this.documentType ==="clanok_casopis" ){
-
-      const pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+      pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
         this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
         numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
         "", "","","","","", "", "","","","","","", "", 
@@ -731,16 +729,22 @@ export class FormComponent implements OnInit {
     }
     
 
-    
-    
-    // this.userServerService.sendForm(pub).subscribe(
-    //   ok =>{
-    //     this.router.navigateByUrl('/users');
-    //   }
-    // );
+
     // console.log(this.secondFormGroup.value);
+    console.log("form component  - pub");
+    console.log(pub);
+
     
-    console.log("posielam formular");
+    
+    this.userServerService.sendForm(pub).subscribe(
+      ok =>{
+        console.log("posielany formular");
+        this.router.navigateByUrl('/profile');
+      }
+    );
+   
+    
+    
   }
 
 
