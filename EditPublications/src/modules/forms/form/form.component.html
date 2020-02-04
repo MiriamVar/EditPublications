@@ -18,10 +18,12 @@
                 <div class="rightBtn">
                     <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
                 </div> -->
-                            <mat-card-header>
+                            <mat-card-header class="authorHeader">
                                 <mat-card-title>
                                     Autor c. {{i+1}}
                                 </mat-card-title>
+                                <button type="buttton" mat-icon-button (click)="removeAuthor(i)"><mat-icon>remove_circle</mat-icon></button>
+
                             </mat-card-header>
 
                             <mat-card-content>
@@ -63,20 +65,15 @@
                                     <p>Dalsi autor</p>
                                     <app-form-adduser></app-form-adduser>
                                 </div>
-                                <div>
-                                    <mat-card-actions>
 
-                                        <button type="buttton" mat-icon-button (click)="removeAuthor(i)"><mat-icon>remove_circle</mat-icon></button>
-
-                                    </mat-card-actions>
-
-                                </div>
                             </mat-card-content>
                         </mat-card>
                     </div>
                 </div>
-                <button type="button" mat-raised-button color="accent" (click)="addAuthor()">Pridaj autora</button>
-                <button mat-button matStepperNext>Dalej</button>
+                <div class="firstFormPageActions">
+                    <button type="button" mat-raised-button color="accent" (click)="addAuthor()">Pridaj autora</button>
+                    <button mat-button matStepperNext>Dalej</button>
+                </div>
             </form>
         </mat-step>
 
@@ -123,7 +120,7 @@
                     <div *ngFor="let group of researchArray.controls; let i = index" [formGroupName]="i">
                         <mat-card>
                             <div class="next-to-each-other">
-                                <mat-form-field>
+                                <mat-form-field class="biggerSpace">
                                     <mat-label>Zvoľte oblasť výskumu</mat-label>
                                     <mat-select formControlName="researchF">
                                         <mat-option *ngFor="let researchField of researchFields" [value]="researchField.value">
@@ -140,8 +137,8 @@
                             </div>
                         </mat-card>
                     </div>
-                    <button mat-icon-button color="accent" (click)="addResearch()">
-                        <mat-icon>add_circle</mat-icon>
+                    <button type="button" mat-raised-button color="accent" (click)="addResearch()">
+                        Pridaj oblast
                       </button>
                 </div>
 
@@ -169,40 +166,47 @@
 
 
                 <div formArrayName="projects">
-                    <h3>Pridaj projekty, v ramci ktorych evidovany dokument vznikol (volitelne)</h3>
+
+                    <mat-label>Pridat projekty, v ramci ktorych evidovany dokument vznikol (volitelne)</mat-label>
+
                     <div *ngFor="let group of projectArray.controls; let i = index;" [formGroupName]="i">
-                        <h2>Project {{i+1}}</h2>
-                        <div class="next-to-each-other">
-                            <mat-form-field>
-                                <input matInput placeholder="Názov projektu" formControlName="nameP">
-                            </mat-form-field>
-                            <mat-form-field>
-                                <input matInput placeholder="Číslo projektu" formControlName="numberP">
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>Grantová schéma</mat-label>
-                                <mat-select formControlName="scheme">
-                                    <mat-option *ngFor="let grantScheme of gantSchemes" [value]="grantScheme.value">
-                                        {{grantScheme.viewValue}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <input matInput placeholder="Grantová agentúra" formControlName="agency">
-                            </mat-form-field>
-                            <mat-card-actions>
-                                <button mat-icon-button color="accent" (click)="removeProject(i)">
+
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-subtitle>Project {{i+1}}</mat-card-subtitle>
+                            </mat-card-header>
+                            <div class="next-to-each-other">
+                                <mat-form-field>
+                                    <input matInput placeholder="Názov projektu" formControlName="nameP">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Číslo projektu" formControlName="numberP">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Grantová schéma</mat-label>
+                                    <mat-select formControlName="scheme">
+                                        <mat-option *ngFor="let grantScheme of gantSchemes" [value]="grantScheme.value">
+                                            {{grantScheme.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Grantová agentúra" formControlName="agency">
+                                </mat-form-field>
+                                <mat-card-actions>
+                                    <button mat-icon-button (click)="removeProject(i)">
                                     <mat-icon>remove_circle</mat-icon>
                                   </button>
-                            </mat-card-actions>
-                        </div>
+                                </mat-card-actions>
+                            </div>
+                        </mat-card>
                     </div>
-                    <button mat-icon-button color="accent" (click)="addProject()">
-                        <mat-icon>add_circle</mat-icon>
+                    <button type="button" mat-raised-button color="accent" (click)="addProject()">
+                        Pridaj projekt
                       </button>
                 </div>
 
-                <div>
+                <div class="firstFormPageActions">
                     <button mat-button matStepperPrevious>Spat</button>
                     <button mat-button matStepperNext>Dalej</button>
                 </div>
