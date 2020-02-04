@@ -7,6 +7,7 @@ import { Store } from '@ngxs/store';
 import { AuthState } from 'src/shared/auth.state';
 import { User } from '../../entities/user';
 import { EditUserComponent } from '../edit-user/edit-user.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,7 @@ export class ProfileComponent implements OnInit {
 
   displayedColumns: string[] = ['id','nazov','actions'];
   publications = [];
-  constructor(private dialog: MatDialog, private userServerService: UserServerService, private store: Store) { }
+  constructor(private dialog: MatDialog, private userServerService: UserServerService, private store: Store, private router: Router) { }
   dataSource = new MatTableDataSource<Publication>();
   profileUser: User;
 
@@ -55,7 +56,18 @@ export class ProfileComponent implements OnInit {
 //vrati spravny vysledok ale neprekresli sa
 
 // this.userServerService.getUser();
-      console.log(result);
+
+      //ze co mi vypise 
+      console.log("result "+result); //MiriamVargockovamiriam.vargockova@akademiasovy.sk
+      console.log("meno "+ result[0]); //M
+      const user = new User(result.name, result.surname, result.email); // [object Object]
+      console.log("user z edit componentu "+ user);
+      this.userServerService.updateUser(user).subscribe(
+        ok =>{
+          this.router.navigateByUrl('/profile');
+      }
+    );
+    console.log("odoslane sa server");
       
     });
   }
