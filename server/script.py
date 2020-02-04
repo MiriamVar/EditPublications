@@ -128,18 +128,21 @@ def isValidTokenAndUsername(token, email):
     return False
 
 
-@app.route("/sendForm/", methods=["POST"])
+@app.route("/sendForm", methods=["POST"])
 def sendForm():
     data = request.get_json()
     print("SEND FORM - vypisujem co mi pride ")
     print(data)
+    if data is None:
+        return jsonify({"status": "prazdne prislo"}), status.HTTP_401_UNAUTHORIZED
+    else:
+        name = data['meno']
+        result = db.SaveForm(data)
+        print(result)
+        return jsonify({"status": "OK"}), status.HTTP_200_OK
 
-    idPub = data['id']
-    name = data['name']
-    result= db.SaveForm()
 
 
-    return jsonify({"status": "OK"})
 
 #working
 @app.route("/userinfo", methods=["POST"])

@@ -81,11 +81,11 @@ class Database(object):
                 print("MySQL connection is closed")
                 return "OK"
 
-    def SaveForm(self, ):
+    def SaveForm(self, data):
         connection_object = self.connection_pool.get_connection()
         if connection_object.is_connected():
             db_info = connection_object.get_server_info()
-            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", data)
             cur = connection_object.cursor()
             queryForm = "insert into publikacie (meno, priezvisko, titul, percento, doktorand, pracovisko, ustav, " \
                         "kontakt, nazov, preklad, skkey, engkey, kategoria, oblastVyskumu, cislog, nazovg, " \
@@ -96,7 +96,20 @@ class Database(object):
                         "konf_nazov, konf_miesto, konf_cislo, konf_datum) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s," \
                         "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s," \
                         "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-            insert = cur.execute(queryForm, ())
+            insert = cur.execute(queryForm, (data['meno'], data['priezvisko'], data['titul'], data['percento'],
+                                             data['doktorand'], data['pracovisko'],data['ustav'], data['kontakt'],
+                                             data['nazov'], data['preklad'], data['skkey'], data['engkey'],
+                                             data['kategoria'], data['oblastVyskumu'], data['cislog'], data['nazovg'],
+                                             data['doplnokg'], data['projektg'], data['agenturag'], data['www'],
+                                             data['typ'], data['rok'],data['rozsah'], data['isn'], data['datum'],
+                                             data['code'], data['vstup'], data['mon_miesto'],data['mon_vydavatelstvo'],
+                                             data['mon_rok'], data['mon_rozsah'], data['mon_pocetah'],data['mon_isbn'],
+                                             data['kap_zdroj'], data['kap_miesto'], data['kap_vydavatelstvo'],
+                                             data['kap_rok'], data['kap_pocetah'], data['kap_od'], data['kap_do'],
+                                             data['kap_isbn'], data['cas_zdroj'], data['cas_rocnik'], data['cas_cislo'],
+                                             data['cas_rok'], data['cas_od'],data['cas_do'], data['cas_issn'],
+                                             data['cas_krajina'], data['konf_nazov'],data['konf_miesto'],
+                                             data['konf_cislo'],data['konf_datum']))
             if connection_object.is_connected():
                 cur.close()
                 connection_object.close()
