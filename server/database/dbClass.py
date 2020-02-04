@@ -190,7 +190,7 @@ class Database(object):
             db_info = connection_object.get_server_info()
             print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
             cur4 = connection_object.cursor()
-            queryChangeUser = "update pouzivatel set meno= %s priezvisko= %s email= %s where email = %s"
+            queryChangeUser = "update pouzivatel set meno= %s, priezvisko= %s, email= %s where email = %s"
             update = cur4.execute(queryChangeUser, (name, surname, email, oldName))
             print("vypisujem update")
             print("affected rows = {}".format(cur4.rowcount))
@@ -199,3 +199,4 @@ class Database(object):
                 connection_object.close()
                 print("MySQL connection is closed")
                 print("changing done")
+                return "OK"

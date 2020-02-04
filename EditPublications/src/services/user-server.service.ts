@@ -26,6 +26,10 @@ export class UserServerService {
     return this.store.selectSnapshot(state => state.auth.id)
   }
 
+  get username(){
+    return this.store.selectSnapshot(state => state.auth.username)
+  }
+
 
   // checkToken(){
   //   if(this.token==null){
@@ -103,9 +107,9 @@ export class UserServerService {
 
 
   getUser(): Observable<User>{
-    let obj = '{"id": 2, "token": "'+this.token + '"}';
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '"}';
     
-    return this.http.post<User>(this.url + 'userinfo', JSON.parse(obj))
+    return this.http.post<User>(this.url + 'userinfo',JSON.parse(obj))
     .pipe(
       tap(user => {
         console.log(user);
@@ -115,9 +119,19 @@ export class UserServerService {
       catchError(error => this.httpErrorProcess(error)))
   }
 
-  getPublications(id: number): Observable<Publication[]> { //tu netreba nic posielat, ak mame this.id
+  updateUser(userko: User): Observable<User>{
+    let obj = '{"oldName": "'+this.username+'", "token": "'+this.token + '", "name": "'+userko.name + '","surname": "'+userko.surname + '","email": "'+userko.email + '"}';
+    console.log("srvisa updateUser");
+    return this.http.post<User>(this.url + 'updateUser', JSON.parse(obj))
+    .pipe(map(u => User.clone(u),
+    catchError(error => this.httpErrorProcess(error)))
+    );
+  }
+
+  getPublications(id: number): Observable<Publication[]> { //zmenila som lebo tak mam nakodeny server, ked bude zle zmenim server
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "idP": "'+id+ '"}';
     return this.http
-      .get<Publication[]>(this.url + 'publications/'+ this.id + '/' + this.token)
+      .get<Publication[]>(this.url + 'publications',JSON.parse(obj))
       .pipe(map(response => this.fromJsonToListPublications(response)),
       catchError(error => this.httpErrorProcess(error))
       );
@@ -136,8 +150,9 @@ export class UserServerService {
   }
 
   deletePublication(publication: Publication): Observable<void> {
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "idP": "'+publication.id+ '"}';
     return this.http
-    .delete<void>(this.url + 'publication/' + publication.id + '/' + this.token)
+    .delete<void>(this.url + 'deletePub',JSON.parse(obj))
     .pipe(
       switchMapTo(of(undefined)),
       catchError(error => this.httpErrorProcess(error))

@@ -173,20 +173,23 @@ def userinfo():
 def publications():
     token = ""
     email = ""
+    idP = 0
     if request.is_json:
         data = request.get_json()
         print("PUBLICATIONS - vypisujem co mi pride ")
         print(data)
         token = data["token"]
         email = data["name"]
+        idP = data["idP"]
     else:
         return jsonify({"status": "wrong request"})
     if isValidTokenAndUsername(token, email) is True:
         print("dostanem sa tuuuu PUBLIKACIE")
         autor = db.AuthorToPublications(email=email)
-        pubID = autor[2]
-        publication = db.Publications(pubID=pubID)
-        print(pubID)
+        # pubID = autor[2]
+        publication = db.Publications(pubID=idP)
+        print(idP)
+        print(publication)
 
         #PRIPRAVIT VRATENIE PUBLIKACII V JSONE -_-
         # userInfo2 = jsonify({"id": userInfo[0], "name": userInfo[1], "surname": userInfo[2], "email": userInfo[3], "password": userInfo[4], "type": userInfo[5]})
@@ -226,7 +229,7 @@ def deletePub():
 
 #nevyskusane
 @app.route("/updateUser", methods=["POST"])
-def deletePub():
+def updateUser():
     oldName = ""
     name = ""
     surname = ""
