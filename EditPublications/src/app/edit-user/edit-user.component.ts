@@ -50,13 +50,14 @@ export class EditUserComponent implements OnInit {
 
 
   formSubmit() {
-    const user = new User(this.name.value, this.surname.value,this.email.value);
-    this.userServerService.updateUser(user).subscribe(
-      ok =>{
-        this.router.navigateByUrl('/profile');
-      }
-    );
-    console.log("odoslane sa server");
+    // const user = new User(this.name.value, this.surname.value,this.email.value);
+    // console.log("user z edit componentu "+ user);
+    // this.userServerService.updateUser(user).subscribe(
+    //   ok =>{
+    //     this.router.navigateByUrl('/profile');
+    //   }
+    // );
+    // console.log("odoslane sa server");
   }
 
 
