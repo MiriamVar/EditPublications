@@ -57,10 +57,7 @@ export class ProfileComponent implements OnInit {
 
 // this.userServerService.getUser();
 
-      //ze co mi vypise 
-      console.log("result "+result); //MiriamVargockovamiriam.vargockova@akademiasovy.sk
-      console.log("meno "+ result[0]); //M
-      const user = new User(result.name, result.surname, result.email); // [object Object]
+      const user = new User(result[0], result[1], result[2]); // [object Object]
       console.log("user z edit componentu "+ user);
       this.userServerService.updateUser(user).subscribe(
         ok =>{
