@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Publication } from 'src/entities/publication';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -9,6 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class FormMonographComponent implements OnInit {
 
+  
   publication: Publication;
   monographFormGroup = new FormGroup({
     editionPlace: new FormControl('',  [Validators.required, Validators.minLength(3)],),
@@ -29,34 +30,34 @@ export class FormMonographComponent implements OnInit {
   }
 
   get editionPlace() {
-    return this.monographFormGroup.get('editionPlace');
+    return this.monographFormGroup.get('editionPlace').value;
   }
   get editorship() {
-    return this.monographFormGroup.get('editorship');
+    return this.monographFormGroup.get('editorship').value;
   }
   get year() {
-    return this.monographFormGroup.get('year');
+    return this.monographFormGroup.get('year').value;
   }
   get isbn() {
-    return this.monographFormGroup.get('isbn');
+    return this.monographFormGroup.get('isbn').value;
   }
   get pagesCount() {
-    return this.monographFormGroup.get('pagesCount');
+    return this.monographFormGroup.get('pagesCount').value;
   }
   get authorsCount() {
-    return this.monographFormGroup.get('authorsCount');
+    return this.monographFormGroup.get('authorsCount').value;
   }
   get name() {
-    return this.monographFormGroup.get('name');
+    return this.monographFormGroup.get('name').value;
   }
   get number() {
-    return this.monographFormGroup.get('number');
+    return this.monographFormGroup.get('number').value;
   }
   get place() {
-    return this.monographFormGroup.get('place');
+    return this.monographFormGroup.get('place').value;
   }
   get date() {
-    return this.monographFormGroup.get('date');
+    return this.monographFormGroup.get('date').value;
   }
 
 
