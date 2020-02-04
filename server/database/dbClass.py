@@ -102,3 +102,101 @@ class Database(object):
                 connection_object.close()
                 print("MySQL connection is closed")
                 return "OK"
+
+    def InsertAutorAndPublication(self, email, id):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            queryInsertAutor = "insert into autor_publikacie columns(username,publikaciaID) values(%,%s);"
+            cur1.execute(queryInsertAutor, (email,id))
+            autorInsert = cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("MySQL connection is closed")
+                return "OK"
+
+    def Userinfo(self, email):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            queryUserInfo = "select * from pouzivatel where email = %s;"
+            cur1.execute(queryUserInfo, (email,))
+            userInfo = cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("UserInfo from db")
+                print(userInfo)
+                print("MySQL connection is closed")
+                return userInfo
+
+    def AuthorToPublications(self, email):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            queryAutor = "select * from autor_publikacie where username = %s;"
+            cur1.execute(queryAutor, (email,))
+            autorInfo = cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("AutorInfo from db")
+                print(autorInfo)
+                print("MySQL connection is closed")
+                return autorInfo
+
+    def Publications(self, pubID):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            queryPublications = "select * from publications where id = %s;"
+            cur1.execute(queryPublications, (pubID,))
+            publications = cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("Publications from db")
+                print(publications)
+                print("MySQL connection is closed")
+                return publications
+
+    def DeletePub(self, pubID):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur1 = connection_object.cursor()
+            deletePub = "delete from publikacie where id = %s"
+            cur1.execute(deletePub, (pubID,))
+            deletePub= cur1.fetchone()
+            if connection_object.is_connected():
+                cur1.close()
+                connection_object.close()
+                print("MySQL connection is closed")
+                return "OK"
+
+    def UpdateUser(self, oldName, name, surname, email):
+        connection_object = self.connection_pool.get_connection()
+        if connection_object.is_connected():
+            db_info = connection_object.get_server_info()
+            print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
+            cur4 = connection_object.cursor()
+            queryChangeUser = "update pouzivatel set meno= %s, priezvisko= %s, email= %s where email = %s"
+            update = cur4.execute(queryChangeUser, (name, surname, email, oldName))
+            print("vypisujem update")
+            print("affected rows = {}".format(cur4.rowcount))
+            if (connection_object.is_connected()):
+                cur4.close()
+                connection_object.close()
+                print("MySQL connection is closed")
+                print("changing done")
+                return "OK"
