@@ -178,6 +178,7 @@ def publications():
     token = ""
     email = ""
     meno = ""
+    priezvisko =""
     if request.is_json:
         data = request.get_json()
         print("PUBLICATIONS - vypisujem co mi pride ")
@@ -185,13 +186,14 @@ def publications():
         token = data["token"]
         email = data["name"]
         meno = data["username"]
+        priezvisko = data["surname"]
     else:
         return jsonify({"status": "wrong request"})
     if isValidTokenAndUsername(token, email) is True:
         print("dostanem sa tuuuu PUBLIKACIE")
         # autor = db.AuthorToPublications(email=email)
         # pubID = autor[2]
-        publication = db.Publications(meno=meno)
+        publication = db.Publications(meno=meno, priezvisko=priezvisko)
         print(publication)
 
         if publication is None:

@@ -165,14 +165,14 @@ class Database(object):
                 print("MySQL connection is closed")
                 return autorInfo
 
-    def Publications(self, meno):
+    def Publications(self, meno, priezvisko):
         connection_object = self.connection_pool.get_connection()
         if connection_object.is_connected():
             db_info = connection_object.get_server_info()
             print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
             cur1 = connection_object.cursor()
-            queryPublications = "select * from publikacie where meno = %s;"
-            cur1.execute(queryPublications, (meno,))
+            queryPublications = "select * from publikacie where meno = %s and priezvisko = %s;"
+            cur1.execute(queryPublications, (meno,priezvisko))
             publications = cur1.fetchone()
             if connection_object.is_connected():
                 cur1.close()
