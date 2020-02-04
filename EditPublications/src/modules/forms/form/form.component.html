@@ -96,7 +96,7 @@
                             {{word.name}}
                             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                         </mat-chip>
-                        <input placeholder="Kľúčové slová (slovenčina)" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                        <input placeholder="Kľúčové slová (slovenčina)" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" formControlName="keyWordsSK">
                     </mat-chip-list>
                 </mat-form-field>
 
@@ -106,7 +106,7 @@
                             {{word.name}}
                             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                         </mat-chip>
-                        <input placeholder="Kľúčové slová (angličtina)" [matChipInputFor]="chipList2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add2($event)">
+                        <input placeholder="Kľúčové slová (angličtina)" [matChipInputFor]="chipList2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add2($event)" formControlName="keyWordsAJ">
                     </mat-chip-list>
                 </mat-form-field>
 
