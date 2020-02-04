@@ -30,7 +30,10 @@ export class ProfileComponent implements OnInit {
       this.profileUser.email = user.email;
       this.profileUser.name = user.name;
       this.profileUser.surname = user.surname;
-    })
+    
+    });
+
+    
 
     //toto odkomentovat ked bude hotova servisa na ziskanie publikacii
     // this.userServerService.getPublications(this.store.selectSnapshot(AuthState.id)).subscribe(publications => {//tu poslat este aj id pouzivatela
@@ -51,17 +54,12 @@ export class ProfileComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      // console.log('The dialog was closed');
-      // //update user tu:
-//vrati spravny vysledok ale neprekresli sa
-
-// this.userServerService.getUser();
-
       const user = new User(result[0], result[1], result[2]); // [object Object]
       console.log("user z edit componentu "+ user);
       this.userServerService.updateUser(user).subscribe(
         ok =>{
           this.router.navigateByUrl('/profile');
+          this.ngOnInit(); //urobi refresh
       }
     );
     console.log("odoslane sa server");
