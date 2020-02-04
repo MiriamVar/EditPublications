@@ -28,28 +28,28 @@ export class FormMagazineArticleComponent implements OnInit {
   }
 
   get sourceDoc() {
-    return this.magazineArticleFormGroup.get('sourceDoc');
+    return this.magazineArticleFormGroup.get('sourceDoc').value;
   }
   get year() {
-    return this.magazineArticleFormGroup.get('year');
+    return this.magazineArticleFormGroup.get('year').value;
   }
   get grade() {
-    return this.magazineArticleFormGroup.get('grade');
+    return this.magazineArticleFormGroup.get('grade').value;
   }
   get number() {
-    return this.magazineArticleFormGroup.get('number');
+    return this.magazineArticleFormGroup.get('number').value;
   }
   get editionCountry() {
-    return this.magazineArticleFormGroup.get('editionCountry');
+    return this.magazineArticleFormGroup.get('editionCountry').value;
   }
   get issn() {
-    return this.magazineArticleFormGroup.get('issn');
+    return this.magazineArticleFormGroup.get('issn').value;
   }
   get from() {
-    return this.magazineArticleFormGroup.get('from');
+    return this.magazineArticleFormGroup.get('from').value;
   }
   get to() {
-    return this.magazineArticleFormGroup.get('to');
+    return this.magazineArticleFormGroup.get('to').value;
   }
  
 }

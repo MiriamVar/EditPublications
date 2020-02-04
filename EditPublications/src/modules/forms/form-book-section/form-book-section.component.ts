@@ -31,40 +31,40 @@ export class FormBookSectionComponent implements OnInit {
   }
 
   get sourceDoc() {
-    return this.bookSectionFormGroup.get('sourceDoc');
+    return this.bookSectionFormGroup.get('sourceDoc').value;
   }
   get year() {
-    return this.bookSectionFormGroup.get('year');
+    return this.bookSectionFormGroup.get('year').value;
   }
   get editionPlace() {
-    return this.bookSectionFormGroup.get('editionPlace');
+    return this.bookSectionFormGroup.get('editionPlace').value;
   }
   get isbn() {
-    return this.bookSectionFormGroup.get('isbn');
+    return this.bookSectionFormGroup.get('isbn').value;
   }
   get editorship() {
-    return this.bookSectionFormGroup.get('editorship');
+    return this.bookSectionFormGroup.get('editorship').value;
   }
   get authorsCount() {
-    return this.bookSectionFormGroup.get('authorsCount');
+    return this.bookSectionFormGroup.get('authorsCount').value;
   }
   get from() {
-    return this.bookSectionFormGroup.get('from');
+    return this.bookSectionFormGroup.get('from').value;
   }
   get to() {
-    return this.bookSectionFormGroup.get('to');
+    return this.bookSectionFormGroup.get('to').value;
   }
   get name() {
-    return this.bookSectionFormGroup.get('name');
+    return this.bookSectionFormGroup.get('name').value;
   }
   get number() {
-    return this.bookSectionFormGroup.get('number');
+    return this.bookSectionFormGroup.get('number').value;
   }
   get place() {
-    return this.bookSectionFormGroup.get('place');
+    return this.bookSectionFormGroup.get('place').value;
   }
   get date() {
-    return this.bookSectionFormGroup.get('date');
+    return this.bookSectionFormGroup.get('date').value;
   }
 
 }
