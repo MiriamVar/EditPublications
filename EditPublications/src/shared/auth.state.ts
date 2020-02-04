@@ -8,6 +8,7 @@ const DEFAULT_REDIRECT_AFTER_LOGIN = '/form';
 const DEFAULT_REDIRECT_AFTER_LOGOUT = '/login';
 
 export interface AuthModel{
+    id: number;
     username: string;
     token: string;
     redirectAfterlogin: string;
@@ -15,11 +16,15 @@ export interface AuthModel{
 
 @State<AuthModel> ({
     name: 'auth',
-    defaults: { username: null, token: null, redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGIN }
+    defaults: { id: null, username: null, token: null, redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGIN }
    })
 
    export class AuthState {
 
+    @Selector()
+    static id(current: AuthModel) {
+        return current.id;
+    }
        @Selector()
         static username(current: AuthModel){
            return current.username;
@@ -71,6 +76,7 @@ export interface AuthModel{
             const token =  ctx.getState().token;
             const username = ctx.getState().username;
             ctx.setState({
+                id: null,
                 username: null,
                 token: null,
                 redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGOUT

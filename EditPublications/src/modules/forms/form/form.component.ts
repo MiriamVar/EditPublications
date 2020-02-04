@@ -262,6 +262,17 @@ export class FormComponent implements OnInit {
     projects: new FormArray([])
   });
 
+  get researches(){
+    return this.firstFormGroup.get('researchFieldss') as FormArray;
+  }
+
+  get projects(){
+    return this.firstFormGroup.get('projects') as FormArray;
+  }
+  
+
+
+
   addAuthorGroup(){
     return this._fb.group({
       name: ['', new FormControl('',  [Validators.required, Validators.minLength(3)],)],
@@ -292,6 +303,21 @@ export class FormComponent implements OnInit {
     });
   }
 
+  get nameP() {
+    return this.projects.at(0).get('nameP').value;
+  }
+
+  get numberP() {
+    return this.projects.at(0).get('numberP').value;
+  }
+  get scheme() {
+    return this.projects.at(0).get('scheme').value;
+  }
+
+  get agency() {
+    return this.projects.at(0).get('agency').value;
+  }
+
   addProject(){
     this.projectArray.push(this.addProjectGroup());
   }
@@ -305,6 +331,10 @@ export class FormComponent implements OnInit {
     return this._fb.group({
       researchF: []
     });
+  }
+
+  get resGroup() {
+    return this.researches.at(0).get('researchF').value;
   }
 
   addResearch(){
@@ -336,57 +366,61 @@ export class FormComponent implements OnInit {
   get authorArray(){
     return <FormArray>this.firstFormGroup.get("authors");
   }
-  // get name() {
-  //   return this.firstFormGroup.get('name');
-  // }
-  // get surname() {
-  //   return this.firstFormGroup.get('surname');
-  // }
-  // get titul() {
-  //   return this.firstFormGroup.get('titul');
-  // }
-  // get percentage() {
-  //   return this.firstFormGroup.get('percentage');
-  // }
-  // get department() {
-  //   return this.firstFormGroup.get('department');
-  // }
-  // get doktorand(){
-  //   return this.firstFormGroup.get('doktorand');
-  // }
-  // get ustav(){
-  //   return this.firstFormGroup.get('ustav');
-  // }
-  // get contact() {
-  //   return this.firstFormGroup.get('contact');
-  // }
+  get name() {
+    return this.authors.at(0).get('name').value;
+  }
+  get surname() {
+    return this.authors.at(0).get('surname').value;
+  }
+  get titul() {
+    return this.authors.at(0).get('titul').value;
+  }
+  get percentage() {
+    return this.authors.at(0).get('percentage').value;
+  }
+  get department() {
+    return this.authors.at(0).get('department').value;
+  }
+  get doktorand(){
+    return this.authors.at(0).get('doktorand').value;
+  }
+  get ustav(){
+    return this.authors.at(0).get('ustav').value;
+  }
+  get contact() {
+    return this.authors.at(0).get('contact').value;
+  }
 
   get documentName() {
-    return this.secondFormGroup.get('documentName');
+    return this.secondFormGroup.get('documentName').value;
   }
   get documentTranslate() {
-    return this.secondFormGroup.get('documentTranslate');
+    return this.secondFormGroup.get('documentTranslate').value;
   }
   get keyWordsSK() {
-    return this.secondFormGroup.get('keyWordsSK');
+    return this.secondFormGroup.get('keyWordsSK').value;
   }
   get keyWordsAJ() {
-    return this.secondFormGroup.get('keyWordsAJ');
+    return this.secondFormGroup.get('keyWordsAJ').value;
   }
   get categoryPub(){
-    return this.secondFormGroup.get('categoryPub');
+    return this.secondFormGroup.get('categoryPub').value;
   }
   get researchArray(){
     return <FormArray>this.secondFormGroup.get("researchFieldss");
   }
   get webAddress() {
-    return this.secondFormGroup.get('webAddress');
+    return this.secondFormGroup.get('webAddress').value;
   }
   get typeDoc() {
-    return this.secondFormGroup.get('typeDoc');
+    return this.secondFormGroup.get('typeDoc').value;
   }
   get projectArray(){
     return <FormArray>this.secondFormGroup.get("projects");
+  }
+
+  get authors(){
+    return this.firstFormGroup.get('authors') as FormArray;
   }
 
 
@@ -460,19 +494,104 @@ export class FormComponent implements OnInit {
   }
 
   formSubmit(){
-    // const pub = new Publication(this.name.value, this.surname.value, this.titul.value, this.percentage.value, this.doktorand.value, this.department.value, this.ustav.value, this.contact.value);
-    // const pub = new Publication(this.authorArray.value);
+    var names = '';
+    var surnames = '';
+    var tituly= '';
+    var percentages = '';
+    var doktorandy= '';
+    var ustavy = '';
+    var contacty = '';
 
-    console.log(this.authorArray.value);
     
-    console.log(this.firstFormGroup.value + " " + this.secondFormGroup.value);
+    
+    if(this.authorArray.length>1) {
+
+      for(var i= 0; i < this.authorArray.length; i++){
+        names +=this.authors.at(i).get('name').value + ', ';
+        surnames += this.authors.at(i).get('surname').value + ', ';
+        tituly += this.authors.at(i).get('titul').value + ', ';
+        percentages += this.authors.at(i).get('percentage').value+ ', ';
+        doktorandy += this.authors.at(i).get('doktorand').value+ ', ';
+        ustavy += this.authors.at(i).get('ustav').value+ ', ';
+        contacty += this.authors.at(i).get('contact').value+ ', ';
+      }
+
+    } else {
+      names = this.name;
+      surnames = this.surname;
+      tituly= this.titul;
+      percentages = this.percentage;
+      doktorandy= this.doktorand;
+      ustavy = this.ustav;
+      contacty = this.contact;
+    }
+
+    console.log("finalne je: " + names + surnames + tituly + percentages + doktorandy + ustavy + contacty);
+
+    
+    
+
+    console.log(this.documentName);
+
+    console.log(this.documentTranslate);
+
+    console.log(this.keyWordsSK);
+
+    console.log(this.keyWordsAJ);
+
+    console.log(this.categoryPub);
+
+
+    var resr ='';
+    if(this.researches.length>1) {
+      for(var i= 0; i < this.researches.length; i++){
+        resr +=this.researches.at(i).get('researchF').value + ', ';
+      }
+    }
+    console.log(resr);
+    
+    console.log(this.typeDoc);
+
+    console.log(this.webAddress);
+
+    var namepy;
+    var numberpy;
+    var schemy;
+    var agencyy;
+    if (this.projects.length>1) {
+      for(var i= 0; i < this.authorArray.length; i++){
+        namepy +=this.projects.at(i).get('nameP').value + ', ';
+        numberpy += this.projects.at(i).get('numberP').value + ', ';
+        schemy += this.projects.at(i).get('scheme').value + ', ';
+        agencyy += this.projects.at(i).get('agency').value + ', ';
+      }
+    }
+    else {
+      namepy = this.nameP;
+      numberpy = this.numberP;
+      schemy = this.scheme;
+      agencyy = this.agency;
+    }
+
+    console.log(namepy + numberpy + schemy + agencyy);
+    
+    
+    
+    
+    
+    
+
+
+    
+    // const pub = new Publication(names, surnames, tituly, percentages, doktorandy, ustavy, contacty);
+    
     
     // this.userServerService.sendForm(pub).subscribe(
     //   ok =>{
     //     this.router.navigateByUrl('/users');
     //   }
     // );
-    console.log(this.secondFormGroup.value);
+    // console.log(this.secondFormGroup.value);
     
     console.log("posielam formular");
   }

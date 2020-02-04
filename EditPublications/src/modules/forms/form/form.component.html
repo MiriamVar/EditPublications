@@ -8,8 +8,9 @@
                     <div *ngFor="let group of authorArray.controls; let i = index" [formGroupName]="i">
                         <!-- [formGroup]="firstFormGroup" -->
 
-                        <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
-                        <!-- <div>
+                        <mat-card>
+                            <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
+                            <!-- <div>
                     <mat-form-field>
                         <input matInput placeholder="DOI číslo (nepovinné)" formControlName="DOI">
                     </mat-form-field>
@@ -17,56 +18,65 @@
                 <div class="rightBtn">
                     <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
                 </div> -->
-                        <h1>Autor c. {{i+1}}</h1>
-                        <mat-form-field>
-                            <input matInput placeholder="Meno" formControlName="name" required>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Priezvisko" formControlName="surname" required>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Titul(y)" formControlName="titul" required>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="%" formControlName="percentage" required>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>Doktorand</mat-label>
-                            <mat-select formControlName="doktorand">
-                                <mat-option *ngFor="let option of options" [value]="option.value">
-                                    {{option.viewValue}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>Pracovisko</mat-label>
-                            <mat-select formControlName="department">
-                                <mat-option *ngFor="let workspace of workspaces" [value]="workspace.value">
-                                    {{workspace.viewValue}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Ustav/Katedra" formControlName="ustav" required>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
-                        </mat-form-field>
-                        <div *ngIf="showAddUser">
-                            <p>Dalsi autor</p>
-                            <app-form-adduser></app-form-adduser>
-                        </div>
-                        <div>
-                            <mat-card-actions>
-                                <button type="button" mat-raised-button color="accent" (click)="removeAuthor(i)">Odstran autora</button>
+                            <mat-card-header>
+                                <mat-card-title>
+                                    Autor c. {{i+1}}
+                                </mat-card-title>
+                            </mat-card-header>
 
-                            </mat-card-actions>
-                            <button mat-button matStepperNext>Dalej</button>
-                        </div>
+                            <mat-card-content>
+                                <mat-form-field>
+                                    <input matInput placeholder="Meno" formControlName="name" required>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Priezvisko" formControlName="surname" required>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Titul(y)" formControlName="titul" required>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="%" formControlName="percentage" required>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Doktorand</mat-label>
+                                    <mat-select formControlName="doktorand">
+                                        <mat-option *ngFor="let option of options" [value]="option.value">
+                                            {{option.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Pracovisko</mat-label>
+                                    <mat-select formControlName="department">
+                                        <mat-option *ngFor="let workspace of workspaces" [value]="workspace.value">
+                                            {{workspace.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Ustav/Katedra" formControlName="ustav" required>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Kontakt(t.c/email)" formControlName="contact" required>
+                                </mat-form-field>
+                                <div *ngIf="showAddUser">
+                                    <p>Dalsi autor</p>
+                                    <app-form-adduser></app-form-adduser>
+                                </div>
+                                <div>
+                                    <mat-card-actions>
 
+                                        <button type="buttton" mat-icon-button (click)="removeAuthor(i)"><mat-icon>remove_circle</mat-icon></button>
+
+                                    </mat-card-actions>
+
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
                     </div>
                 </div>
                 <button type="button" mat-raised-button color="accent" (click)="addAuthor()">Pridaj autora</button>
+                <button mat-button matStepperNext>Dalej</button>
             </form>
         </mat-step>
 
@@ -111,22 +121,24 @@
 
                 <div formArrayName="researchFieldss">
                     <div *ngFor="let group of researchArray.controls; let i = index" [formGroupName]="i">
-                        <div class="next-to-each-other">
-                            <mat-form-field>
-                                <mat-label>Zvoľte oblasť výskumu</mat-label>
-                                <mat-select formControlName="researchF">
-                                    <mat-option *ngFor="let researchField of researchFields" [value]="researchField.value">
-                                        {{researchField.viewValue}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                        <mat-card>
+                            <div class="next-to-each-other">
+                                <mat-form-field>
+                                    <mat-label>Zvoľte oblasť výskumu</mat-label>
+                                    <mat-select formControlName="researchF">
+                                        <mat-option *ngFor="let researchField of researchFields" [value]="researchField.value">
+                                            {{researchField.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
 
-                            <mat-card-actions>
-                                <button mat-icon-button color="accent" (click)="removeResearch(i)">
+                                <mat-card-actions>
+                                    <button mat-icon-button (click)="removeResearch(i)">
                                     <mat-icon>remove_circle</mat-icon>
                                   </button>
-                            </mat-card-actions>
-                        </div>
+                                </mat-card-actions>
+                            </div>
+                        </mat-card>
                     </div>
                     <button mat-icon-button color="accent" (click)="addResearch()">
                         <mat-icon>add_circle</mat-icon>
