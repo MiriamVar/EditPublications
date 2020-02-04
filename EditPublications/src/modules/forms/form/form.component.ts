@@ -305,7 +305,8 @@ export class FormComponent implements OnInit {
   }
 
   removeAuthor(index){
-    this.authorArray.removeAt(index);
+    if (!(this.authorArray.length <= 1))
+      this.authorArray.removeAt(index);
   }
 
   addProjectGroup(){
