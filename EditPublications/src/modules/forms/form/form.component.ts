@@ -7,6 +7,8 @@ import { UserServerService } from 'src/services/user-server.service';
 import { Router } from '@angular/router';
 import { Project } from '../../../entities/project';
 import { FormMonographComponent } from '../form-monograph/form-monograph.component';
+import { FormBookSectionComponent } from '../form-book-section/form-book-section.component';
+import { FormMagazineArticleComponent } from '../form-magazine-article/form-magazine-article.component';
 
 export interface Option {
   value: string;
@@ -57,7 +59,13 @@ export interface EnglishWord {
 export class FormComponent implements OnInit {
 
   @ViewChild(FormMonographComponent, { static: false })
-  private wizFrom: FormMonographComponent;
+  private monographForm: FormMonographComponent;
+
+  @ViewChild(FormBookSectionComponent, {static: false})
+  private formBook: FormBookSectionComponent;
+
+  @ViewChild(FormMagazineArticleComponent, {static:false})
+  private magazineForm: FormMagazineArticleComponent
 
   
   options: Option[] = [
@@ -613,27 +621,55 @@ export class FormComponent implements OnInit {
     //typ dokumentu
     var mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn = '';
     var kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah, kap_od, kap_do, kap_isbn = "";
+    var cas_zdroj, cas_rocnik, cas_cislo, cas_rok, cas_od, cas_do, cas_issn, cas_krajina = "";
 
     var konf_nazov, konf_miesto, konf_cislo, konf_datum = '';
 
 
     if(this.selectedValue) {
-      mon_miesto = this.wizFrom.editionPlace;
-      mon_vydavatelstvo = this.wizFrom.editorship;
-      mon_rok = this.wizFrom.year;
-      mon_rozsah = this.wizFrom.pagesCount;
-      mon_pocetah = this.wizFrom.authorsCount;
-      mon_isbn = this.wizFrom.isbn;
-      konf_nazov = this.wizFrom.name;
-      konf_cislo = this.wizFrom.number;
-      konf_miesto = this.wizFrom.place;
-      konf_datum = this.wizFrom.date;
+      mon_miesto = this.monographForm.editionPlace;
+      mon_vydavatelstvo = this.monographForm.editorship;
+      mon_rok = this.monographForm.year;
+      mon_rozsah = this.monographForm.pagesCount;
+      mon_pocetah = this.monographForm.authorsCount;
+      mon_isbn = this.monographForm.isbn;
+      konf_nazov = this.monographForm.name;
+      konf_cislo = this.monographForm.number;
+      konf_miesto = this.monographForm.place;
+      konf_datum = this.monographForm.date;
       
       
     } else if (this.selectedValue2){
 
-    } else if(this.selectedValue3) {
+      kap_zdroj = this.formBook.sourceDoc;
+      kap_miesto = this.formBook.editionPlace;
+      kap_vydavatelstvo = this.formBook.editorship;
+      kap_rok = this.formBook.year;
+      kap_pocetah = this.formBook.authorsCount;
+      kap_od = this.formBook.from;
+      kap_do = this.formBook.to;
+      kap_isbn = this.formBook.isbn;
+      konf_miesto = this.formBook.place;
+      konf_nazov = this.formBook.name;
+      konf_cislo = this.formBook.number;
+      konf_datum = this.formBook.date;
 
+      console.log(kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah, kap_od, kap_do, kap_isbn, konf_nazov, konf_miesto, konf_cislo, konf_datum);
+      
+
+    } else if(this.selectedValue3) {
+      
+      cas_zdroj = this.magazineForm.sourceDoc;
+      cas_rocnik = this.magazineForm.grade;
+      cas_cislo = this.magazineForm.number;
+      cas_rok = this.magazineForm.year;
+      cas_krajina = this.magazineForm.editionCountry;
+      cas_issn = this.magazineForm.issn;
+      cas_od = this.magazineForm.from;
+      cas_do = this.magazineForm.to;
+
+      console.log(cas_zdroj, cas_rocnik, cas_cislo, cas_rok, cas_od, cas_do, cas_issn, cas_krajina);
+      
     }
 
     console.log(this.documentType);
@@ -663,6 +699,38 @@ export class FormComponent implements OnInit {
         );
 
     }
+
+
+
+    if (this.documentType ==="clanok_kapitola" ){
+
+      const pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+        this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
+        numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
+        "", "","","","","", kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah , kap_od, kap_do, kap_isbn, 
+        "", "","","","","","", "", 
+        konf_nazov, konf_miesto, konf_cislo, konf_datum
+        );
+
+    }
+
+
+
+
+
+
+    if (this.documentType ==="clanok_casopis" ){
+
+      const pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+        this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
+        numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
+        "", "","","","","", "", "","","","","","", "", 
+        cas_zdroj, cas_rocnik, cas_cislo, cas_rok, cas_od, cas_do, cas_issn, cas_krajina,
+        konf_nazov, konf_miesto, konf_cislo, konf_datum
+        );
+    }
+    
+
     
     
     // this.userServerService.sendForm(pub).subscribe(
