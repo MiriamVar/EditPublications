@@ -165,14 +165,14 @@ class Database(object):
                 print("MySQL connection is closed")
                 return autorInfo
 
-    def Publications(self, pubID):
+    def Publications(self, meno):
         connection_object = self.connection_pool.get_connection()
         if connection_object.is_connected():
             db_info = connection_object.get_server_info()
             print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
             cur1 = connection_object.cursor()
-            queryPublications = "select * from publications where id = %s;"
-            cur1.execute(queryPublications, (pubID,))
+            queryPublications = "select * from publikacie where meno = %s;"
+            cur1.execute(queryPublications, (meno,))
             publications = cur1.fetchone()
             if connection_object.is_connected():
                 cur1.close()
@@ -182,14 +182,14 @@ class Database(object):
                 print("MySQL connection is closed")
                 return publications
 
-    def DeletePub(self, pubID):
+    def DeletePub(self, nazov):
         connection_object = self.connection_pool.get_connection()
         if connection_object.is_connected():
             db_info = connection_object.get_server_info()
             print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
             cur1 = connection_object.cursor()
-            deletePub = "delete from publikacie where id = %s"
-            cur1.execute(deletePub, (pubID,))
+            deletePub = "delete from publikacie where meno = %s"
+            cur1.execute(deletePub, (nazov,))
             deletePub= cur1.fetchone()
             if connection_object.is_connected():
                 cur1.close()
