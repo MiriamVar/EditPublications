@@ -192,7 +192,7 @@ class Database(object):
             db_info = connection_object.get_server_info()
             print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
             cur1 = connection_object.cursor()
-            deletePub = "delete from publikacie where meno = %s"
+            deletePub = "delete from publikacie where nazov = %s"
             cur1.execute(deletePub, (nazov,))
             deletePub= cur1.fetchone()
             if connection_object.is_connected():

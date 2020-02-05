@@ -229,7 +229,7 @@ def deletePub():
     nazov = ""
     if request.is_json:
         data = request.get_json()
-        print("USER INFO - vypisujem co mi pride ")
+        print("DELETE - vypisujem co mi pride ")
         print(data)
         token = data["token"]
         email = data["name"]
@@ -237,12 +237,12 @@ def deletePub():
     else:
         return jsonify({"status": "wrong request"})
     if isValidTokenAndUsername(token, email) is True:
-        print("dostanem sa tuuuu USERINFO")
+        print("dostanem sa tuuuu DELETE")
         deleteDone = db.DeletePub(nazov=nazov)
         if deleteDone is "OK":
             return jsonify({"status": "OK"}), status.HTTP_200_OK
         else:
-            return jsonify({"status": "vazba user a publiakacie nie je"}), status.HTTP_401_UNAUTHORIZED
+            return jsonify({"status": "nepreslo"}), status.HTTP_401_UNAUTHORIZED
     else:
         return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
 
