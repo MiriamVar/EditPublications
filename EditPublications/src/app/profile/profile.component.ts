@@ -33,12 +33,19 @@ export class ProfileComponent implements OnInit {
     
     });
 
-    
-
     //toto odkomentovat ked bude hotova servisa na ziskanie publikacii
     // this.userServerService.getPublications(this.store.selectSnapshot(AuthState.id)).subscribe(publications => {//tu poslat este aj id pouzivatela
     //   this.dataSource.data = publications;
     // });
+  }
+
+  ngAfterViewInit(){
+    console.log("nacitanie do tabulky");
+    console.log(this.profileUser.name);
+    this.userServerService.getPublications(this.profileUser.name, this.profileUser.surname).subscribe(pubs =>{
+      console.log(pubs);
+      this.dataSource.data = pubs;
+    });
   }
 
   showuser(){

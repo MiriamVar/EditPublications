@@ -172,15 +172,19 @@ class Database(object):
             print("Connected to MySQL database using connection pool ... MySQL Server version on ", db_info)
             cur1 = connection_object.cursor()
             queryPublications = "select * from publikacie where meno = %s and priezvisko = %s;"
-            cur1.execute(queryPublications, (meno,priezvisko))
+            cur1.execute(queryPublications, (meno, priezvisko))
             publications = cur1.fetchone()
+            row_headers = [x[0] for x in cur1.description]
+            json_data = []
+            for result in publications:
+                json_data.append(dict(zip(row_headers, result)))
+
             if connection_object.is_connected():
                 cur1.close()
                 connection_object.close()
                 print("Publications from db")
-                print(publications)
                 print("MySQL connection is closed")
-                return publications
+                return json_data
 
     def DeletePub(self, nazov):
         connection_object = self.connection_pool.get_connection()
