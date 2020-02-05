@@ -129,20 +129,24 @@ export class UserServerService {
     );
   }
 
-  getPublications(id: number): Observable<Publication[]> { //zmenila som lebo tak mam nakodeny server, ked bude zle zmenim server
-    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "idP": "'+id+ '"}';
-    return this.http 
+  getPublications(fname: string, lname:string ): Observable<Publication[]> { //zmenila som lebo tak mam nakodeny server, ked bude zle zmenim server
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "username": "'+fname+ '","surname": "'+lname+ '" }';
+    console.log("ziskanie zo servera");
+    return this.http
       .post<Publication[]>(this.url + 'publications',JSON.parse(obj))
       .pipe(map(response => { 
         console.log(response);
         return this.fromJsonToListPublications(response) ;
       }
         ),
+
       catchError(error => this.httpErrorProcess(error))
       );
+    
   }
 
   private fromJsonToListPublications(jsonPublications): Publication[] {
+    console.log("json ktory pride "+jsonPublications); //[object Object]
     let remotePublications: Publication[] = [];
     for(let jsonPub of jsonPublications){
       if(jsonPub.groups){
@@ -155,9 +159,9 @@ export class UserServerService {
   }
 
   deletePublication(publication: Publication): Observable<void> {
-    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "idP": "'+publication.id+ '"}';
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "nazov": "'+publication.nazov+ '"}';
     return this.http
-    .delete<void>(this.url + 'deletePub',JSON.parse(obj))
+    .post<Publication>(this.url + 'deletePub',JSON.parse(obj))
     .pipe(
       switchMapTo(of(undefined)),
       catchError(error => this.httpErrorProcess(error))
