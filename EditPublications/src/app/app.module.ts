@@ -41,7 +41,8 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     MaterialModule
   ],
   entryComponents: [
-    EditUserComponent
+    EditUserComponent,
+    ConfirmDialogComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

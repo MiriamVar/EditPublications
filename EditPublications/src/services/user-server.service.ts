@@ -151,9 +151,7 @@ export class UserServerService {
     // for(let jsonPub of jsonPublications){
       // if(jsonPub.groups){
         console.log("tu som sa dostal a idem klonovat: ");
-        // console.log(jsonPub);
-        
-        
+        // console.log(jsonPub);      
         remotePublications.push(Publication.clone(jsonPublications));
       // } else {
       //   remotePublications.push(new Publication(jsonPub.nazov, jsonPub.priezvisko)); //tu dokoncit co vsetko sa mu vrati
