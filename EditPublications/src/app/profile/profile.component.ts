@@ -34,9 +34,9 @@ export class ProfileComponent implements OnInit {
     });
 
     //toto odkomentovat ked bude hotova servisa na ziskanie publikacii
-    this.userServerService.getPublications(39127).subscribe(publications => {//tu poslat este aj id pouzivatela
-      this.dataSource.data = publications;
-    });
+    // this.userServerService.getPublications(this.profileUser.name, this.profileUser.surname).subscribe(publications => {//tu poslat este aj id pouzivatela
+    //   this.dataSource.data = publications;
+    // });
   }
 
   ngAfterViewInit(){

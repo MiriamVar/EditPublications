@@ -136,7 +136,7 @@ export class UserServerService {
       .post<Publication[]>(this.url + 'publications',JSON.parse(obj))
       .pipe(map(response => { 
         console.log(response);
-        return this.fromJsonToListPublications(response) ;
+        return this.fromJsonToListPublications(response)
       }
         ),
 
@@ -146,15 +146,19 @@ export class UserServerService {
   }
 
   private fromJsonToListPublications(jsonPublications): Publication[] {
-    console.log("json ktory pride "+jsonPublications); //[object Object]
+    console.log("json ktory pride "+JSON.stringify(jsonPublications)); //[object Object]
     let remotePublications: Publication[] = [];
-    for(let jsonPub of jsonPublications){
-      if(jsonPub.groups){
-        remotePublications.push(Publication.clone(jsonPub));
-      } else {
-        remotePublications.push(new Publication(jsonPub.name, jsonPub.email, jsonPub.id)); //tu dokoncit co vsetko sa mu vrati
-      }
-    }   
+    // for(let jsonPub of jsonPublications){
+      // if(jsonPub.groups){
+        console.log("tu som sa dostal a idem klonovat: ");
+        // console.log(jsonPub);
+        
+        
+        remotePublications.push(Publication.clone(jsonPublications));
+      // } else {
+      //   remotePublications.push(new Publication(jsonPub.nazov, jsonPub.priezvisko)); //tu dokoncit co vsetko sa mu vrati
+      // }
+    // }   
     return remotePublications;
   }
 
