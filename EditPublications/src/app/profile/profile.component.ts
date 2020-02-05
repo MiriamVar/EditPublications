@@ -59,7 +59,6 @@ export class ProfileComponent implements OnInit {
       data: {name: this.profileUser.name, surname: this.profileUser.surname, email: this.profileUser.email}
     });
 
-
     dialogRef.afterClosed().subscribe(result => {
       const user = new User(result[0], result[1], result[2]); // [object Object]
       console.log("user z edit componentu "+ user);
@@ -74,23 +73,22 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
   goToForm(){
     this.router.navigateByUrl("form");
   }
 
-
-
-
   deletePublication(publication: Publication) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {data: {
-      title: "Vymazanie publikacie",
-      message: "Naozaj vymazat publikaciu s nazvom " + publication.nazov + "?"
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '30%',
+      data: {
+        title: "Vymazanie publikacie",
+        message: "Naozaj vymazat publikaciu s nazvom " + publication.nazov + "?"
     }});
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.userServerService.deletePublication(publication).subscribe(() => {
           this.dataSource.data = this.dataSource.data.filter(p => p != publication);
+          this.ngOnInit();
         });
       }
     })
