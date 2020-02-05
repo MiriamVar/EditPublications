@@ -41,10 +41,11 @@
 
 @media print {
     /* All your print styles go here */
-    #publication-wrapper {}
-    #header,
-    #footer,
-    #nav {
-        display: none !important;
+    /* #content p {
+        
+        } */
+    #printable {
+        font-size: 11pt;
+        color: black;
     }
 }
