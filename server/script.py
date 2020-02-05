@@ -128,6 +128,7 @@ def isValidTokenAndUsername(token, email):
     return False
 
 
+#working
 @app.route("/sendForm", methods=["POST"])
 def sendForm():
     data = request.get_json()
@@ -176,30 +177,46 @@ def userinfo():
 def publications():
     token = ""
     email = ""
-    idP = 0
+    meno = ""
+    priezvisko =""
     if request.is_json:
         data = request.get_json()
         print("PUBLICATIONS - vypisujem co mi pride ")
         print(data)
         token = data["token"]
         email = data["name"]
-        idP = data["idP"]
+        meno = data["username"]
+        priezvisko = data["surname"]
+        print("meno a priezvisko")
+        print(meno + priezvisko)
     else:
         return jsonify({"status": "wrong request"})
     if isValidTokenAndUsername(token, email) is True:
         print("dostanem sa tuuuu PUBLIKACIE")
-        autor = db.AuthorToPublications(email=email)
+        # autor = db.AuthorToPublications(email=email)
         # pubID = autor[2]
-        publication = db.Publications(pubID=idP)
-        print(idP)
+        publication = db.Publications(meno=meno, priezvisko=priezvisko)
         print(publication)
 
-        #PRIPRAVIT VRATENIE PUBLIKACII V JSONE -_-
-        # userInfo2 = jsonify({"id": userInfo[0], "name": userInfo[1], "surname": userInfo[2], "email": userInfo[3], "password": userInfo[4], "type": userInfo[5]})
-        # print("JSON userinfo")
-        # print(userInfo2)
+        if publication is None:
+            return jsonify({"status": "neexistuje zaznam"}), status.HTTP_401_UNAUTHORIZED
+        else:
+            pubs = jsonify({"id":publication[0],"meno":publication[1],"priezvisko": publication[2],"titul": publication[3], "percento":publication[4],
+                            "doktorand": publication[5],"pracovisko": publication[6],"ustav": publication[7],"kontakt":publication[8],
+                            "nazov": publication[9],"preklad":publication[10], "skkey":publication[11],"engkey":publication[12],
+                            "kategoria":publication[13], "oblastiVyskumu": publication[14],"cislog": publication[15],"nazovg":publication[16],
+                            "doplnokg":publication[17],"projektg":publication[18],"agenturag":publication[19],"www":publication[20],
+                            "typ":publication[21],"rok": publication[22],"rozsah": publication[23],"isn": publication[24],"datum":publication[25],
+                            "code": publication[26],"vstup": publication[27],"mon_miesto": publication[28], "mon_vydavatelstvo": publication[29],
+                            "mon_rok": publication[30],"mon_rozsah": publication[31],"mon_pocetah":publication[32],"mon_isbn":publication[33],
+                            "kap_zdroj":publication[34],"kap_miesto" :publication[35],"kap_vydavatelstvo": publication[36],"kap_rok":publication[37],
+                            "kap_pocetah":publication[38],"kap_od": publication[39], "kap_do":publication[40],"kap_isbn":publication[41],
+                            "cas_zdroj":publication[42],"cas_rocnik":publication[43],"cas_cislo":publication[44],"cas_rok":publication[45],
+                            "cas_od":publication[46], "cas_do":publication[47], "cas_issn":publication[48], "cas_krajina":publication[49],
+                            "konf_nazov":publication[50],"konf_miesto":publication[51],"konf_cislo":publication[52],"konf_datum":publication[53]})
+            print(pubs)
+            return pubs, status.HTTP_200_OK
 
-        return autor
     else:
         return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
 
@@ -209,19 +226,19 @@ def publications():
 def deletePub():
     token = ""
     email = ""
-    id = 0
+    nazov = ""
     if request.is_json:
         data = request.get_json()
         print("USER INFO - vypisujem co mi pride ")
         print(data)
         token = data["token"]
         email = data["name"]
-        id = data['idP']
+        nazov = data["nazov"]
     else:
         return jsonify({"status": "wrong request"})
     if isValidTokenAndUsername(token, email) is True:
         print("dostanem sa tuuuu USERINFO")
-        deleteDone = db.DeletePub(pubID=id)
+        deleteDone = db.DeletePub(nazov=nazov)
         if deleteDone is "OK":
             return jsonify({"status": "OK"}), status.HTTP_200_OK
         else:
@@ -230,7 +247,7 @@ def deletePub():
         return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
 
 
-#nevyskusane
+#working
 @app.route("/updateUser", methods=["POST"])
 def updateUser():
     oldName = ""
