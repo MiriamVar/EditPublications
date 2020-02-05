@@ -38,3 +38,13 @@
     display: flex;
     justify-content: flex-end;
 }
+
+@media print {
+    /* All your print styles go here */
+    #publication-wrapper {}
+    #header,
+    #footer,
+    #nav {
+        display: none !important;
+    }
+}

@@ -134,7 +134,12 @@ export class UserServerService {
     console.log("ziskanie zo servera");
     return this.http
       .post<Publication[]>(this.url + 'publications',JSON.parse(obj))
-      .pipe(map(response => this.fromJsonToListPublications(response)),
+      .pipe(map(response => { 
+        console.log(response);
+        return this.fromJsonToListPublications(response) ;
+      }
+        ),
+
       catchError(error => this.httpErrorProcess(error))
       );
     
