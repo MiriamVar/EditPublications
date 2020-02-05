@@ -736,18 +736,22 @@ export class FormComponent implements OnInit {
     console.log(pub);
 
     
-    
-    this.userServerService.sendForm(pub).subscribe(
-      ok =>{
-        console.log("posielany formular");
-        this.router.navigateByUrl('/profile');
-      }
-    );
+    this.onPrint();
+    // this.userServerService.sendForm(pub).subscribe(
+    //   ok =>{
+    //     console.log("posielany formular");
+        
+    //     this.router.navigateByUrl('/profile');
+    //   }
+    // );
    
     
     
   }
 
 
+  onPrint() {
+    window.print();
+  }
 
 }
