@@ -40,9 +40,11 @@
 }
 
 @media print {
-    #secondGroup,
-    #firstGroup {
-        display: block;
+    .mat-horizontal-stepper-content {
+        display: block !important;
+        visibility: visible !important;
+        height: auto !important;
+        transform: none !important;
     }
 }
 

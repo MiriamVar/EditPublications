@@ -177,4 +177,12 @@ export class UserServerService {
     catchError(error => this.httpErrorProcess(error)))
     );
   }
+
+  sendDOI(doi: string): Observable<any> {
+    return this.http.post<any>(doi, "")
+    .pipe(map(result => {
+      console.log("result je: "+result);
+      
+    }, catchError(error => this.httpErrorProcess(error))))
+  }
 }

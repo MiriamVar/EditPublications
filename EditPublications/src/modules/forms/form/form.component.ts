@@ -451,9 +451,7 @@ export class FormComponent implements OnInit {
   }
 
 
-  // insertFromDOI(){
-  //   console.log(this.DOI.value);
-  // }  
+   
   
   addingAnotherAuthor(){
     console.log(this.countAuthors);
@@ -753,5 +751,17 @@ export class FormComponent implements OnInit {
   onPrint() {
     print();
   }
+
+  insertFromDOI(){
+    var doi = "https://api.crossref.org/v1/works/10.1016/j.disc.2008.05.002";
+    this.userServerService.sendDOI(doi).subscribe(
+      ok => {
+        console.log("vypisujem ok : " + ok);
+        
+      }
+    )
+
+    // console.log(this.DOI.value);
+   }  
 
 }
