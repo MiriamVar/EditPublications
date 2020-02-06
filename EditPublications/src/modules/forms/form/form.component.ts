@@ -9,6 +9,7 @@ import { Project } from '../../../entities/project';
 import { FormMonographComponent } from '../form-monograph/form-monograph.component';
 import { FormBookSectionComponent } from '../form-book-section/form-book-section.component';
 import { FormMagazineArticleComponent } from '../form-magazine-article/form-magazine-article.component';
+import { DoiService } from '../../../services/doi.service';
 
 export interface Option {
   value: string;
@@ -289,6 +290,7 @@ export class FormComponent implements OnInit {
 
   addAuthorGroup(){
     return this._fb.group({
+      DOI: ['', new FormControl()],
       name: ['', new FormControl('',  [Validators.required, Validators.minLength(3)],)],
       surname:  ['',new FormControl('',  [Validators.required, Validators.minLength(3)],)],
       titul: ['',new FormControl('', [Validators.required])],
@@ -377,7 +379,7 @@ export class FormComponent implements OnInit {
   }
   
 
-  constructor(private userServerService: UserServerService, private router: Router, private _fb: FormBuilder) { }
+  constructor(private userServerService: UserServerService, private router: Router, private _fb: FormBuilder, private doiService: DoiService) { }
 
   ngOnInit() {
     this.showAddUser = false;
@@ -387,9 +389,9 @@ export class FormComponent implements OnInit {
     this.showAddResearch = false;
   }
 
-  // get DOI() {
-  //   return this.firstFormGroup.get('DOI');
-  // }
+  get DOI() {
+    return this.authors.at(0).get('DOI').value;
+   }
   get authorArray(){
     return <FormArray>this.firstFormGroup.get("authors");
   }
@@ -421,6 +423,7 @@ export class FormComponent implements OnInit {
   get documentName() {
     return this.secondFormGroup.get('documentName').value;
   }
+
   get documentTranslate() {
     return this.secondFormGroup.get('documentTranslate').value;
   }
@@ -753,15 +756,27 @@ export class FormComponent implements OnInit {
   }
 
   insertFromDOI(){
-    var doi = "https://api.crossref.org/v1/works/10.1016/j.disc.2008.05.002";
-    this.userServerService.sendDOI(doi).subscribe(
+    // var doi = "10.1016/j.disc.2008.05.002";
+    this.doiService.sendDOI(this.DOI).subscribe(
       ok => {
         console.log("vypisujem ok : " + ok);
+        console.log(ok.message.title[0]);
+        console.log(ok.message.author[0].given);
+        console.log(ok.message.link[0].URL);
+        console.log(ok.message['short-container-title'][0]);
         
+        for(var i = 0; i < ok.message.author.length; i++){
+          if(i!=0)
+          this.addAuthor();
+          ((this.firstFormGroup.get('authors') as FormArray).at(i) as FormGroup).get('name').patchValue(ok.message.author[i].given);
+          ((this.firstFormGroup.get('authors') as FormArray).at(i) as FormGroup).get('surname').patchValue(ok.message.author[i].family);
+          ((this.firstFormGroup.get('authors') as FormArray).at(i) as FormGroup).get('ustav').patchValue(ok.message['short-container-title'][i]);
+        }
+        
+        this.secondFormGroup.patchValue({documentName: ok.message.title[0]})
+        this.secondFormGroup.patchValue({webAddress: ok.message.link[0].URL})
       }
     )
-
-    // console.log(this.DOI.value);
    }  
 
 }
