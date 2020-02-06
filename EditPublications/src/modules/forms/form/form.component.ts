@@ -738,13 +738,13 @@ export class FormComponent implements OnInit {
 
     
     
-  // this.userServerService.sendForm(pub).subscribe(
-  //     ok =>{
-  //    console.log("posielany formular");
+  this.userServerService.sendForm(pub).subscribe(
+   ok =>{
+   console.log("posielany formular");
      this.onPrint();
-    //  this.router.navigateByUrl('/profile');
-    //  }
-    // );
+  this.router.navigateByUrl('/profile');
+   }
+   );
    
     
     
