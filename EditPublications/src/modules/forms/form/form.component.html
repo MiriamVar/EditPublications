@@ -10,14 +10,15 @@
 
                         <mat-card>
                             <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
-                            <!-- <div>
-                    <mat-form-field>
-                        <input matInput placeholder="DOI číslo (nepovinné)" formControlName="DOI">
-                    </mat-form-field>
-                </div>
-                <div class="rightBtn">
-                    <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
-                </div> -->
+                            <div>
+                                <mat-form-field>
+                                    <input matInput placeholder="DOI číslo (nepovinné)" formControlName="DOI">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="rightBtn">
+                                <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
+                            </div>
                             <mat-card-header class="authorHeader">
                                 <mat-card-title>
                                     Autor c. {{i+1}}
@@ -167,7 +168,7 @@
 
                 <div formArrayName="projects">
 
-                    <mat-label>Pridat projekty, v ramci ktorych evidovany dokument vznikol (volitelne)</mat-label>
+                    <mat-label>Projekty, v ramci ktorych evidovany dokument vznikol (volitelne)</mat-label>
 
                     <div *ngFor="let group of projectArray.controls; let i = index;" [formGroupName]="i">
 
@@ -215,7 +216,7 @@
         <mat-step>
             <ng-template matStepLabel>Done</ng-template>
             Po odoslaní formulára je potrebné zobrazený informačný hárok vytlačiť a podpísaný doručiť zodpovednému <a href="/employees">pracovníkovi</a> UK UPJŠ.
-            <div>
+            <div class="printNo">
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button (click)="stepper.reset()">Reset</button>
                 <button type="submit" mat-raised-button color="accent" (click)="formSubmit()">Send</button>
