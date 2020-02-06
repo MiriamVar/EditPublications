@@ -40,12 +40,26 @@
 }
 
 @media print {
-    /* All your print styles go here */
-    /* #content p {
+    #secondGroup,
+    #firstGroup {
+        display: block;
+    }
+}
+
+
+/* @media print { */
+
+
+/* All your print styles go here */
+
+
+/* #content p {
         
         } */
-    #printable {
+
+
+/* #printable {
         font-size: 11pt;
         color: black;
     }
-}
+} */

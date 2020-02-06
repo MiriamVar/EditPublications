@@ -148,15 +148,15 @@ export class UserServerService {
   private fromJsonToListPublications(jsonPublications): Publication[] {
     console.log("json ktory pride "+JSON.stringify(jsonPublications)); //[object Object]
     let remotePublications: Publication[] = [];
-    // for(let jsonPub of jsonPublications){
+    for(let jsonPub of jsonPublications){
       // if(jsonPub.groups){
         console.log("tu som sa dostal a idem klonovat: ");
         // console.log(jsonPub);      
-        remotePublications.push(Publication.clone(jsonPublications));
+        remotePublications.push(Publication.clone(jsonPub));
       // } else {
       //   remotePublications.push(new Publication(jsonPub.nazov, jsonPub.priezvisko)); //tu dokoncit co vsetko sa mu vrati
       // }
-    // }   
+    }   
     return remotePublications;
   }
 
