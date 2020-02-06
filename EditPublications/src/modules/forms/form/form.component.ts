@@ -736,13 +736,13 @@ export class FormComponent implements OnInit {
     console.log(pub);
 
     
-    this.onPrint();
-    // this.userServerService.sendForm(pub).subscribe(
-    //   ok =>{
-    //     console.log("posielany formular");
-        
-    //     this.router.navigateByUrl('/profile');
-    //   }
+    
+  // this.userServerService.sendForm(pub).subscribe(
+  //     ok =>{
+  //    console.log("posielany formular");
+     this.onPrint();
+    //  this.router.navigateByUrl('/profile');
+    //  }
     // );
    
     
@@ -751,7 +751,7 @@ export class FormComponent implements OnInit {
 
 
   onPrint() {
-    window.print();
+    print();
   }
 
 }
