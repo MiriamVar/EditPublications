@@ -205,7 +205,7 @@ def publications():
             for row in publication:
                 print("printim row")
                 print(row)
-                row2 = jsonify({"id":row[0],"meno":row[1],"priezvisko": row[2],"titul": row[3], "percento":row[4],
+                pubs.append({"id":row[0],"meno":row[1],"priezvisko": row[2],"titul": row[3], "percento":row[4],
                             "doktorand": row[5],"pracovisko": row[6],"ustav": row[7],"kontakt":row[8],"nazov": row[9],
                             "preklad":row[10], "skkey":row[11],"engkey":row[12],"kategoria":row[13],
                             "oblastiVyskumu": row[14],"cislog": row[15],"nazovg":row[16],"doplnokg":row[17],
@@ -218,15 +218,13 @@ def publications():
                             "cas_cislo":row[44],"cas_rok":row[45],"cas_od":row[46], "cas_do":row[47], "cas_issn":row[48],
                             "cas_krajina":row[49],"konf_nazov":row[50],"konf_miesto":row[51],"konf_cislo":row[52],
                             "konf_datum":row[53]})
-                pubs.append(row2)
 
             print("json pole")
             print(pubs)
             if not pubs:
                 return jsonify({"status": "neexistuje zaznam"}), status.HTTP_200_OK
             else:
-                pubs2=json.dumps(pubs)
-                return make_response(pubs2,200)
+                return make_response(json.dumps(pubs),200)
 
     else:
         return jsonify({"status": "wrong credentials"}), status.HTTP_401_UNAUTHORIZED
