@@ -25,8 +25,20 @@ a:link {
 }
 
 @media print {
-    #secondGroup,
-    #firstGroup {
-        display: block;
+    .mat-horizontal-stepper-content {
+        display: block !important;
+        visibility: visible !important;
+        height: auto !important;
+        transform: none !important;
+    }
+    .mat-toolbar,
+    .printNo,
+    .mat-icon,
+    .firstFormPageActions {
+        display: none !important;
+    }
+    .mat-horizontal-stepper-header-container,
+    .mat-raised-button {
+        display: none !important;
     }
 }
