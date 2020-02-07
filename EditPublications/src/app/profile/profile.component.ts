@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
       this.profileUser.email = user.email;
       this.profileUser.name = user.name;
       this.profileUser.surname = user.surname;
-    
+      this.loadPublications();
     });
 
     //toto odkomentovat ked bude hotova servisa na ziskanie publikacii
@@ -39,9 +39,9 @@ export class ProfileComponent implements OnInit {
     // });
   }
 
-  ngAfterViewInit(){
+  loadPublications(){
     console.log("nacitanie do tabulky");
-    console.log(this.profileUser.name);
+    //console.log(this.profileUser.name);
     this.userServerService.getPublications(this.profileUser.name, this.profileUser.surname).subscribe(pubs =>{
       console.log(pubs);
       this.dataSource.data = pubs;

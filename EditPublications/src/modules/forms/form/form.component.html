@@ -10,15 +10,16 @@
 
                         <mat-card>
                             <ng-template matStepLabel>Informacie o autoroch dokumentu</ng-template>
-                            <div>
+                            <div *ngIf="i === 0">
                                 <mat-form-field>
                                     <input matInput placeholder="DOI číslo (nepovinné)" formControlName="DOI">
                                 </mat-form-field>
+                                <div class="rightBtn">
+                                    <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
+                                </div>
                             </div>
 
-                            <div class="rightBtn">
-                                <button mat-raised-button color="accent" type="button" (click)="insertFromDOI()">Vyplň</button>
-                            </div>
+
                             <mat-card-header class="authorHeader">
                                 <mat-card-title>
                                     Autor c. {{i+1}}
