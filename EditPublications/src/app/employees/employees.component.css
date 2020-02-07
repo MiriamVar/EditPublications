@@ -1,10 +1,35 @@
- .employees-wrapper{
-    display: grid;
-    margin-top: 5px;
-    margin-bottom: 10px;
+ .employees-wrapper {
+     display: grid;
+     margin-top: 5px;
+     margin-bottom: 10px;
  }
- .employees-wrapper h2{
+ 
+ .employees-wrapper h2 {
      color: #787278;
      text-align: center;
  }
-
+ /* .example-card {
+     text-align: left;
+ }
+ 
+ .mat-card-header.mat-card-header {
+     text-align: left;
+ }
+ 
+ 
+ 
+ .example-card mat-card {
+     margin: 0 0;
+ } */
+ 
+ .employees-wrapper mat-card-header-text {
+     margin: 0 !important;
+ }
+ 
+ mat-card-header mat-card-header-text {
+     margin: 0 !important;
+ }
+ 
+ mat-card-content.mat-card-content {
+     margin-left: 16px;
+ }

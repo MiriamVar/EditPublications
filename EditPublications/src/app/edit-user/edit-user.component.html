@@ -1,0 +1,25 @@
+<form (ngSubmit)="formSubmit()">
+    <mat-form-field>
+        <input matInput placeholder="login name" required [(ngModel)]="data.name" name="username">
+        <mat-error *ngIf="name?.errors?.conflictedField">
+            {{name.errors.conflictedField}}
+        </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <input matInput placeholder="login name" required [(ngModel)]="data.surname" name="surname">
+
+    </mat-form-field>
+
+
+
+
+
+    <mat-form-field>
+        <input matInput placeholder="email" required [(ngModel)]="data.email" name="email">
+    </mat-form-field>
+
+    <button type="submit" mat-stroked-button color="primary" [mat-dialog-close]="[data.name, data.surname, data.email]">Ulozit</button>
+    <button (click)="cancelEdit()" mat-stroked-button>Zrusit</button>
+</form>

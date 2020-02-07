@@ -8,6 +8,7 @@ const DEFAULT_REDIRECT_AFTER_LOGIN = '/form';
 const DEFAULT_REDIRECT_AFTER_LOGOUT = '/login';
 
 export interface AuthModel{
+    id: number;
     username: string;
     token: string;
     redirectAfterlogin: string;
@@ -15,11 +16,15 @@ export interface AuthModel{
 
 @State<AuthModel> ({
     name: 'auth',
-    defaults: { username: null, token: null, redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGIN }
+    defaults: { id: null, username: null, token: null, redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGIN }
    })
 
    export class AuthState {
 
+//    @Selector()
+  //  static id(current: AuthModel) {
+    //    return current.id;
+   // }
        @Selector()
         static username(current: AuthModel){
            return current.username;
@@ -35,10 +40,15 @@ export interface AuthModel{
            return username;
        }
 
-       @Selector([state => state.auth.redirectAfterlogin])
-        static redirectUrl(redirectAfterlogin: string){
-           return redirectAfterlogin;
-       }
+     //  @Selector([state => state.auth.redirectAfterlogin])
+        //static redirectUrl(redirectAfterlogin: string){
+       //    return redirectAfterlogin;
+      // }
+
+       @Selector()
+        static redirectUrl(current: AuthModel) {
+            return current.redirectAfterlogin;
+        }
 
        @Selector([state => state.auth.token])
         static token(token: string){
@@ -71,6 +81,7 @@ export interface AuthModel{
             const token =  ctx.getState().token;
             const username = ctx.getState().username;
             ctx.setState({
+                id: null,
                 username: null,
                 token: null,
                 redirectAfterlogin: DEFAULT_REDIRECT_AFTER_LOGOUT
@@ -81,7 +92,7 @@ export interface AuthModel{
         }
 
         @Action(urlAfterLogin)
-        urlAfterLogin({patchState}: StateContext<AuthModel>, {url}: urlAfterLogin){
+        seturlAfterLogin({patchState}: StateContext<AuthModel>, {url}: urlAfterLogin){
             patchState({redirectAfterlogin: url});            
         }
    }

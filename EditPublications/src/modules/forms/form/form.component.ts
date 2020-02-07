@@ -1,10 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Publication } from 'src/entities/publication';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormControlName, FormBuilder } from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { UserServerService } from 'src/services/user-server.service';
 import { Router } from '@angular/router';
+import { Project } from '../../../entities/project';
+import { FormMonographComponent } from '../form-monograph/form-monograph.component';
+import { FormBookSectionComponent } from '../form-book-section/form-book-section.component';
+import { FormMagazineArticleComponent } from '../form-magazine-article/form-magazine-article.component';
+import { DoiService } from '../../../services/doi.service';
 
 export interface Option {
   value: string;
@@ -21,9 +26,10 @@ export interface Activity{
   viewValue: string;
 }
 
-export interface ResearchField{
+export class ResearchField{
   value: string;
   viewValue: string;
+  constructor(){}
 }
 
 export interface Type{
@@ -31,9 +37,10 @@ export interface Type{
   viewValue: string
 }
 
-export interface GantScheme{
-  value:string,
-  viewValue:string
+export class GantScheme{
+  value:string;
+  viewValue:string;
+  constructor(){}
 }
 
 export interface SlovakWord {
@@ -52,6 +59,16 @@ export interface EnglishWord {
 })
 export class FormComponent implements OnInit {
 
+  @ViewChild(FormMonographComponent, { static: false })
+  private monographForm: FormMonographComponent;
+
+  @ViewChild(FormBookSectionComponent, {static: false})
+  private formBook: FormBookSectionComponent;
+
+  @ViewChild(FormMagazineArticleComponent, {static:false})
+  private magazineForm: FormMagazineArticleComponent
+
+  
   options: Option[] = [
     {value: 'no-0', viewValue: 'Nie'},
     {value: 'yesI-1', viewValue: 'Ano - interny'},
@@ -81,9 +98,9 @@ export class FormComponent implements OnInit {
 
   types: Type[]= [
     {value: "neurceny", viewValue: 'Vyberte typ dokumentu'},
-      {value: "monografia_zbornik", viewValue: 'Monografia/Zborní'},
-      {value: "clanok_kapitola", viewValue: 'Článok v zborníku/kapitola v knih'},
-      {value: "clanok_casopis", viewValue: 'Článok v časopis'},
+      {value: "monografia_zbornik", viewValue: 'Monografia/Zborník'},
+      {value: "clanok_kapitola", viewValue: 'Článok v zborníku/kapitola v knihe'},
+      {value: "clanok_casopis", viewValue: 'Článok v časopise'},
   ]
 
   researchFields: ResearchField[]= [
@@ -226,7 +243,13 @@ export class FormComponent implements OnInit {
   
   publication: Publication;
   countAuthors = 1;
-  showAddUser: boolean;
+  showAddUser:boolean;
+  countResearches = 1;
+  showAddResearch: boolean;
+  selectedValue:boolean;
+  selectedValue2:boolean;
+  selectedValue3:boolean;
+  countGrantSchemes = 0;
 
   visible = true;
   selectable = true;
@@ -235,76 +258,210 @@ export class FormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   slovakWords: SlovakWord[] = [];
   englishWords: EnglishWord[] = [];
+  documentType = '';
 
   firstFormGroup = new FormGroup({
-    name: new FormControl('',  [Validators.required, Validators.minLength(3)],),
-    surname:  new FormControl('',  [Validators.required, Validators.minLength(3)],),
-    titul:new FormControl('', [Validators.required]),
-    percentage:new FormControl('', [Validators.required]),
-    doktorand: new FormControl('', [Validators.required]),
-    department:  new FormControl('', [Validators.required]),
-    ustav: new FormControl('',[Validators.required]),
-    contact:new FormControl('', [Validators.required]),
+    // DOI: new FormControl(''),
+    authors: new FormArray([this.addAuthorGroup()])
+    
   });
   secondFormGroup = new FormGroup({
     documentName: new FormControl('',  [Validators.required, Validators.minLength(3)],),
     documentTranslate: new FormControl('', [Validators.required]),
     keyWordsSK: new FormControl(''),
     keyWordsAJ:new FormControl(''),
+    categoryPub: new FormControl(''),
+    researchFieldss: new FormArray([this.addResearchGroup()]),
     webAddress: new FormControl(''),
+    typeDoc: new FormControl(''),
+    projects: new FormArray([])
   });
 
-  constructor(private userServerService: UserServerService, private router: Router) { }
+  get researches(){
+    return this.secondFormGroup.get('researchFieldss') as FormArray;
+  }
+
+  get projects(){
+    return this.secondFormGroup.get('projects') as FormArray;
+  }
+  
+
+
+
+  addAuthorGroup(){
+    return this._fb.group({
+      DOI: ['', new FormControl()],
+      name: ['', new FormControl('',  [Validators.required, Validators.minLength(3)],)],
+      surname:  ['',new FormControl('',  [Validators.required, Validators.minLength(3)],)],
+      titul: ['',new FormControl('', [Validators.required])],
+      percentage: ['', new FormControl('', [Validators.required])],
+      doktorand: [new FormControl('', [Validators.required])],
+      department:  [new FormControl('', [Validators.required])],
+      ustav: ['', new FormControl('',[Validators.required])],
+      contact: ['',new FormControl('', [Validators.required])],
+    })
+  }
+
+  addAuthor(){
+    this.authorArray.push(this.addAuthorGroup());
+  }
+
+  removeAuthor(index){
+    if (!(this.authorArray.length <= 1))
+      this.authorArray.removeAt(index);
+  }
+
+  addProjectGroup(){
+    return this._fb.group({
+      nameP: [],
+      numberP: [],
+      scheme: [],
+      agency: []
+    });
+  }
+
+  get nameP() {
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('nameP').value;
+    else if (this.projects.length == 0)
+      return '';
+  }
+
+  get numberP() {
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('numberP').value;
+    else if (this.projects.length == 0)
+      return '';
+  }
+  get scheme() {
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('scheme').value;
+    else if (this.projects.length == 0)
+      return '';
+  }
+
+  get agency() {
+    if (this.projects.length ==1)
+      return this.projects.at(0).get('agency').value;
+    else if (this.projects.length == 0)
+      return '';
+  }
+
+  addProject(){
+    this.projectArray.push(this.addProjectGroup());
+  }
+
+  removeProject(index){
+    this.projectArray.removeAt(index);
+  }
+
+
+  addResearchGroup(){
+    return this._fb.group({
+      researchF: []
+    });
+  }
+
+  get resGroup() {
+    return this.researches.at(0).get('researchF').value;
+  }
+
+  addResearch(){
+    if (this.researchArray.length<5) {
+    this.researchArray.push(this.addResearchGroup());
+    }
+  }
+
+  removeResearch(index){
+    if(this.researchArray.length !==1){
+    this.researchArray.removeAt(index);
+    }
+  }
+  
+
+  constructor(private userServerService: UserServerService, private router: Router, private _fb: FormBuilder, private doiService: DoiService) { }
 
   ngOnInit() {
-    this.showAddUser =false;
+    this.showAddUser = false;
+    this.selectedValue= false;
+    this.selectedValue2 = false;
+    this.selectedValue3 = false;
+    this.showAddResearch = false;
   }
 
+  get DOI() {
+    return this.authors.at(0).get('DOI').value;
+   }
+  get authorArray(){
+    return <FormArray>this.firstFormGroup.get("authors");
+  }
   get name() {
-    return this.firstFormGroup.get('name');
+    return this.authors.at(0).get('name').value;
   }
   get surname() {
-    return this.firstFormGroup.get('surname');
+    return this.authors.at(0).get('surname').value;
   }
   get titul() {
-    return this.firstFormGroup.get('titul');
+    return this.authors.at(0).get('titul').value;
   }
   get percentage() {
-    return this.firstFormGroup.get('percentage');
+    return this.authors.at(0).get('percentage').value;
   }
   get department() {
-    return this.firstFormGroup.get('department');
+    return this.authors.at(0).get('department').value;
   }
   get doktorand(){
-    return this.firstFormGroup.get('doktorand');
+    return this.authors.at(0).get('doktorand').value;
   }
   get ustav(){
-    return this.firstFormGroup.get('ustav');
+    return this.authors.at(0).get('ustav').value;
   }
   get contact() {
-    return this.firstFormGroup.get('contact');
+    return this.authors.at(0).get('contact').value;
   }
 
   get documentName() {
-    return this.secondFormGroup.get('documentName');
-  }
-  get documentTranslate() {
-    return this.secondFormGroup.get('documentTranslate');
-  }
-  get keyWordsSK() {
-    return this.secondFormGroup.get('keyWordsSK');
-  }
-  get keyWordsAJ() {
-    return this.secondFormGroup.get('keyWordsAJ');
-  }
-  get webAddress() {
-    return this.secondFormGroup.get('webAddress');
+    return this.secondFormGroup.get('documentName').value;
   }
 
+  get documentTranslate() {
+    return this.secondFormGroup.get('documentTranslate').value;
+  }
+  get keyWordsSK() {
+    return this.secondFormGroup.get('keyWordsSK').value;
+  }
+  get keyWordsAJ() {
+    return this.secondFormGroup.get('keyWordsAJ').value;
+  }
+  get categoryPub(){
+    return this.secondFormGroup.get('categoryPub').value;
+  }
+  get researchArray(){
+    return <FormArray>this.secondFormGroup.get("researchFieldss");
+  }
+  get webAddress() {
+    return this.secondFormGroup.get('webAddress').value;
+  }
+  get typeDoc() {
+    return this.secondFormGroup.get('typeDoc').value;
+  }
+  get projectArray(){
+    return <FormArray>this.secondFormGroup.get("projects");
+  }
+
+  get authors(){
+    return this.firstFormGroup.get('authors') as FormArray;
+  }
+
+
+   
+  
   addingAnotherAuthor(){
     console.log(this.countAuthors);
-    this.showAddUser = !this.showAddUser;
-    return this.countAuthors++;
+    this.countAuthors++;
+    // console.log("vacsi pocet "+this.countAuthors);
+    // this.showAddUser = true;
+    return this.countAuthors;
   }
 
   add(event: MatChipInputEvent): void {
@@ -351,16 +508,275 @@ export class FormComponent implements OnInit {
     }
   }
 
+  choosingComponent(document){
+    console.log(document.value);
+    this.documentType = document.value;
+    if(document.value === "monografia_zbornik" ){
+      this.selectedValue = !this.selectedValue;
+      this.selectedValue2 = false;
+      this.selectedValue3 = false;
+    } else if(document.value === "clanok_kapitola" ){
+      this.selectedValue2 = !this.selectedValue2;
+      this.selectedValue = false;
+      this.selectedValue3 = false;
+    }else if(document.value === "clanok_casopis" ){
+      this.selectedValue3 = !this.selectedValue3;
+      this.selectedValue = false;
+      this.selectedValue2 = false;
+    }
+  }
+
   formSubmit(){
-    const pub = new Publication(this.name.value, this.surname.value, this.titul.value, this.percentage.value, this.doktorand.value, this.department.value, this.ustav.value, this.contact.value);
-    this.userServerService.sendForm(pub).subscribe(
-      ok =>{
-        this.router.navigateByUrl('/users');
+    var names = '';
+    var surnames = '';
+    var tituly= '';
+    var percentages = '';
+    var doktorandy= '';
+    var ustavy = '';
+    var contacty = '';
+    var departmenty = '';
+    
+    
+    if(this.authorArray.length>1) {
+
+      for(var i= 0; i < this.authorArray.length; i++){
+        names +=this.authors.at(i).get('name').value + ', ';
+        surnames += this.authors.at(i).get('surname').value + ', ';
+        tituly += this.authors.at(i).get('titul').value + ', ';
+        percentages += this.authors.at(i).get('percentage').value+ ', ';
+        departmenty += this.authors.at(i).get('department').value+ ', ';
+        doktorandy += this.authors.at(i).get('doktorand').value+ ', ';
+        ustavy += this.authors.at(i).get('ustav').value+ ', ';
+        contacty += this.authors.at(i).get('contact').value+ ', ';
       }
-    );
-    console.log("posielam formular");
+
+    } else {
+      names = this.name;
+      surnames = this.surname;
+      tituly= this.titul;
+      percentages = this.percentage;
+      departmenty = this.department;
+      doktorandy= this.doktorand;
+      ustavy = this.ustav;
+      contacty = this.contact;
+    }
+
+
+    var slovakChips= '';
+    for(var j=0; j< this.slovakWords.length; j++){
+      if(j == (this.slovakWords.length-1)){
+        slovakChips+= this.slovakWords[j].name;
+      }
+      else{
+        slovakChips+= this.slovakWords[j].name+',';
+      }
+      
+    }
+    // console.log("slovak chips "+slovakChips);
+
+    var englishChips= '';
+    for(var j=0; j< this.englishWords.length; j++){
+      if(j == (this.englishWords.length-1)){
+        englishChips+= this.englishWords[j].name;
+      }
+      else{
+        englishChips+= this.englishWords[j].name+',';
+      }
+      
+    }
+    // console.log("english chips "+englishChips);
+
+    var resr ='';
+    if(this.researches.length>1) {
+      for(var i= 0; i < this.researches.length; i++){
+        resr +=this.researches.at(i).get('researchF').value + ', ';
+      }
+    }
+    
+
+    console.log("web adresa"+ this.webAddress);
+
+    var namepy = "";
+    var numberpy = "";
+    var schemy = "";
+    var agencyy = "";
+    // if (this.projects.length>1) {
+      for(var i= 0; i < this.projectArray.length; i++){
+        namepy +=this.projects.at(i).get('nameP').value + ', ';
+        console.log("vypisujem namepy: " + namepy);
+        
+        numberpy += this.projects.at(i).get('numberP').value + ', ';
+        schemy += this.projects.at(i).get('scheme').value + ', ';
+        agencyy += this.projects.at(i).get('agency').value + ', ';
+      }
+    // }
+    // else {
+    //   namepy = this.nameP;
+    //   numberpy = this.numberP;
+    //   schemy = this.scheme;
+    //   agencyy = this.agency;
+    // }
+
+
+    console.log(namepy + numberpy + schemy + agencyy);
+
+    //typ dokumentu
+    var mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn = '';
+    var kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah, kap_od, kap_do, kap_isbn = "";
+    var cas_zdroj, cas_rocnik, cas_cislo, cas_rok, cas_od, cas_do, cas_issn, cas_krajina = "";
+
+    var konf_nazov, konf_miesto, konf_cislo, konf_datum = '';
+
+
+    if(this.selectedValue) {
+      mon_miesto = this.monographForm.editionPlace;
+      mon_vydavatelstvo = this.monographForm.editorship;
+      mon_rok = this.monographForm.year;
+      mon_rozsah = this.monographForm.pagesCount;
+      mon_pocetah = this.monographForm.authorsCount;
+      mon_isbn = this.monographForm.isbn;
+      konf_nazov = this.monographForm.name;
+      konf_cislo = this.monographForm.number;
+      konf_miesto = this.monographForm.place;
+      konf_datum = this.monographForm.date;
+      
+      
+    } else if (this.selectedValue2){
+
+      kap_zdroj = this.formBook.sourceDoc;
+      kap_miesto = this.formBook.editionPlace;
+      kap_vydavatelstvo = this.formBook.editorship;
+      kap_rok = this.formBook.year;
+      kap_pocetah = this.formBook.authorsCount;
+      kap_od = this.formBook.from;
+      kap_do = this.formBook.to;
+      kap_isbn = this.formBook.isbn;
+      konf_miesto = this.formBook.place;
+      konf_nazov = this.formBook.name;
+      konf_cislo = this.formBook.number;
+      konf_datum = this.formBook.date;
+
+      console.log(kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah, kap_od, kap_do, kap_isbn, konf_nazov, konf_miesto, konf_cislo, konf_datum);
+      
+
+    } else if(this.selectedValue3) {
+      
+      cas_zdroj = this.magazineForm.sourceDoc;
+      cas_rocnik = this.magazineForm.grade;
+      cas_cislo = this.magazineForm.number;
+      cas_rok = this.magazineForm.year;
+      cas_krajina = this.magazineForm.editionCountry;
+      cas_issn = this.magazineForm.issn;
+      cas_od = this.magazineForm.from;
+      cas_do = this.magazineForm.to;
+
+      console.log(cas_zdroj, cas_rocnik, cas_cislo, cas_rok, cas_od, cas_do, cas_issn, cas_krajina);
+      
+    }
+
+    console.log(this.documentType);
+    
+
+
+    console.log("finalne je: " + names + surnames + tituly + percentages + doktorandy + ustavy + contacty);
+
+    console.log("finalne2 je" + this.documentName + this.documentTranslate + slovakChips + englishChips + this.categoryPub + resr)
+    
+    //zbernik
+    console.log(mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn, konf_nazov, konf_miesto, konf_cislo, konf_datum);
+    
+  
+    
+    
+
+    var pub;
+    
+    //tu je potrebne urobit cyklus a to: 
+    if (this.documentType ==="monografia_zbornik" ){
+       pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+        this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
+        numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
+        mon_miesto, mon_vydavatelstvo, mon_rok, mon_rozsah, mon_pocetah, mon_isbn, "", "","","","","","","","","","","","","","","",
+        konf_nazov, konf_miesto, konf_cislo, konf_datum
+        );
+
+    }
+
+
+
+    if (this.documentType ==="clanok_kapitola" ){
+      pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+        this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
+        numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
+        "", "","","","","", kap_zdroj, kap_miesto, kap_vydavatelstvo, kap_rok, kap_pocetah , kap_od, kap_do, kap_isbn, 
+        "", "","","","","","", "", 
+        konf_nazov, konf_miesto, konf_cislo, konf_datum
+        );
+
+    }
+
+
+
+
+
+
+    if (this.documentType ==="clanok_casopis" ){
+      pub = new Publication(names, surnames, tituly, percentages, doktorandy, departmenty, ustavy, contacty,
+        this.documentName, this.documentTranslate,  slovakChips, englishChips, this.categoryPub, resr,
+        numberpy, schemy, "", namepy, agencyy, this.webAddress, this.documentType, "", "", "", "", "", "", 
+        "", "","","","","", "", "","","","","","", "", 
+        cas_zdroj, cas_rocnik, cas_cislo, cas_rok, cas_od, cas_do, cas_issn, cas_krajina,
+        konf_nazov, konf_miesto, konf_cislo, konf_datum
+        );
+    }
+    
+
+
+    // console.log(this.secondFormGroup.value);
+    console.log("form component  - pub");
+    console.log(pub);
+
+    
+    
+  this.userServerService.sendForm(pub).subscribe(
+   ok =>{
+   console.log("posielany formular");
+     this.onPrint();
+  this.router.navigateByUrl('/profile');
+   }
+   );
+   
+    
+    
   }
 
 
+  onPrint() {
+    print();
+  }
+
+  insertFromDOI(){
+    // var doi = "10.1016/j.disc.2008.05.002";
+    this.doiService.sendDOI(this.DOI).subscribe(
+      ok => {
+        console.log("vypisujem ok : " + ok);
+        console.log(ok.message.title[0]);
+        console.log(ok.message.author[0].given);
+        console.log(ok.message.link[0].URL);
+        console.log(ok.message['short-container-title'][0]);
+        
+        for(var i = 0; i < ok.message.author.length; i++){
+          if(i!=0)
+          this.addAuthor();
+          ((this.firstFormGroup.get('authors') as FormArray).at(i) as FormGroup).get('name').patchValue(ok.message.author[i].given);
+          ((this.firstFormGroup.get('authors') as FormArray).at(i) as FormGroup).get('surname').patchValue(ok.message.author[i].family);
+          ((this.firstFormGroup.get('authors') as FormArray).at(i) as FormGroup).get('ustav').patchValue(ok.message['short-container-title'][i]);
+        }
+        
+        this.secondFormGroup.patchValue({documentName: ok.message.title[0]})
+        this.secondFormGroup.patchValue({webAddress: ok.message.link[0].URL})
+      }
+    )
+   }  
 
 }

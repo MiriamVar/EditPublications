@@ -1,0 +1,43 @@
+table {
+    width: 90%;
+    margin: auto;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.profil {
+    margin-left: 5%;
+    width: 30%;
+}
+
+.example-card {
+    max-width: 400px;
+}
+
+.mat-card-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-left: -16px;
+}
+
+.example-header-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-size: cover;
+    background-color: rgb(206, 114, 133);
+}
+
+.mat-card-actions.profi {
+    margin-left: -16px;
+}
+
+.addFirstPub {
+    margin-left: 5%;
+}

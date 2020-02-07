@@ -1,0 +1,8 @@
+<mat-form-field>
+    <mat-label>Zvoľte oblasť výskumu</mat-label>
+    <mat-select>
+        <mat-option *ngFor="let researchField of researchFields" [value]="researchField.value">
+            {{researchField.viewValue}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>

@@ -4,13 +4,64 @@
     margin-bottom: 10px;
     justify-items: center;
     align-items: center;
-  }
+}
 
-  .publication-wrapper mat-form-field {
+.publication-wrapper mat-form-field {
     display: block;
     margin-bottom: 30px;
-  }
+}
 
-  .example-chip-list {
+.example-chip-list {
     width: 100%;
-  }
+}
+
+.next-to-each-other {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: -16px !important;
+}
+
+.rightBtn {
+    display: flex;
+    direction: rtl;
+    margin-top: -30px;
+}
+
+.authorHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.firstFormPageActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media print {
+    .mat-horizontal-stepper-content {
+        display: block !important;
+        visibility: visible !important;
+        height: auto !important;
+        transform: none !important;
+    }
+}
+
+
+/* @media print { */
+
+
+/* All your print styles go here */
+
+
+/* #content p {
+        
+        } */
+
+
+/* #printable {
+        font-size: 11pt;
+        color: black;
+    }
+} */

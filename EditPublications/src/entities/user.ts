@@ -3,8 +3,8 @@ export class User{
         public name: string,
         public surname: string,
         public email: string,
-        public password: string = '',
-        public type: number,
+        public password?: string,
+        public type?: number,
         public id?: number,
         public lastLogin?: Date,
     ){}
@@ -24,4 +24,16 @@ export class User{
           ? this.lastLogin.toLocaleTimeString('sk-SK', options)
           : 'nikdy';
     }
+
+
+    public static clone(user: User){
+      return new User(
+          user.name,
+          user.surname,
+          user.email,
+          user.password,
+          user.type,
+          user.id,
+      );
+  }
 }

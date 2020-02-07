@@ -17,6 +17,9 @@ export class LoginComponent implements OnInit {
   constructor(private store: Store, private router: Router) { }
 
   ngOnInit() {
+    if (this.store.selectSnapshot(AuthState.username)){
+      this.router.navigateByUrl(this.store.selectSnapshot(AuthState.redirectUrl))
+    }
   }
 
   formSubmit(){

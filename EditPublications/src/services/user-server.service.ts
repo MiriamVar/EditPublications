@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Auth } from 'src/entities/auth';
 import { Observable, EMPTY, throwError, of } from 'rxjs';
-import { catchError, mapTo, tap, map } from 'rxjs/operators';
+import { catchError, mapTo, tap, map, switchMapTo } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 // import { tokenExpiredLogout } from 'src/shared/auth.actions';
 import { SnackbarService } from './snackbar.service';
@@ -14,12 +14,20 @@ import { Publication } from 'src/entities/publication';
   providedIn: 'root'
 })
 export class UserServerService {
-  url = 'http://localhost:5000/';
-
+  url = 'http://itsovy.sk:5000/';
+  us : User;
   constructor(private http: HttpClient, private store: Store, private snackbarSevice: SnackbarService) {}
 
   get token() {
     return this.store.selectSnapshot(state => state.auth.token)
+  }
+
+  get id(){
+    return this.store.selectSnapshot(state => state.auth.id)
+  }
+
+  get username(){
+    return this.store.selectSnapshot(state => state.auth.username)
   }
 
 
@@ -97,10 +105,78 @@ export class UserServerService {
     this.snackbarSevice.errorMessage(error.message);
   }
 
+
+  getUser(): Observable<User>{
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '"}';
+    
+    return this.http.post<User>(this.url + 'userinfo',JSON.parse(obj))
+    .pipe(
+      tap(user => {
+        console.log(user);
+        this.us = user;
+        return user;
+      }),
+      catchError(error => this.httpErrorProcess(error)))
+  }
+
+  updateUser(userko: User): Observable<User>{
+    let obj = '{"oldName": "'+this.username+'", "token": "'+this.token + '", "name": "'+userko.name + '","surname": "'+userko.surname + '","email": "'+userko.email + '"}';
+    console.log("srvisa updateUser");
+    console.log(obj);
+    return this.http.post<User>(this.url + 'updateUser', JSON.parse(obj))
+    .pipe(map(u => User.clone(u),
+    catchError(error => this.httpErrorProcess(error)))
+    );
+  }
+
+  getPublications(fname: string, lname:string ): Observable<Publication[]> { //zmenila som lebo tak mam nakodeny server, ked bude zle zmenim server
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "username": "'+fname+ '","surname": "'+lname+ '" }';
+    console.log("ziskanie zo servera");
+    return this.http
+      .post<Publication[]>(this.url + 'publications',JSON.parse(obj))
+      .pipe(map(response => { 
+        console.log(response);
+        return this.fromJsonToListPublications(response)
+      }
+        ),
+
+      catchError(error => this.httpErrorProcess(error))
+      );
+    
+  }
+
+  private fromJsonToListPublications(jsonPublications): Publication[] {
+    console.log("json ktory pride "+JSON.stringify(jsonPublications)); //[object Object]
+    let remotePublications: Publication[] = [];
+    for(let jsonPub of jsonPublications){
+      // if(jsonPub.groups){
+        console.log("tu som sa dostal a idem klonovat: ");
+        // console.log(jsonPub);      
+        remotePublications.push(Publication.clone(jsonPub));
+      // } else {
+      //   remotePublications.push(new Publication(jsonPub.nazov, jsonPub.priezvisko)); //tu dokoncit co vsetko sa mu vrati
+      // }
+    }   
+    return remotePublications;
+  }
+
+  deletePublication(publication: Publication): Observable<void> {
+    let obj = '{"name": "'+this.username+'", "token": "'+this.token + '", "nazov": "'+publication.nazov+ '"}';
+    return this.http
+    .post<Publication>(this.url + 'deletePub',JSON.parse(obj))
+    .pipe(
+      switchMapTo(of(undefined)),
+      catchError(error => this.httpErrorProcess(error))
+    );
+  }
+
   sendForm(pub: Publication): Observable<Publication>{
-    return this.http.post<Publication>(this.url + 'sendForm/', pub)
+    console.log("publikation ktora mi prisla "+ JSON.stringify(pub));
+    return this.http.post<Publication>(this.url + 'sendForm', pub)
     .pipe(map(p => Publication.clone(p),
     catchError(error => this.httpErrorProcess(error)))
     );
   }
+
+  
 }
